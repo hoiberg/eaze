@@ -1,46 +1,103 @@
 //
 //  AppDelegate.swift
-//  Eaze
+//  CleanflightMobile
 //
-//  Created by Alex on 15-06-16.
-//  Copyright © 2016 Hangar42. All rights reserved.
+//  Created by Alex on 09-10-15.
+//  Copyright © 2015 Hangar42. All rights reserved.
+//
+//
+//  General notes about this app: (to be moved to a notes.md)
+//  - Because of a bug we can't use the splitViewController in Preferences.storyboard for iPhones (instead,
+//    it uses a different entry point).
+//
+//  - This project uses both a folder structure and a XCode group structure. Make sure they stay identical to eachother.
 //
 
 import UIKit
 
+let AppWillResignActiveNotification = "AppWillResignActiveNotification",
+    AppDidBecomeActiveNotification = "AppDidBecomeActiveNotification"
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?
 
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        // bluetooth serial
+        bluetoothSerial = BluetoothSerial()
+        bluetoothSerial.delegate = msp
+        
+        // userdefaults
+        userDefaults.registerDefaults(
+            [DefaultsAutoConnectNewKey: true,
+             DefaultsAutoConnectOldKey: true]
+        )
+        
+        // it's much cleaner to load all initial viewcontrollers programmatically .. first load the storyboards
+        let bundle = NSBundle.mainBundle(),
+            specific = UIStoryboard(name: UIDevice.isPhone ? "iPhone" : "iPad", bundle: bundle),
+            univerial = UIStoryboard(name: "Uni", bundle: bundle),
+            preferences = UIStoryboard(name: "Preferences", bundle: bundle)
+        
+        // load viewcontrollers
+        //let first = univerial.instantiateViewControllerWithIdentifier("ConnectViewController")
+        let first = specific.instantiateViewControllerWithIdentifier("HomeViewController") // override for testing
+        first.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "Dashboard"), tag: 0)
+        let second = specific.instantiateViewControllerWithIdentifier("TuningViewController")
+        second.tabBarItem = UITabBarItem(title: "Tuning", image: UIImage(named: "Tuning"), tag: 1)
+        let third = preferences.instantiateViewControllerWithIdentifier(UIDevice.isPhone ? "PhoneEntry" : "PadEntry")
+        third.tabBarItem = UITabBarItem(title: "Setup", image: UIImage(named: "Config"), tag: 2)
+        let fourth = univerial.instantiateViewControllerWithIdentifier("CLITabViewController")
+        fourth.tabBarItem = UITabBarItem(title: "CLI", image: UIImage(named: "CLI"), tag: 3)
+        
+        // initial tab bar controller
+        let tabBar = UITabBarController()
+        tabBar.viewControllers = [first, second, third, fourth]
+        tabBar.delegate = self
+        
+        // reduce icon size. Because of a bug in iOS we can't resize the image
+        tabBar.viewControllers?.forEach() { $0.tabBarItem!.imageInsets = UIEdgeInsetsMake(1, 0, -1, 0) }
+        
+        // tabbar UI
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundColor = UIColor.blackColor()
+
+        // set window
+        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window?.tintColor = globals.colorTint
+        window?.rootViewController = tabBar
+        window?.makeKeyAndVisible()
+
+        // ready!
+        log("App started")
+
         return true
     }
-
+    
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    }
+        log("Will resign active")
+        notificationCenter.postNotificationName(AppWillResignActiveNotification, object: nil)
 
-    func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
-
-    func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        log("Became active")
+        notificationCenter.postNotificationName(AppDidBecomeActiveNotification, object: nil)
     }
 
-    func applicationWillTerminate(application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    
+    // MARK: - UITabBarDelegate
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        // change UI of tabbar according to selected item
+        /*if tabBarController.selectedIndex == 2 { // config
+            tabBarController.tabBar.backgroundColor = UIColor.blackColor() //globals.colorTableBackground
+        } else { // everything else
+            tabBarController.tabBar.backgroundColor = UIColor.blackColor()
+        }*/
     }
-
-
 }
-
