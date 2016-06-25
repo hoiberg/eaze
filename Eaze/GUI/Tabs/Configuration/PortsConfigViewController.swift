@@ -18,9 +18,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: - Variables
     
     private let mspCodes = [MSP_CF_SERIAL_CONFIG]
-    
-    /// Working copy of dataStorage's serialPorts
-    private var ports: [SerialPortConfig] = []
+    private var ports: [SerialPortConfig] = [] // Working copy of dataStorage's serialPorts
     
 
     // MARK: - Functions
@@ -37,7 +35,6 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         
         notificationCenter.addObserver(self, selector: #selector(PortsConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(PortsConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
-        
     }
     
     deinit {
@@ -58,7 +55,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             tableView.reloadData()
             
         default:
-            print("Received MSP update not subscribed to")
+            log(.Warn, "PortsConfigViewController received MSP code not subscribed to: \(code)")
         }
     }
     
@@ -69,6 +66,10 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         if dataStorage.apiVersion >= "1.6.0" {
             sendDataRequest()
             saveButton.enabled = true
+        } else {
+            ports = []
+            saveButton.enabled = false
+            tableView.reloadData()
         }
     }
     
@@ -131,7 +132,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             }
             
         default:
-            print("Item value too high in selectionTableWithTag in PortsConfigurationViewController")
+            log(.Warn, "PortsConfigurationViewController: item value too high (\(row))")
         }
         
         tableView.reloadData()
@@ -152,14 +153,18 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         // return the right cell
         if indexPath.section == 0 {
             // message cell
-            let cell = tableView.dequeueReusableCellWithIdentifier(UIDevice.isPhone ? "MessageCellPhone" : "MessageCellPad")!
-            if dataStorage.apiVersion < "1.6.0" {
+            let cell = tableView.dequeueReusableCellWithIdentifier("MessageCell")!
+            if dataStorage.apiVersion == "0.0.0" || dataStorage.apiVersion >= "1.6.0" {
+                (cell.viewWithTag(1) as! UILabel).text = UIDevice.isPhone ?
+                    "Not all combinations are valid. When the flight controller detects this the serial port configuration will be reset. Do not disable MSP on the first serial port unless unless you know what you are doing!" :
+                    "Note: Not all combinations are valid. When the flight controller detects this the serial port configuration will be reset.\nNote: Do not disable MSP on the first serial port unless unless you know what you are doing!"
+            } else {
                 (cell.viewWithTag(1) as! UILabel).text = "Serial port configuration requires Cleanflight 1.6.0 or higher, you are running \(dataStorage.apiVersion.stringValue)"
             }
             return cell
         } else {
             if dataStorage.serialPorts.count < indexPath.section {
-                print("Too many sections in PortConfigViewController! This should not be possible.")
+                log(.Error, "Too many sections (\(indexPath.section)) in PortConfigViewController! This should not be possible.")
                 return tableView.dequeueReusableCellWithIdentifier("TitleCell")!
             }
             
@@ -169,6 +174,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
                 let cell = tableView.dequeueReusableCellWithIdentifier("TitleCell")!
                 (cell.viewWithTag(1) as! UILabel).text = port.name
                 return cell
+                
             case 1: // msp
                 let cell = tableView.dequeueReusableCellWithIdentifier("MSPCell")!
                 cell.detailTextLabel?.text = port.functions.contains(.MSP) ? port.MSP_baudrate.name : "Disabled"
@@ -211,16 +217,14 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
                 return cell
 
             default:
-                print("Too many cells in PortConfigViewController secion")
+                log(.Error, "Too many cells in PortConfigViewController secion: \(indexPath.row)")
                 return tableView.dequeueReusableCellWithIdentifier("TitleCell")!
-
             }
         }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return indexPath.section == 0 ? 79 : 44
-        
     }
     
     
@@ -271,7 +275,11 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     @IBAction func save(sender: AnyObject) {
         dataStorage.serialPorts = ports
-        msp.crunchAndSendMSP(MSP_SET_CF_SERIAL_CONFIG)
-        msp.sendMSP([MSP_EEPROM_WRITE, MSP_SET_REBOOT])
+        
+        msp.crunchAndSendMSP(MSP_SET_CF_SERIAL_CONFIG) {
+            msp.sendMSP([MSP_EEPROM_WRITE, MSP_SET_REBOOT]) {
+                delay(1, callback: self.sendDataRequest) // reload
+            }
+        }
     }
 }

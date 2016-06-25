@@ -3,7 +3,7 @@
 //  CleanflightMobile
 //
 //  Created by Alex on 09-10-15.
-//  Copyright © 2015 Hangar42. All rights reserved.
+//  Copyright © 2016 Hangar42. All rights reserved.
 //
 //
 //  General notes about this app: (to be moved to a notes.md)
@@ -19,14 +19,13 @@ let AppWillResignActiveNotification = "AppWillResignActiveNotification",
     AppDidBecomeActiveNotification = "AppDidBecomeActiveNotification"
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
+    var window: UIWindow?,
+        launchWindow: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        
         // bluetooth serial
-        bluetoothSerial = BluetoothSerial()
         bluetoothSerial.delegate = msp
         
         // userdefaults
@@ -42,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
             preferences = UIStoryboard(name: "Preferences", bundle: bundle)
         
         // load viewcontrollers
-        //let first = univerial.instantiateViewControllerWithIdentifier("ConnectViewController")
         let first = specific.instantiateViewControllerWithIdentifier("HomeViewController") // override for testing
         first.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "Dashboard"), tag: 0)
         let second = specific.instantiateViewControllerWithIdentifier("TuningViewController")
@@ -51,11 +49,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
         third.tabBarItem = UITabBarItem(title: "Setup", image: UIImage(named: "Config"), tag: 2)
         let fourth = univerial.instantiateViewControllerWithIdentifier("CLITabViewController")
         fourth.tabBarItem = UITabBarItem(title: "CLI", image: UIImage(named: "CLI"), tag: 3)
-        
+
         // initial tab bar controller
         let tabBar = UITabBarController()
         tabBar.viewControllers = [first, second, third, fourth]
-        tabBar.delegate = self
         
         // reduce icon size. Because of a bug in iOS we can't resize the image
         tabBar.viewControllers?.forEach() { $0.tabBarItem!.imageInsets = UIEdgeInsetsMake(1, 0, -1, 0) }
@@ -67,9 +64,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
 
         // set window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        window?.tintColor = globals.colorTint
+        //window?.frame.origin.y = -UIScreen.mainScreen().bounds.height
+        window?.tintColor = UIColor(red: 72/255, green: 160/255, blue: 23/255, alpha: 1.0)
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
+        
+        // launchscreen for animation
+        //launchWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
+        //launchWindow?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: bundle).instantiateInitialViewController()
+        //launchWindow?.hidden = false
+        
+        //UIView.animateWithDuration( 0.7,
+        //                     delay: 0.2,
+        //                   options: .CurveEaseInOut,
+        //                animations: { self.window?.frame.origin.y = 0
+        //                              self.launchWindow?.frame.origin.y = UIScreen.mainScreen().bounds.height },
+        //                completion: { _ in self.launchWindow = nil })
 
         // ready!
         log("App started")
@@ -86,18 +96,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegat
     func applicationDidBecomeActive(application: UIApplication) {
         log("Became active")
         notificationCenter.postNotificationName(AppDidBecomeActiveNotification, object: nil)
-    }
-
-    
-    
-    // MARK: - UITabBarDelegate
-    
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        // change UI of tabbar according to selected item
-        /*if tabBarController.selectedIndex == 2 { // config
-            tabBarController.tabBar.backgroundColor = UIColor.blackColor() //globals.colorTableBackground
-        } else { // everything else
-            tabBarController.tabBar.backgroundColor = UIColor.blackColor()
-        }*/
     }
 }

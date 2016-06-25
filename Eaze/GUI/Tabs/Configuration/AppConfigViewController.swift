@@ -10,7 +10,6 @@ import UIKit
 
 class AppConfigViewController: GroupedTableViewController {
     
-    
     // MARK: - Variables
     
     private var autoConnectNew, autoConnectOld: UISwitch?

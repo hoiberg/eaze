@@ -6,12 +6,10 @@
 //  Copyright (c) 2015 Hangar42. All rights reserved.
 //
 
-
 import UIKit
 import QuartzCore
 
 final class TuningViewController: UIViewController, MSPUpdateSubscriber, AdjustableTextFieldDelegate, SelectionPopoverDelegate, UIPopoverPresentationControllerDelegate  {
-    
     
     // MARK: - IBOutlets. There's too many of them, I know. In a future update this can be replaced by a sigle referencing outlet collection.
     
@@ -78,10 +76,10 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     @IBOutlet weak var graphMarginConstraint: NSLayoutConstraint?
     @IBOutlet weak var graphHeightConstraint: NSLayoutConstraint?
     
+    
     // MARK: - Variables
     
-    private let graphResolution = 100,
-                mspCodes = [MSP_PID, MSP_PID_CONTROLLER, /*MSP_PIDNAMES,*/ MSP_RC_TUNING, MSP_STATUS]
+    private let mspCodes = [MSP_PID, MSP_PID_CONTROLLER, MSP_RC_TUNING, MSP_STATUS]
     private var PIDFields: [[AdjustableTextField?]]!,
                 selectedPIDController = 0
     
@@ -109,8 +107,6 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         // setup graphs
         for graph in [throttleGraph, rcGraph] {
             graph.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
-            //graph.layer.borderColor = UIColor.blackColor().colorWithAlphaComponent(0.1).CGColor
-            //graph.layer.borderWidth = 1.0
             graph.layer.masksToBounds = true
         }
         
@@ -209,7 +205,7 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         // clear graphs
         rcGraph.layer.sublayers = nil
         
-        // mathemagics
+        // mathemagics (taken from desktop configurator)
         let width = rcGraph.frame.width,
             height = rcGraph.frame.height,
             rate = CGFloat(rcRate.doubleValue),
@@ -223,11 +219,10 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         path.moveToPoint(CGPoint(x: 0, y: height))
         path.addQuadCurveToPoint(CGPoint(x: width, y: height - ratey), controlPoint: CGPoint(x: width / 2.0, y: cony))
         layer.path = path.CGPath
-        layer.strokeColor = globals.colorTint.CGColor
+        layer.strokeColor = view.tintColor.CGColor
         layer.lineWidth = 2.0
         layer.fillColor = UIColor.clearColor().CGColor
         rcGraph.layer.addSublayer(layer)
-
     }
     
     func reloadThrottleGraph() {
@@ -254,11 +249,10 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         path.moveToPoint(CGPoint(x: midx, y: midy))
         path.addQuadCurveToPoint(CGPoint(x: width, y: 0), controlPoint: CGPoint(x: midxr, y: midyr))
         layer.path = path.CGPath
-        layer.strokeColor = globals.colorTint.CGColor
+        layer.strokeColor = view.tintColor.CGColor
         layer.lineWidth = 2.0
         layer.fillColor = UIColor.clearColor().CGColor
         throttleGraph.layer.addSublayer(layer)
-
     }
 
     
@@ -271,7 +265,11 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     }
     
     func sendDataRequest() {
-        msp.sendMSP(mspCodes)
+        if dataStorage.apiVersion >= pidControllerChangeMinApiVersion {
+            msp.sendMSP(mspCodes)
+        } else {
+            msp.sendMSP(mspCodes.arrayByRemovingObject(MSP_PID_CONTROLLER))
+        }
     }
     
     func mspUpdated(code: Int) {
@@ -284,13 +282,13 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
                 item[2]?.doubleValue = dataStorage.PIDs[index][2]
             }
             
-        /*case MSP_PIDNAMES:
-            if dataStorage.PIDNames.count == 10 {
-                let PIDLabels: [UILabel?] = [rollLabel, pitchLabel, yawLabel, altLabel, posLabel, posRLabel, navRLabel, levelLabel, magLabel, velLabel]
-                for (index, item) in PIDLabels.enumerate() {
-                    item?.text = dataStorage.PIDNames[index]
-                }
-            }*/
+        //case MSP_PIDNAMES:
+        //    if dataStorage.PIDNames.count == 10 {
+        //        let PIDLabels: [UILabel?] = [rollLabel, pitchLabel, yawLabel, altLabel, posLabel, posRLabel, navRLabel, levelLabel, magLabel, velLabel]
+        //        for (index, item) in PIDLabels.enumerate() {
+        //            item?.text = dataStorage.PIDNames[index]
+        //        }
+        //   }
 
         case MSP_PID_CONTROLLER:
             selectedPIDController = dataStorage.PIDController
@@ -306,19 +304,20 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
             if dataStorage.apiVersion < "1.7.0" {
                 rollRate.doubleValue = dataStorage.rollPitchRate
                 pitchRate.doubleValue = dataStorage.rollPitchRate
-                //tpaBreakPoint.hidden = true
+                tpaBreakPoint.hidden = true
             } else {
                 rollRate.doubleValue = dataStorage.rollRate
                 pitchRate.doubleValue = dataStorage.pitchRate
                 tpaBreakPoint.intValue = dataStorage.dynamicThrottleBreakpoint
-                //tpaBreakPoint.hidden = false
+                tpaBreakPoint.hidden = false
             }
             if dataStorage.apiVersion >= "1.10.0" {
                 yawExpo.doubleValue = dataStorage.yawExpo
-                //yawExpo.hidden = false
+                yawExpo.hidden = false
             } else {
-                //yawExpo.hidden = true
+                yawExpo.hidden = true
             }
+            
             reloadRCGraph()
             reloadThrottleGraph()
             
@@ -328,7 +327,7 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
             flightProfileButton.setTitle(str, forState: .Normal)
 
         default:
-            print("Error: Unimplemented MSP update received!")
+            log(.Warn, "TuningViewController received unimplemented MSP code: \(code)")
         }
     }
     
@@ -382,22 +381,21 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
             PIDControllerButton.setTitle(dataStorage.PIDControllerNames[safe: option] ?? "-", forState: .Normal)
             selectedPIDController = option
         } else {
-            // new flight profile selected, delay until popover is dismissed
-            //delay(1.0) {
-                let alert = UIAlertController(title: "Change flight profile?", message: "Unsaved changes will be lost.", preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Confirm", style: .Default) { _ in
-                        var str = "\(dataStorage.profile+1)"
-                        if UIDevice.isPhone { str = "Profile " + str + "  ▾" }
-                        self.flightProfileButton.setTitle(str, forState: .Normal)
-                        dataStorage.profile = option
-                        msp.crunchAndSendMSP(MSP_SELECT_SETTING) {
-                            MessageView.show("Changed Flight Profile")
-                            self.sendDataRequest()
-                        }
-                    })
-                presentViewController(alert, animated: true, completion: nil)
-            //}
+            // new flight profile selected
+            guard bluetoothSerial.isConnected else { return }
+            let alert = UIAlertController(title: "Change flight profile?", message: "Unsaved changes will be lost.", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .Default) { _ in
+                    var str = "\(dataStorage.profile+1)"
+                    if UIDevice.isPhone { str = "Profile " + str + "  ▾" }
+                    self.flightProfileButton.setTitle(str, forState: .Normal)
+                    dataStorage.profile = option
+                    msp.crunchAndSendMSP(MSP_SELECT_SETTING) {
+                        MessageView.show("Changed Flight Profile")
+                        self.sendDataRequest()
+                    }
+                })
+            presentViewController(alert, animated: true, completion: nil)
         }
     }
     
@@ -412,33 +410,41 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     // MARK: - IBActions
     
     @IBAction func save(sender: AnyObject) {
-        // send PIDs to FC
+        // MSP_SET_PID
         for (i, fields) in PIDFields.enumerate() {
             for (j, field) in fields.enumerate() {
                 dataStorage.PIDs[i][j] = field?.doubleValue ?? 0.0
             }
         }
-        msp.crunchAndSendMSP(MSP_SET_PID)
         
-        // send rc tuning data to FC
+        // MSP_SET_RC_TUNING
         dataStorage.rcRate = rcRate.doubleValue
         dataStorage.rcExpo = rcExp.doubleValue
         dataStorage.throttleMid = thrMid.doubleValue
         dataStorage.throttleExpo = thrExp.doubleValue
         dataStorage.rollPitchRate = rollRate.doubleValue
-        dataStorage.rollRate = rollRate.doubleValue
-        dataStorage.pitchRate = pitchRate.doubleValue
+        if dataStorage.apiVersion >= "1.7.0" {
+            dataStorage.rollRate = rollRate.doubleValue
+            dataStorage.pitchRate = pitchRate.doubleValue
+            dataStorage.dynamicThrottleBreakpoint = tpaBreakPoint.intValue
+        }
         dataStorage.yawRate = yawRate.doubleValue
+        if dataStorage.apiVersion >= "1.10.0" {
+            dataStorage.yawExpo = yawExpo.doubleValue
+        }
         dataStorage.dynamicThrottlePID = tpa.doubleValue
-        dataStorage.dynamicThrottleBreakpoint = tpaBreakPoint.intValue
-        msp.crunchAndSendMSP(MSP_SET_RC_TUNING)
         
-        // send PID controller
-        dataStorage.PIDController = selectedPIDController
-        msp.crunchAndSendMSP(MSP_SET_PID_CONTROLLER)
+        var codes = [MSP_SET_PID, MSP_SET_RC_TUNING]
         
-        // save data to eeprom
-        msp.sendMSP(MSP_EEPROM_WRITE)
+        // MSP_SET_PID_CONTROLLER
+        if dataStorage.apiVersion >= pidControllerChangeMinApiVersion {
+            dataStorage.PIDController = selectedPIDController
+            codes.append(MSP_SET_PID_CONTROLLER)
+        }
+        
+        msp.crunchAndSendMSP(codes) {
+            msp.sendMSP(MSP_EEPROM_WRITE, callback: self.sendDataRequest) // save and reload
+        }
     }
     
     @IBAction func reload(sender: AnyObject) {
@@ -446,25 +452,33 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     }
     
     @IBAction func selectPIDController(sender: UIButton) {
-        
         let rect = CGRect(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height, width: 1.0, height: 1.0)
-        SelectionPopover.presentWithOptions(dataStorage.PIDControllerNames,
-                                              delegate: self,
-                                                   tag: 0,
-                                            sourceRect: rect,
-                                            sourceView: view,
-                                                  size: CGSize(width: 250, height: 200),
-                              permittedArrowDirections: [.Down, .Up])
+        SelectionPopover.presentWithOptions( dataStorage.PIDControllerNames,
+                                   delegate: self,
+                                        tag: 0,
+                                 sourceRect: rect,
+                                 sourceView: view,
+                                       size: CGSize(width: 250, height: 200),
+                   permittedArrowDirections: [.Down, .Up])
     }
     
     @IBAction func selectFlightProfile(sender: UIButton) {
-        let rect = CGRect(origin: sender.convertPoint(CGPoint(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height), toView: view), size: CGSize(width: 1.0, height: 1.0))
-        SelectionPopover.presentWithOptions(UIDevice.isPhone ? ["Profile 1", "Profile 2", "Profile 3"] : ["1", "2", "3"],
-                                            delegate: self,
-                                            tag: 1,
-                                            sourceRect: rect,
-                                            sourceView: view,
-                                            size: CGSize(width: 250, height: 200),
-                                            permittedArrowDirections: [.Down, .Up])
+        let rect: CGRect!
+        
+        if UIDevice.isPhone {
+            let point = CGPoint(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height),
+                origin = sender.convertPoint(point, toView: view)
+            rect = CGRect(origin: origin, size: CGSize(width: 1.0, height: 1.0))
+        } else {
+            rect = CGRect(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height, width: 1.0, height: 1.0)
+        }
+        
+        SelectionPopover.presentWithOptions( UIDevice.isPhone ? ["Profile 1", "Profile 2", "Profile 3"] : ["1", "2", "3"],
+                                   delegate: self,
+                                        tag: 1,
+                                 sourceRect: rect,
+                                 sourceView: view,
+                                       size: CGSize(width: 250, height: 200),
+                   permittedArrowDirections: [.Down, .Up])
     }
 }

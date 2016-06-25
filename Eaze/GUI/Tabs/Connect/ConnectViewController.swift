@@ -54,24 +54,20 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Bluetooth Serial events
     
     func serialDidConnect() {
-        log("C serial did connect")
         dismissViewControllerAnimated(true, completion: nil)
     }
     
     func serialWillAutoConnect() {
-        log("C serial will auto connect")
         tableView.reloadData()
         tableView.allowsSelection = false
     }
     
     func serialDidFailToConnect() {
-        log("C serial did fail to connect")
         tableView.reloadData()
         tableView.allowsSelection = true
     }
     
     func serialStateChanged() {
-        log("C serial state changed")
         if bluetoothSerial.state != .PoweredOn {
             dismissViewControllerAnimated(true, completion: nil)
         }

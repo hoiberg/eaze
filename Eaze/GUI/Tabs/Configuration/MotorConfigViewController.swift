@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubscriber {
+final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubscriber {
     
     // MARK: - IBOutlets
     
@@ -37,9 +37,9 @@ class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         msp.addSubscriber(self, forCodes: mspCodes)
         msp.addSubscriber(self, forCodes: mspCodes_v1_8)
         if bluetoothSerial.isConnected {
-            sendDataRequest()
+            serialOpened()
         } else {
-            saveButton.enabled = false
+            serialClosed()
         }
         
         notificationCenter.addObserver(self, selector: #selector(MotorConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
@@ -96,7 +96,7 @@ class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             
             
         default:
-            print("Received MSP update not subscribed to")
+            log(.Warn, "MotorConfigViewController received MSP code not subscribed to: \(code)")
         }
     }
     
@@ -116,23 +116,27 @@ class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: IBActions
     
     @IBAction func save(sender: AnyObject) {
-        
+        // MSP_SET_BF_CONFIG
         dataStorage.BFFeatures.setBit(4, value: Int(motorStopSwitch.on))
         dataStorage.BFFeatures.setBit(18, value: Int(oneShotSwitch.on))
-        msp.crunchAndSendMSP(MSP_SET_BF_CONFIG)
         
+        // MSP_SET_MISC
         dataStorage.minThrottle = minThrottleField.intValue
         dataStorage.midRc = midThrottleField.intValue
         dataStorage.maxThrottle = maxThrottleField.intValue
         dataStorage.minCommand = minCommandField.intValue
-        msp.crunchAndSendMSP(MSP_SET_MISC)
+        
+        var codes = [MSP_SET_BF_CONFIG, MSP_SET_MISC]
         
         if dataStorage.apiVersion >= "1.8.0" {
+            // MSP_SET_ARMING_CONFIG
             dataStorage.disarmKillsSwitch = alwaysDisarmSwitch.on
             dataStorage.autoDisarmDelay = disarmDelayField.intValue
-            msp.crunchAndSendMSP(MSP_SET_ARMING_CONFIG)
+            codes.append(MSP_SET_ARMING_CONFIG)
         }
         
-        msp.sendMSP(MSP_EEPROM_WRITE)
+        msp.crunchAndSendMSP(codes) {
+            msp.sendMSP(MSP_EEPROM_WRITE, callback: self.sendDataRequest)
+        }
     }
 }

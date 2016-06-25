@@ -10,22 +10,23 @@
 
 import UIKit
 
-class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscriber, StaticAdjustableTextFieldDelegate {
+final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscriber, StaticAdjustableTextFieldDelegate {
     
-    // MARK: - IBOutlets
+    // MARK: - Interface vars
     
-    var refreshRateField: StaticAdjustableTextField?
-    var nameLabels = [UILabel?](count: 32, repeatedValue: nil)
-    var labels = [UILabel?](count: 32, repeatedValue: nil)
-    var bars = [UIProgressView?](count: 32, repeatedValue: nil)
+    var refreshRateField: StaticAdjustableTextField?,
+        nameLabels = [UILabel?](count: 32, repeatedValue: nil),
+        labels = [UILabel?](count: 32, repeatedValue: nil),
+        bars = [UIProgressView?](count: 32, repeatedValue: nil)
 
     
     // MARK: - Variables
     
     let mspCodes = [MSP_RX_MAP, MSP_RC]
-    var channelNames = [String](count: 32, repeatedValue: "")
-    var updateTimer: NSTimer?
-    var isFirstTimeMSP_RC = true
+    var channelNames = [String](count: 32, repeatedValue: ""),
+        updateTimer: NSTimer?,
+        isFirstTimeMSP_RC = true
+    
     var updateInterval: Double {
         get {
             if let field = refreshRateField {
@@ -98,7 +99,6 @@ class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscrib
     }
     
     func updateRC() {
-        // sent multiple times a second when FC is connected
         msp.sendMSP(MSP_RC)
     }
     
@@ -122,7 +122,7 @@ class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscrib
             }
             
         default:
-            print("Received MSP update not subscribed to")
+            log(.Warn, "ReceiverInputViewController received MSP code not subscribed to: \(code)")
         }
     }
     
@@ -173,18 +173,23 @@ class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscrib
             refreshRateField!.minValue = 1
             refreshRateField!.decimal = 0
             refreshRateField!.increment = 1
+            
             return cell
+            
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
-            let nameLabel = cell.viewWithTag(1) as! UILabel
-            let bar = cell.viewWithTag(2) as! UIProgressView
-            let label = cell.viewWithTag(3) as! UILabel
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath),
+                nameLabel = cell.viewWithTag(1) as! UILabel,
+                bar = cell.viewWithTag(2) as! UIProgressView,
+                label = cell.viewWithTag(3) as! UILabel
+            
             nameLabel.text = channelNames[indexPath.row]
             bar.progress = 3000.0 / Float(dataStorage.channels[indexPath.row])
             label.text = "\(dataStorage.channels[indexPath.row])"
+            
             nameLabels[indexPath.row] = nameLabel
             bars[indexPath.row] = bar
             labels[indexPath.row] = label
+            
             return cell
         }
     }

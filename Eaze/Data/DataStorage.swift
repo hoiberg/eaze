@@ -3,12 +3,12 @@
 //  Cleanflight Mobile Configurator
 //
 //  Created by Alex on 01-09-15.
-//  Copyright (c) 2015 Hangar42. All rights reserved.
+//  Copyright (c) 2016 Hangar42. All rights reserved.
 //
 
 import UIKit
 
-final class DataStorage: NSObject {
+final class DataStorage {
     
     // 1 MSP_API_VERSION
     var apiVersion: Version = "0.0.0"
@@ -33,8 +33,6 @@ final class DataStorage: NSObject {
     var serialGPSBaudRate: UInt32 = 0 // pre 1.6.0
     var gpsPasstroughBaudrate: UInt32 = 0 // pre 1.6.0
     var cliBaudRate: UInt32 = 0 // pre 1.6.0
-    
-    //TODO: Andere 32bits values ook naar UInt32 converteren ??
     
     // 57 MSP_PID_CONTROLLER
     var PIDController = 0
@@ -133,20 +131,11 @@ final class DataStorage: NSObject {
     
     // Helper variables
     var boardName: String {
-        get {
-            return boards.find({$0.identifier == boardIdentifier})?.name
-                   ??
-                   "Unknown Board"
-        }
+        return boards.find({$0.identifier == boardIdentifier})?.name ?? "Unknown Board"
     }
     
     var flightControllerName: String {
-        get {
-            log("ID: \(flightControllerIdentifier)")
-            return flightControllerVariants.find({$0.identifier == flightControllerIdentifier})?.name
-                   ??
-                   "Unknown firmware"
-        }
+        return flightControllerVariants.find({$0.identifier == flightControllerIdentifier})?.name ?? "Unknown firmware"
     }
     
     var activeFlightModes: [String] {
@@ -176,13 +165,11 @@ final class DataStorage: NSObject {
                     "LuxFloat"]
         }
     }
-    
+
     
     // MARK: - Functions
     
-    override init() {
-        super.init()
-        
+    init() {
         // create pids array
         for _ in 0...9 {
             PIDs.append([0.0, 0.0, 0.0])

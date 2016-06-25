@@ -57,12 +57,12 @@ let MSP_BOARD_INFO      = 4
 let MSP_BUILD_INFO      = 5
 
 // MSP codes Cleanflight original features
-let MSP_CF_SERIAL_CONFIG = 54
+let MSP_CF_SERIAL_CONFIG     = 54
 let MSP_SET_CF_SERIAL_CONFIG = 55
-let MSP_PID_CONTROLLER  = 59
-let MSP_SET_PID_CONTROLLER = 60
-let MSP_ARMING_CONFIG = 61
-let MSP_SET_ARMING_CONFIG = 62
+let MSP_PID_CONTROLLER       = 59
+let MSP_SET_PID_CONTROLLER   = 60
+let MSP_ARMING_CONFIG        = 61
+let MSP_SET_ARMING_CONFIG    = 62
 
 // MSP codes for Baseflight configurator
 let MSP_RX_MAP          = 64
@@ -94,8 +94,8 @@ let MSP_MAG_CALIBRATION = 206
 let MSP_SET_MISC        = 207
 let MSP_RESET_CONF      = 208
 let MSP_SELECT_SETTING  = 210
-let MSP_SET_ACC_TRIM    = 239 // BF
-let MSP_ACC_TRIM        = 240 // BF
+let MSP_SET_ACC_TRIM    = 239 // Baseflight
+let MSP_ACC_TRIM        = 240 // Baseflight
 let MSP_EEPROM_WRITE    = 250
 
 
@@ -160,7 +160,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 if messageChecksum == byte {
                     processData(messageCode, data: messageData)
                 } else {
-                    log(.Error, "Checksum not correct!")
+                    log(.Error, "Checksum not correct! Code: \(messageCode), Data: \(messageData), Expected checksum: \(messageChecksum), Received checksum: \(byte)")
                 }
                 
                 reset()
@@ -171,10 +171,9 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     }
     
     func processData(code: Int, data: [UInt8]) {
-        log("Processing \(code)")
         func check(length: Int) -> Bool {
             if data.count < length {
-                log(.Error, "Expected \(length) bytes but received \(data.count) for MSP code \(code)")
+                log(.Error, "Expected \(length) bytes but received \(data.count) for MSP code \(code) with data: \(data)")
                 reset()
                 return false
             }
@@ -186,10 +185,6 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             guard check(3) else { return }
             dataStorage.apiVersion = Version(major: data[1], minor: data[2], patch: 0)
             dataStorage.mspVersion = Int(data[0])
-            if dataStorage.apiVersion.major > 1 {
-                //TODO: Disable all communications, we cannot handle this version!
-                //TODO: Do more version checking!
-            }
             
         case MSP_FC_VARIANT: // 2
             guard check(4) else { return }            
@@ -212,24 +207,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             
         case MSP_CF_SERIAL_CONFIG: // 54
             dataStorage.serialPorts = []
-            if dataStorage.apiVersion < "1.6.0" {
-                //TODO: NOT WORKING
-              /*  var offset = 0
-                let serialPortCount = (data.count - (4 * 4)) / 2
-                for _ in 0 ..< serialPortCount {
-                    let port = SerialPortConfig()
-                    port.identifier = Int(data[offset++])
-                    port.scenario = Int(data[offset++])
-                    dataStorage.serialPorts.append(port)
-                }
-                dataStorage.mspBaudRate = getUInt32(data, offset: offset)
-                offset += 4
-                dataStorage.cliBaudRate = getUInt32(data, offset: offset)
-                offset += 4
-                dataStorage.serialGPSBaudRate = getUInt32(data, offset: offset)
-                offset += 4
-                dataStorage.gpsPasstroughBaudrate = getUInt32(data, offset: offset)*/
-            } else {
+            if dataStorage.apiVersion >= "1.6.0" {
                 var offset = 0
                 let serialPortCount = data.count / 7
                 for _ in 0 ..< serialPortCount {
@@ -250,7 +228,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             }
             
         case MSP_SET_CF_SERIAL_CONFIG: // 55
-            break
+            log("MSP_SET_CF_SERIAL_CONFIG received")
             
         case MSP_PID_CONTROLLER: // 59
             guard check(1) else { return }
@@ -304,10 +282,10 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             func retry() {
                 guard !done else { return }
                 sendMSP(MSP_API_VERSION)
-                delay(1, closure: retry)
+                delay(1, callback: retry)
             }
             sendMSP(MSP_API_VERSION, callback: ready)
-            delay(1, closure: retry)
+            delay(1, callback: retry)
             
         case MSP_LOOP_TIME: // 73
             if dataStorage.apiVersion >= "1.8.0" {
@@ -525,11 +503,9 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 callbacks.removeAtIndex(i)
             }
         }
-        
     }
     
     func crunch(code: Int) -> [UInt8] {
-        log("Crunching \(code)")
         var buffer: [UInt8] = []
         switch code {
             
@@ -696,9 +672,9 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     }
     
     func sendMSP(code: Int, bytes: [UInt8]?, callback: (Void -> Void)?) {
-        log("Sending \(code)")
-        // only send msp codes if we'll get the reply (e.g. not when the CLI is active)
-        guard bluetoothSerial.delegate as! AnyObject? === self else { return }
+        // only send msp codes if we'll get the reply
+        guard bluetoothSerial.delegate as! AnyObject? === self && !cliActive else { return }
+        
         // add callback
         if callback != nil {
             callbacks.append((code, callback!))
@@ -730,12 +706,14 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         sendMSP(code, bytes: nil, callback: callback)
     }
     
+    /// Codes are NOT sent sequentially
     func sendMSP(codes: [Int]) {
         for code in codes {
             sendMSP(code, bytes: nil, callback: nil)
         }
     }
     
+    /// Codes are sent sequentially
     func sendMSP(codes: [Int], callback: (Void -> Void)) {
         var i = 0
         func sendNext() {
@@ -757,12 +735,35 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         sendMSP(code, bytes: crunch(code), callback: callback)
     }
     
+    /// Codes are sent sequentially
+    func crunchAndSendMSP(codes: [Int], callback: (Void -> Void)) {
+        var i = 0
+        func sendNext() {
+            if i == codes.endIndex {
+                callback()
+                return
+            }
+            crunchAndSendMSP(codes[i++], callback: sendNext)
+        }
+        
+        sendNext()
+    }
+
+    
     func reset() {
         // called when finished interpreting MSP or
         // when the serial port is closed
         state = 0
         messageLengthReceived = 0
         messageData = []
+    }
+    
+    func didDisconnect() {
+        reset()
+        if callbacks.count > 0 {
+            log(.Warn, "\(callbacks.count) callbacks remained after disconnecting")
+            callbacks = []
+        }
     }
     
     func addSubscriber(newSubscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {

@@ -11,8 +11,7 @@
 
 import UIKit
 
-class ConfigTableViewController: UITableViewController/*: GroupedTableViewController*/ {
-    
+final class ConfigTableViewController: UITableViewController {
     
     // MARK: - Variables
     
@@ -23,21 +22,9 @@ class ConfigTableViewController: UITableViewController/*: GroupedTableViewContro
     
     // MARK: - Functions
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        //splitViewController?.view.backgroundColor = globals.colorTableBackground
-    }
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        
-        // prevent EXC_BAD_ACCESS when loading the view multiple times at the same time (possible since we're doing it async)
-        /*if indexPath.section == currentSelection.section && indexPath.row == currentSelection.row {
-            return
-        } else {
-            currentSelection = (section: indexPath.section, row: indexPath.row)
-        }*/
-        
+                
         guard !isLoading else { return }
         isLoading = true
         

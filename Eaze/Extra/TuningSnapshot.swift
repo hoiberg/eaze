@@ -8,26 +8,16 @@
 
 import UIKit
 
-class TuningSnapshot: NSObject {
+final class TuningSnapshot: NSObject {
     
     // MARK: - Variables
     
-    /// URL of the file this snapshot is stored at
-    var fileURL: NSURL?
+    var fileURL: NSURL?,
+        version: Version = "1.0.0",
+        name = "unknown",
+        date = NSDate(),
+        PIDController = 0
     
-    /// Current version of this TuningSnapshot (NOT OF THE CLEANFLIGHT VERSION THIS WAS CREATED WITH)
-    var version: Version = "1.0.0"
-    
-    /// Name of this snapshot (specified by the user)
-    var name = "unknown"
-    
-    /// Date & time this snapshot was created
-    var date = NSDate()
-    
-    /// Select PID controller
-    var PIDController = 0
-    
-    //  Tuning
     var rcRate              = 0.0,
         rcExpo              = 0.0,
         throttleMid         = 0.0,
@@ -45,16 +35,11 @@ class TuningSnapshot: NSObject {
 
     // MARK: - Functions
     
-    /// Create new TuningSnapshot from current tuning data in DataStorage
+    /// Create from data currently in dataStorage
     init(name: String) {
-        
         super.init()
         
         self.name       = name
-
-        
-        // copy from DataStorage
-        
         PIDController   = dataStorage.PIDController
         rcRate          = dataStorage.rcRate
         rcExpo          = dataStorage.rcExpo
@@ -72,22 +57,18 @@ class TuningSnapshot: NSObject {
         dynamicThrottleBreakpoint = dataStorage.dynamicThrottleBreakpoint
         PIDs            = dataStorage.PIDs
         
-        
         save()
     }
     
-    /// Load TuningSnapshot from file
+    /// Create from data in file
     init(file: NSURL) {
         super.init()
         
         do {
             fileURL = file
-            let json = try VJson.createJsonHierarchy(file)
+            let json = try VJson.createJsonHierarchy(file),
+                snapshot = json["tuningsnapshot"]
             
-            // get snapshot json object
-            let snapshot = json["tuningsnapshot"]
-            
-            // populate data of this object
             version = Version(string: snapshot["snapshotversion"].stringValue ?? "1.0.0")
             name = snapshot["name"].stringValue ?? "unknown"
             date = NSDate(timeIntervalSinceReferenceDate: snapshot["date"].doubleValue ?? 0.0)
@@ -117,12 +98,11 @@ class TuningSnapshot: NSObject {
         }
     }
     
-    /// Save TuningSnapshot to file
+    /// Save to file
     func save() {
+        let json = VJson.createJsonHierarchy(),
+            snapshot = json["tuningsnapshot"]
         
-        // create new JSON object & set all values
-        let json = VJson.createJsonHierarchy()
-        let snapshot = json["tuningsnapshot"]
         snapshot["snapshotversion"].stringValue = version.stringValue
         snapshot["name"].stringValue = name
         snapshot["date"].doubleValue = date.timeIntervalSinceReferenceDate
@@ -180,12 +160,11 @@ class TuningSnapshot: NSObject {
     
     /// Send data to fc and save to eeprom
     func uploadToFlightController() {
-        
-        // send PIDs to FC
+        // MSP_SET_PID
         dataStorage.PIDs = PIDs
         msp.crunchAndSendMSP(MSP_SET_PID)
         
-        // send rc tuning data to FC
+        // MSP_SET_RC_TUNING
         dataStorage.rcRate = rcRate
         dataStorage.rcExpo = rcExpo
         dataStorage.throttleMid = throttleMid
@@ -198,23 +177,28 @@ class TuningSnapshot: NSObject {
         dataStorage.dynamicThrottleBreakpoint = dynamicThrottleBreakpoint
         msp.crunchAndSendMSP(MSP_SET_RC_TUNING)
         
-        // send PID controller
-        dataStorage.PIDController = PIDController
-        msp.crunchAndSendMSP(MSP_SET_PID_CONTROLLER)
+        var codes = [MSP_SET_PID, MSP_SET_RC_TUNING]
+
+        // MSP_SET_PID_CONTROLLER
+        if dataStorage.apiVersion >= pidControllerChangeMinApiVersion {
+            dataStorage.PIDController = PIDController
+            codes.append(MSP_SET_PID_CONTROLLER)
+        }
         
-        // save data to eeprom
-        msp.sendMSP(MSP_EEPROM_WRITE)
+        msp.crunchAndSendMSP(codes) {
+            msp.sendMSP(MSP_EEPROM_WRITE) { // save
+                msp.sendMSP([MSP_PID, MSP_RC_TUNING, MSP_PID_CONTROLLER]) // reload (also reloads UI)
+            }
+        }
     }
     
     /// Returns all TuningSnapshots in the docs directory
     class func loadAllSnapshots() -> [TuningSnapshot] {
         do {
-            // get docs dir
-            let docsURL = try getDocumentsDirectory()
-            
-            // get all files in it with a .json extension
-            let contents = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(docsURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions())
-            let snapshotPaths = contents.filter(){ $0.pathExtension == "json" }
+            // get docs dir, and all files with .json extension
+            let docsURL = try getDocumentsDirectory(),
+                contents = try NSFileManager.defaultManager().contentsOfDirectoryAtURL(docsURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions()),
+                snapshotPaths = contents.filter(){ $0.pathExtension == "json" }
             
             // read all snapshots & return thosse
             var snapshots: [TuningSnapshot] = []
@@ -237,7 +221,7 @@ class TuningSnapshot: NSObject {
             do {
                 try NSFileManager.defaultManager().removeItemAtURL(url)
             } catch let error as NSError {
-                print("Failed to delete tuning snapshot: \(error.localizedDescription)")
+                log(.Error, "Failed to delete tuning snapshot: \(error.localizedDescription)")
             }
         }
     }

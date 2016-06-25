@@ -23,12 +23,11 @@ final class GlassLabel: UIView {
         didSet {
             switch background! {
             case .Red:
-                //backgroundColor = UIColor(hex: 0xD16363).colorWithAlphaComponent(0.4)
-                backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.08)
+                backgroundColor = UIColor.clearColor()
             case .Green:
                 backgroundColor = UIColor(hex: 0x417505).colorWithAlphaComponent(0.4)
             case .Dark:
-                backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+                backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.18)
             }
         }
     }

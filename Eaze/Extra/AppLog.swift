@@ -21,7 +21,7 @@ final class AppLog: NSObject {
     override init() {
         // dateformatter
         dateFormatter = NSDateFormatter()
-        dateFormatter.dateFormat = "dd/MM/yy HH:mm:ss.SSS"
+        dateFormatter.dateFormat = "HH:mm:ss.SSS"
         
         // fileurl
         let fileManager = NSFileManager.defaultManager(),
@@ -47,16 +47,19 @@ final class AppLog: NSObject {
 
     func log(level: Level, message: String) {
         // generate actual log text
-        let finalStr = dateFormatter.stringFromDate(NSDate()) + " " + level.rawValue.uppercaseString + ": " + message + "\n"
+        var finalStr = dateFormatter.stringFromDate(NSDate()) + " "
+        if level != .Info { finalStr +=  level.rawValue.uppercaseString + ": " }
+        finalStr += message + "\n"
         
-        // maybe print it as well
-        if xxPrintAsWell {
+        if level == .Fatal || level == .Error || level == .Warn {
+            print(finalStr, terminator: "")
+        } else {
+            //TODO: ** Uncomment this line when releasing!
             print(finalStr, terminator: "")
         }
-                
+        
         // limit file size
-        if fileHandle?.seekToEndOfFile() > 8000 { //TODO: Is 8kB enough?
-            print("Cutting down log file size...")
+        if fileHandle?.seekToEndOfFile() > 10000 { // 10kB max file size
             fileHandle?.closeFile()
             halveLog()
             do { fileHandle = try NSFileHandle(forWritingToURL: fileURL) }
@@ -94,7 +97,6 @@ final class AppLog: NSObject {
     }
 }
 
-// log shortcut functions
 func log(message: String) {
     console.log(.Info, message: message)
 }

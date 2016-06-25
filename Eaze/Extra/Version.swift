@@ -12,16 +12,16 @@ final class Version: Comparable {
     
     // MARK: - Variables
     
-    var major = 0
-    var minor = 0
-    var patch = 0
+    var major = 0,
+        minor = 0,
+        patch = 0
     
     var stringValue: String {
         get {
             return  "\(major).\(minor).\(patch)"
         } set {
             do { try interpretString(newValue) }
-            catch { print("Version: Failed to set stringValue!") }
+            catch { log(.Error, "Version: Failed to set stringValue!") }
         }
     }
     
@@ -42,7 +42,7 @@ final class Version: Comparable {
     
     init(string: String) {
         do { try interpretString(string) }
-        catch { print("Version: Failed to init with string!") }
+        catch { log(.Error, "Version: Failed to init with string '\(string)'") }
     }
     
     private func interpretString(str: String) throws {

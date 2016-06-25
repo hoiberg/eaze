@@ -8,8 +8,7 @@
 
 import UIKit
 
-class ReceiverConfigViewController: GroupedTableViewController, SelectionTableViewControllerDelegate, MSPUpdateSubscriber, UITextFieldDelegate {
-    
+final class ReceiverConfigViewController: GroupedTableViewController, SelectionTableViewControllerDelegate, MSPUpdateSubscriber, UITextFieldDelegate {
     
     // MARK: - IBOutlets
     
@@ -25,22 +24,24 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC]
-    private let serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01"]
-    private let receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
-    private var RSSIInputChannels = ["Disabled"]
-    private var lastValid_RC_MAP = "AETR1234"
+    private let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC],
+                serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01"],
+                receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
+    private var RSSIInputChannels = ["Disabled"],
+                lastValid_RC_MAP = "AETR1234"
     
     private var selectedSerialReceiverMode = 0  {
         didSet {
             serialReceiverLabel.text = serialReceiverModes[selectedSerialReceiverMode]
         }
     }
+    
     private var selectedReceiverMode = 0  {
         didSet {
             receiverModeLabel.text = receiverModes[selectedReceiverMode]
         }
     }
+    
     private var selectedRSSIInputChannel = 0 {
         didSet {
             RSSIInputChannelLabel.text = RSSIInputChannels[selectedRSSIInputChannel]
@@ -55,9 +56,9 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
         
         msp.addSubscriber(self, forCodes: mspCodes)
         if bluetoothSerial.isConnected {
-            sendDataRequest()
+            serialOpened()
         } else {
-            saveButton.enabled = false
+            serialClosed()
         }
         
         notificationCenter.addObserver(self, selector: #selector(ReceiverConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
@@ -67,7 +68,6 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
         failsafeThrottleField.minValue = 0
         failsafeThrottleField.decimal = 0
         failsafeThrottleField.increment = 1
-        
     }
     
     deinit {
@@ -120,7 +120,7 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
             lastValid_RC_MAP = str
             
         default:
-            print("Received MSP update not subscribed to")
+            log(.Warn, "ReceiverConfigViewController received MSP code not subscribed to: \(code)")
         }
     }
     
@@ -149,6 +149,7 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
                 vc.items = receiverModes
                 vc.delegate = self
                 navigationController?.pushViewController(vc, animated: true)
+                
             } else if indexPath.row == 2 {
                 // Serial Receiver mode
                 let vc = SelectionTableViewController(style: .Grouped)
@@ -158,6 +159,7 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
                 vc.delegate = self
                 navigationController?.pushViewController(vc, animated: true)
             }
+            
         } else if indexPath.section == 2 && indexPath.row == 1 {
             // RSSI channel
             let vc = SelectionTableViewController(style: .Grouped)
@@ -188,6 +190,7 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
             textField.text = lastValid_RC_MAP
             return
         }
+        
         var duplicityBuffer = ""
         for channel in textField.text!.characters {
             if duplicityBuffer.indexOfCharacter(channel) == nil {
@@ -197,6 +200,7 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
                 return
             }
         }
+        
         lastValid_RC_MAP = textField.text!
     }
     
@@ -211,14 +215,13 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
         } else {
             selectedRSSIInputChannel = item
         }
-
     }
     
     
     // MARK: IBActions
     
     @IBAction func save(sender: AnyObject) {
-
+        // MSP_SET_BF_CONFIG
         if selectedReceiverMode == 0 {
             dataStorage.BFFeatures.setBit(0, value: 1)
             dataStorage.BFFeatures.setBit(3, value: 0)
@@ -240,23 +243,25 @@ class ReceiverConfigViewController: GroupedTableViewController, SelectionTableVi
             dataStorage.BFFeatures.setBit(13, value: 0)
             dataStorage.BFFeatures.setBit(14, value: 1)
         }
+        
         dataStorage.BFFeatures.setBit(8, value: Int(failsafeSwitch.on))
         dataStorage.BFFeatures.setBit(15, value: Int(analogRSSISwitch.on))
         dataStorage.serialRXType = selectedSerialReceiverMode
-        msp.crunchAndSendMSP(MSP_SET_BF_CONFIG)
-        
+
+        // MSP_SET_MISC
         dataStorage.rssiChannel = selectedRSSIInputChannel
         dataStorage.failsafeThrottle = failsafeThrottleField.intValue
-        msp.crunchAndSendMSP(MSP_SET_MISC)
         
+        // MSP_SET_RX_MAP
         let letters = "AERT1234"
         var map: [Int] = []
         for c in letters.characters {
             map.append(channelMapField.text!.indexOfCharacter(c)!)
         }
         dataStorage.RC_MAP = map
-        msp.crunchAndSendMSP(MSP_RX_MAP)
         
-        msp.sendMSP(MSP_EEPROM_WRITE)
+        msp.crunchAndSendMSP([MSP_SET_BF_CONFIG, MSP_SET_MISC, MSP_SET_RX_MAP]) {
+            msp.sendMSP(MSP_EEPROM_WRITE, callback: self.sendDataRequest) // save & reload
+        }
     }
 }

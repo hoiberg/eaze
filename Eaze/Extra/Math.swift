@@ -89,18 +89,15 @@ extension Double {
 }
 
 extension Int {
-    /// Important: only works for positive values
     var lowByte: UInt8 {
         return UInt8(self & 0xFF)
     }
     
-    /// Important: only works for positive values
     var highByte: UInt8 {
         return UInt8((self >> 8) & 0xFF)
     }
     
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    /// Important: only works for positive values
     func specificByte(byte: Int) -> UInt8 {
         return UInt8((self >> (8 * byte)) & 0xFF)
     }
@@ -127,6 +124,8 @@ extension Int16 {
     func specificByte(byte: Int) -> UInt8 {
         return UInt8((UInt16(bitPattern: self) >> UInt16(8 * byte)) & 0xFF)
     }
+    
+
 }
 
 extension UInt16 {

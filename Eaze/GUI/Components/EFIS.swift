@@ -6,7 +6,7 @@
 //  Copyright © 2016 Hangar42. All rights reserved.
 //
 //  Height horizon moving part total height = 2x (screen diagonal + screen height)
-//                             0 - 90 part = screen height
+//                              0 - 90 part = screen height
 //
 
 import UIKit
@@ -14,7 +14,7 @@ import UIKit
 @IBDesignable
 final class EFIS: UIView {
     
-    class Horizon: UIView {
+    private final class Horizon: UIView {
         override func drawRect(rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
@@ -35,36 +35,33 @@ final class EFIS: UIView {
                 CGContextSaveGState(context)
                 CGContextAddRect(context, rect)
                 CGContextClip(context)
-                //CGContextDrawRadialGradient(context, gradient, point2, width/2, point1, width/2, [])
                 CGContextDrawLinearGradient(context, gradient, point1, point2, [])
                 CGContextRestoreGState(context)
             }
             
-            // upper blue background 0x3498db
-            drawGradientInRect(CGRect(x: 0, y: 0, width: width, height: hMiddle),
-                               color1: UIColor(hex: 0x50CEC4), // light
-                               color2: UIColor(hex: 0x4BA4CE), // dark
-                               loc1: 1.0,
-                               loc2: 1.0 - proportion
-                )
+            // upper blue background
+            drawGradientInRect( CGRect(x: 0, y: 0, width: width, height: hMiddle),
+                        color1: UIColor(hex: 0x50CEC4), // light - was 0x50CEC4
+                        color2: UIColor(hex: 0x4BA4CE), // dark - was 0x4BA4CE
+                          loc1: 1.0,
+                          loc2: 1.0 - proportion)
             
-            // bottom brown background 0xA17917
-            drawGradientInRect(CGRect(x: 0, y: hMiddle, width: width, height: hMiddle),
-                               color1: UIColor(hex: 0xCD5313), // light
-                               color2: UIColor(hex: 0x8E460F), // dark
-                               loc1: 0.0,
-                               loc2: proportion
-                )
+            // bottom brown background
+            drawGradientInRect( CGRect(x: 0, y: hMiddle, width: width, height: hMiddle),
+                        color1: UIColor(hex: 0xCD5313), // light - was 0xCD5313
+                        color2: UIColor(hex: 0x8E460F), // dark - was 0x8E460F
+                          loc1: 0.0,
+                          loc2: proportion)
         }
     }
     
-    class HorizonLines: UIView {
+    private final class HorizonLines: UIView {
         override func drawRect(rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
-            efis = superview!.superview as! EFIS,
-            height = bounds.height,
-            width = bounds.width,
-            hMiddle = height/2
+                efis = superview!.superview as! EFIS,
+                height = bounds.height,
+                width = bounds.width,
+                hMiddle = height/2
             
             // middle stroke
             CGContextSetLineWidth(context, 3.0)
@@ -97,10 +94,11 @@ final class EFIS: UIView {
                 CGContextAddLineToPoint(context, lineInset + lineLength, y + v)
                 CGContextStrokePath(context)
                 
-                let str = "\(Int(abs(pos)))" as NSString,
-                point = CGPoint(x: lineInset + lineLength + 10, y: y - 13)
-                
-                str.drawAtPoint(point, withAttributes: fontAttributes)
+                if !efis.smallScreen {
+                    let str = "\(Int(abs(pos)))" as NSString,
+                        point = CGPoint(x: lineInset + lineLength + 10, y: y - 13)
+                    str.drawAtPoint(point, withAttributes: fontAttributes)
+                }
             }
             
             for pos in positions {
@@ -130,7 +128,7 @@ final class EFIS: UIView {
         }
     }
 
-    class Overlay: UIView {
+    private final class Overlay: UIView {
         override func drawRect(rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
@@ -164,29 +162,8 @@ final class EFIS: UIView {
             CGContextSetFillColorWithColor(context, UIColor(hex: 0xA2A704).CGColor) // EFE110 FFA400
             CGContextFillPath(context)
             
-         /*   // translucent rects
-            let boxWidth = 50 as CGFloat,
-                sideMargin = efis.sideMargin,
-                maxHeight = efis.verticalMiddle * height * 2,
-                topMargin = maxHeight * 0.05,
-                boxHeight = maxHeight - topMargin * 2,
-                box = CGRect(x: sideMargin, y: topMargin, width: boxWidth, height: boxHeight), // left
-                box2 = CGRect(x: width - sideMargin - boxWidth, y: topMargin, width: boxWidth, height: boxHeight) // right
-            
-            CGContextSetFillColorWithColor(context, UIColor(hexWithAlpha: 0x00000080).CGColor)
-            CGContextSetStrokeColorWithColor(context, UIColor(hex: 0xFFFFFF).CGColor)
-            CGContextSetLineWidth(context, 2.0)
-            
-            CGContextAddRect(context, box)
-            CGContextFillPath(context)
-            CGContextStrokePath(context)
-            
-            CGContextAddRect(context, box2)
-            CGContextFillPath(context)
-            CGContextStrokePath(context)*/
-            
+            // heading label background
             if !efis.smallScreen {
-                // heading label background
                 let boxHeight = efis.smallScreen ? 40 : 50 as CGFloat, // height of box
                     boxWidth = boxHeight * 0.65, // half width of top box
                     boxBottomWidth = boxWidth * 1.2, // half width on the bottom
@@ -207,7 +184,7 @@ final class EFIS: UIView {
         }
     }
     
-    class Compass: UIView {
+    private final class Compass: UIView {
         override func drawRect(rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
@@ -279,44 +256,30 @@ final class EFIS: UIView {
                 headingLabel: UILabel?,
                 speedLabel: UILabel!,
                 altitudeLabel: UILabel!,
-                featuresLabels: [UILabel]!
+                featuresLabels: [UILabel]!,
+                hasLoaded = false
     
     
     // MARK: - Functions
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        //setup()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        //setup()
-    }
-    
-    override func prepareForInterfaceBuilder() {
-        super.prepareForInterfaceBuilder()
-        //setup()
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
-        setup()
-    }
-    
-    func setup() {
+        
+        // we actually should not be calling inits in layoutSubviews
+        // yet, because we're not using any constraints, this is still
+        // the most efficient method...
+        guard !hasLoaded else { return }
+        hasLoaded = true
+        
         // for some reason IB's value of smallScreen won't be used on an actual device
         if UIDevice.isPhone {
             smallScreen = true
         }
         
-        print(bounds.height)
-        
         // some defs
         let height = bounds.height,
             width = bounds.width,
             diagonal = sqrt(pow(height, 2) + pow(width, 2))
-            //maxHeight = verticalMiddle * height * 2
         
         // calculate radius of circle in the middle
         var radius: CGFloat!
@@ -336,24 +299,20 @@ final class EFIS: UIView {
         // horizon colors
         let hWidth = height * 2,
             hHeight = (diagonal + height) * 2
-        
         horizon = Horizon(frame: CGRect(x: (width-hWidth)/2,
                                         y: (height-hHeight)/2 - (0.5-verticalMiddle) * height,
                                     width: hWidth,
                                    height: hHeight))
         
-        
-        // horizon lines superview
-        let linesSuperView = UIView(frame: bounds) // used so maskview has effect
+        // horizon lines superview (used so maskview has effect)
+        let linesSuperView = UIView(frame: bounds)
         linesSuperView.opaque = false
         linesSuperView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.08)
-
         
         // horizon lines
         horizonLines = HorizonLines(frame: horizon.frame)
         horizonLines.opaque = false
         horizonLines.backgroundColor = UIColor.clearColor()
-
         
         // horizon mask
         horizonLinesMask = UIView(frame: CGRect(x: width/2 - radius,
@@ -363,8 +322,6 @@ final class EFIS: UIView {
         horizonLinesMask.backgroundColor = UIColor.whiteColor()
         horizonLinesMask.layer.cornerRadius = radius
         
-        print(height*verticalMiddle)
-
         // compass rotating part
         compass = Compass(frame: horizonLinesMask.frame)
         compass.opaque = false
@@ -376,8 +333,8 @@ final class EFIS: UIView {
         overlay.opaque = false
         overlay.backgroundColor = UIColor.clearColor()
         
+        // heading label
         if !smallScreen {
-            // heading label
             let labelHeight = (smallScreen ? 40 : 50) as CGFloat, // label width
                 labelWidth = labelHeight * 1.6,
                 labelBottomMargin = labelWidth * 0.40
@@ -390,44 +347,6 @@ final class EFIS: UIView {
             headingLabel!.font = UIFont.boldSystemFontOfSize(smallScreen ? 30 : 35)
             headingLabel!.text = "0"
         }
-
-        // labels
-     /*   let labelWidth: CGFloat = 70,
-            labelHeight: CGFloat = 35,
-            labelArrowWidth: CGFloat = 10
-        
-        // heading label
-        headingLabel = UILabel(frame: CGRect(x: (width-labelWidth)/2,
-                                             y: horizonLinesMask.frame.minY - labelHeight - labelArrowWidth - 2,
-                                         width: labelWidth,
-                                        height: labelHeight
-            ))
-        headingLabel.textAlignment = .Center
-        headingLabel.textColor = UIColor.whiteColor()
-        headingLabel.font = UIFont.boldSystemFontOfSize(20)
-        headingLabel.text = "000"
-        
-        /let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0, y: 0))
-        path.addLineToPoint(CGPoint(x: labelWidth, y: 0))
-        path.addLineToPoint(CGPoint(x: labelWidth, y: labelHeight))
-        path.addLineToPoint(CGPoint(x: labelWidth * 0.75, y: labelHeight))
-        path.addLineToPoint(CGPoint(x: labelWidth * 0.5, y: labelHeight + labelArrowWidth))
-        path.addLineToPoint(CGPoint(x: labelWidth * 0.25, y: labelHeight))
-        path.addLineToPoint(CGPoint(x: 0, y: labelHeight))
-        path.closePath() //TODO: HIER VERDER
-        
-        let layer = CAShapeLayer()
-        layer.frame = headingLabel.bounds
-        layer.path = path.CGPath
-        layer.fillColor = UIColor.clearColor().CGColor
-        layer.strokeColor = UIColor.whiteColor().CGColor
-        layer.lineWidth = 2
-        
-        headingLabel.layer.masksToBounds = false
-        headingLabel.layer.insertSublayer(layer, atIndex: 0)*/
-
-
         
         addSubview(horizon)
         addSubview(linesSuperView)

@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Hangar42. All rights reserved.
 //
 //  HM10's service UUID is FFE0, the characteristic we need is FFE1
+//  Some require WriteWithResponse, others WithoutResponse..
 //
 //  RSSI goes from about -40 to -100 (which is when it looses signal)
 //
@@ -25,15 +26,14 @@
 //  viewWillAppear, AppDidBecomeActive and serialDidOpen (the latter two only if isBeingShown)
 //  It then stops the timer in viewWillDisappear, AppWillResignActive and serialDidClose (again, the latter two only if isBeingShown).
 //
-//  Note: yes, you can use sendMSP(code, callback), but its purpose is for notifications of events (calibration, reset etc), not UI updates.
+//  Note: yes, you can use sendMSP(code, callback), but its purpose is for when timing is important (calibration, reset etc), not UI updates.
 //  *: In case the VC is still in memory while connecting - the actual connecting does only happen on the Dashboard tab.
 
-///TODO: TEST DIDFAILTOCONNECT NOTIFICATION!
+//TODO: TEST DIDFAILTOCONNECT NOTIFICATION!
 
 import UIKit
 import CoreBluetooth
 
-// Notifications sent by BluetoothSerial
 let BluetoothSerialWillAutoConnectNotification = "BluetoothSerialWillConnect"
 let BluetoothSerialDidConnectNotification = "BluetoothSerialDidConnect"
 let BluetoothSerialDidFailToConnectNotification = "BluetoothSerialDidFailToConnect"
@@ -42,7 +42,6 @@ let BluetoothSerialDidDiscoverNewPeripheralNotification = "BluetoothSerialDidDis
 let BluetoothSerialDidUpdateStateNotification = "BluetoothDidUpdateState"
 let BluetoothSerialDidStopScanningNotification = "BluetoothDidStopScanning"
 
-
 let SerialOpenedNotification = BluetoothSerialDidConnectNotification
 let SerialClosedNotification = BluetoothSerialDidDisconnectNotification
 
@@ -50,10 +49,12 @@ protocol BluetoothSerialDelegate {
     func serialPortReceivedData(data: NSData)
 }
 
-
 final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     // MARK: - Variables
+    
+    /// The object that will be notified of new data arriving
+    var delegate: BluetoothSerialDelegate?
     
     /// The CBCentralManager this bluetooth serial handler uses for communication
     var centralManager: CBCentralManager!
@@ -65,47 +66,39 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     var connectedPeripheral: CBPeripheral?
     
     /// The characteristic we need to write to
-    weak var writeCharacteristic: CBCharacteristic?
+    private weak var writeCharacteristic: CBCharacteristic?
     
     /// The peripherals that have been discovered (no duplicates and sorted by asc RSSI)
     var discoveredPeripherals: [(peripheral: CBPeripheral!, RSSI: Float)] = []
     
     /// The state of the bluetooth manager (use this to determine whether it is on or off or disabled etc)
     var state: CBCentralManagerState {
-        get { return centralManager.state }
+        return centralManager.state
     }
     
     /// Whether we're scanning for devices right now
     var isScanning: Bool {
-        get { return centralManager.isScanning }
+        return centralManager.isScanning
     }
     
     /// Whether we're currently trying to connect to/verify a peripheral
     var isConnecting: Bool {
-        get { return pendingPeripheral != nil }
+        return pendingPeripheral != nil
     }
     
     /// Whether the serial port is open and ready to send or receive data
     var isConnected: Bool {
-        get { return connectedPeripheral != nil }
-    }
-    
-    /// Whether we can currently write
-    var isReadyToWrite: Bool {
-        get { return isConnected && writeCharacteristic != nil }
+        return connectedPeripheral != nil
     }
     
     /// WriteType we use to write data to the peripheral
     var writeType = CBCharacteristicWriteType.WithResponse
     
-    /// Function called the next time some data is received (to be used for testing purposes)
-    var callbackOnReceive: (Void -> Void)?
+    /// Function called the next time some data is received (to be used for testing the connection)
+    private var callbackOnReceive: (NSData -> Void)?
     
     /// Function called when RSSI is read
-    var rssiCallback: (NSNumber -> Void)?
-    
-    /// The object that will be notified of new data arriving
-    var delegate: BluetoothSerialDelegate?
+    private var rssiCallback: (NSNumber -> Void)?
     
     
     // MARK: - Functions
@@ -124,7 +117,8 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         discoveredPeripherals = []
         
         // search for devices with correct service UUID, and allow duplicates for RSSI update (but only if it is needed for auto connecting new peripherals)
-        centralManager.scanForPeripheralsWithServices([CBUUID(string: "FFE0")], options: [CBCentralManagerScanOptionAllowDuplicatesKey: userDefaults.boolForKey(DefaultsAutoConnectNewKey)])
+        centralManager.scanForPeripheralsWithServices( [CBUUID(string: "FFE0")],
+                                              options: [CBCentralManagerScanOptionAllowDuplicatesKey: userDefaults.boolForKey(DefaultsAutoConnectNewKey)])
         
         // maybe the peripheral is still connected
         for peripheral in centralManager.retrieveConnectedPeripheralsWithServices([CBUUID(string: "FFE0")]) {
@@ -171,7 +165,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     /// Send an array of raw bytes to the HM10
     func sendBytesToDevice(bytes: [UInt8]) {
-        guard isReadyToWrite else { return }
+        guard isConnected else { return }
                 
         let data = NSData(bytes: bytes, length: bytes.count)
         connectedPeripheral!.writeValue(data, forCharacteristic: writeCharacteristic!, type: writeType)
@@ -179,7 +173,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     /// Send a string to the HM10 (only supports 8-bit UTF8 encoding)
     func sendStringToDevice(string: String) {
-        guard isReadyToWrite else { return }
+        guard isConnected else { return }
         
         if let data = string.dataUsingEncoding(NSUTF8StringEncoding) {
             connectedPeripheral!.writeValue(data, forCharacteristic: writeCharacteristic!, type: writeType)
@@ -188,7 +182,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     /// Send a NSData object to the HM10
     func sendDataToDevice(data: NSData) {
-        guard isReadyToWrite else { return }
+        guard isConnected else { return }
         
         connectedPeripheral!.writeValue(data, forCharacteristic: writeCharacteristic!, type: writeType)
     }
@@ -200,16 +194,12 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         connectedPeripheral!.readRSSI()
     }
     
-    func evaluatePeripheral(peripheral: CBPeripheral, RSSI: NSNumber?) {
-        log("RSSI: \(RSSI?.integerValue) Name: \(peripheral.name ?? "noidea")")
-        
-        // this order of functions might seem a little confusing at first..
-        // but this is done for a reason
-        
-        // check if we already know this device
+    private func evaluatePeripheral(peripheral: CBPeripheral, RSSI: NSNumber?) {
         var isKnown = false,
             autoConnect = false
-        if BluetoothDevice.devices.filter({ $0.UUID.isEqual(peripheral.identifier) }).count > 0 {
+        
+        // check if we already have met this device before
+        if BluetoothDevice.deviceWithUUID(peripheral.identifier) != nil {
             isKnown = true
         }
         
@@ -265,8 +255,9 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         pendingPeripheral = nil
         connectedPeripheral = nil
         writeCharacteristic = nil
-        msp.reset()
+        msp.didDisconnect() // reset & clear callbacks
         
+        MessageView.show("Disconnected")
         notificationCenter.postNotificationName(BluetoothSerialDidDisconnectNotification, object: nil)
     }
     
@@ -277,22 +268,25 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         if state != .PoweredOn {
-            if isConnected { //TODO: Further test this
+            if isConnected {
+                MessageView.show("Disconnected")
                 notificationCenter.postNotificationName(BluetoothSerialDidDisconnectNotification, object: nil)
             } else if isConnecting {
                 notificationCenter.postNotificationName(BluetoothSerialDidFailToConnectNotification, object: nil)
             }
+            
             pendingPeripheral = nil
             connectedPeripheral = nil
             writeCharacteristic = nil
             discoveredPeripherals = []
+            msp.didDisconnect()
         }
         
         notificationCenter.postNotificationName(BluetoothSerialDidUpdateStateNotification, object: nil)
     }
 
 
-// MARK: - CBPeripheralDelegate functions
+    // MARK: - CBPeripheralDelegate functions
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         // discover FFE1 characteristics for all services
@@ -335,14 +329,11 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     
                     // we already got MSP_API_VERSION, so let's check the min and max versions
                     if dataStorage.apiVersion >= apiMaxVersion || dataStorage.apiVersion < apiMinVersion {
-                        log(.Warn, "API version not compatible. API: \(dataStorage.apiVersion) MSP: \(dataStorage.mspVersion)")
+                        log(.Warn, "FC API version not compatible. API: \(dataStorage.apiVersion) MSP: \(dataStorage.mspVersion)")
                         
                         let alert = UIAlertController(title: "Firmware not compatible", message: "The API version is either too old or too new.", preferredStyle: .Alert)
                         alert.addAction(UIAlertAction(title: "Dismiss", style: .Default) { _ in cancel() })
-                        
-                        var rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController
-                        while let newRoot = rootViewController?.presentedViewController { rootViewController = newRoot }
-                        rootViewController?.presentViewController(alert, animated: true, completion: nil)
+                        presentViewController(alert)
                         
                         return
                     }
@@ -358,16 +349,19 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     
                     // send first MSP commands for the board info stuff
                     msp.sendMSP([MSP_FC_VARIANT, MSP_FC_VERSION, MSP_BOARD_INFO, MSP_BUILD_INFO]) {
-                        log("Connected and ready to rock and roll")
+                        log("Connected")
+                        log("Eaze v\(appVersion.stringValue)")
+                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
+                        log("Platform ID \(UIDevice.platform)")
                         log("API v\(dataStorage.apiVersion.stringValue)")
                         log("MSP v\(dataStorage.mspVersion)")
                         log("FC ID \(dataStorage.flightControllerIdentifier)")
-                        log("FC v\(dataStorage.flightControllerVersion)")
+                        log("FC v\(dataStorage.flightControllerVersion.stringValue)")
                         log("Board ID \(dataStorage.boardIdentifier)")
                         log("Board v\(dataStorage.boardVersion)")
                         log("Build \(dataStorage.buildInfo)")
                         
-                        // these only have to be sent once
+                        // these only have to be sent once (boxnames is for the mode titles)
                         msp.sendMSP([MSP_BOXNAMES, MSP_STATUS])
                         
                         // the user will be happy to know
@@ -380,16 +374,22 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 
                 func fail() {
                     guard !verified else { return }
-                    
+                    callbackOnReceive = nil // prevent exitCLI from being called next time we connect
                     log("Module not responding")
                     
                     let alert = UIAlertController(title: "Module not responding", message: "Connect anyway?", preferredStyle: .Alert)
-                    alert.addAction(UIAlertAction(title: "Connect", style: .Cancel) { _ in ready() })
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .Default) { _ in cancel() })
-                    
-                    var rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController
-                    while let newRoot = rootViewController?.presentedViewController { rootViewController = newRoot }
-                    rootViewController?.presentViewController(alert, animated: true, completion: nil)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel) { _ in cancel() })
+                    alert.addAction(UIAlertAction(title: "Connect", style: .Default) { _ in
+                        log("Connecting anyway..")
+                        log("Eaze v\(appVersion.stringValue)")
+                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
+                        log("Platform ID \(UIDevice.platform)")
+                        
+                        MessageView.show("Connected")
+                        notificationCenter.postNotificationName(BluetoothSerialDidConnectNotification, object: nil)
+                    })
+
+                    presentViewController(alert)
                 }
                 
                 func cancel() {
@@ -397,51 +397,86 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     notificationCenter.postNotificationName(BluetoothSerialDidFailToConnectNotification, object: nil)
                 }
                 
-                func exitCLI() {
-                    sendStringToDevice("exit\r")
-                    msp.sendMSP(MSP_API_VERSION, callback: ready)
+                func exitCLI(data: NSData) {
+                    // if the RX pin on the HM10 is not connected to anything, it sends 0x00 bytes randomly
+                    // (triggered by static probably). We only want to exit the cli if we get a valid string
+                    // back (something like "# Unknown command, try 'help'"). Hence the following statement.
+                    guard data.getBytes() != [UInt8(0)] else { return }
+                    
+                    verified = true // prevent 'fail' from being called
+                    log("CLI appears to be active")
+                    
+                    let alert = UIAlertController(title: "CLI is active", message: "Exit CLI mode? This will reboot the flightcontroller and discard unsaved changes", preferredStyle: .Alert)
+                    alert.addAction(UIAlertAction(title: "Cancel connecting", style: .Cancel) { _ in
+                        cancel()
+                    })
+                    
+                    alert.addAction(UIAlertAction(title: "Don't exit CLI", style: .Default) { _ in
+                        log("Connecting anyway..")
+                        log("Eaze v\(appVersion.stringValue)")
+                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
+                        log("Platform ID \(UIDevice.platform)")
+                        
+                        cliActive = true
+                        MessageView.show("Connected")
+                        notificationCenter.postNotificationName(BluetoothSerialDidConnectNotification, object: nil)
+                    })
+                    
+                    alert.addAction(UIAlertAction(title: "Exit CLI", style: .Destructive) { _ in
+                        log("Exiting CLI")
+                        self.sendStringToDevice("exit\r")
+                        MessageView.showProgressHUD("Waiting for FC to exit CLI mode")
+                        delay(5.0) { // wait for device to reboot
+                            msp.reset() // clear all the cli stuff it received
+                            msp.sendMSP(MSP_API_VERSION, callback: ready) // proceed as if nothing happened
+                            MessageView.hideProgressHUD()
+                        }
+                    })
+                    
+                    presentViewController(alert)
                 }
                 
                 func firstTry() {
                     writeType = .WithoutResponse
                     msp.sendMSP(MSP_API_VERSION, callback: ready)
-                    delay(1.0, closure: secondTry)
+                    delay(1.0, callback: secondTry)
                 }
                 
                 func secondTry() {
                     guard !verified else { return }
                     writeType = .WithResponse
                     msp.sendMSP(MSP_API_VERSION) // callback is still in place
-                    delay(1.0, closure: thirdTry)
+                    delay(1.0, callback: thirdTry)
                 }
                 
                 func thirdTry() {
                     guard !verified else { return }
-                    msp.callbacks = [] // clear previous callback
+                    msp.callbacks = [] // clear callback so it doesn't get called later
                     writeType = .WithoutResponse
                     callbackOnReceive = exitCLI
                     sendStringToDevice("asdf\r")
-                    delay(1.0, closure: fourthTry)
+                    delay(1.0, callback: fourthTry)
                 }
                 
                 func fourthTry() {
                     guard !verified else { return }
                     writeType = .WithResponse
                     sendStringToDevice("asdf\r")
-                    delay(1.0, closure: fail)
+                    delay(1.0, callback: fail)
                 }
                 
                 func smartFirstTry() {
                     writeType = BluetoothDevice.deviceWithUUID(peripheral.identifier)!.writeWithResponse ? .WithResponse : .WithoutResponse
                     msp.sendMSP(MSP_API_VERSION, callback: ready)
-                    delay(1.0, closure: smartSecondTry)
+                    delay(1.0, callback: smartSecondTry)
                 }
                 
                 func smartSecondTry() {
                     guard !verified else { return }
+                    msp.callbacks = [] // clear callback so it doesn't get called later
                     callbackOnReceive = exitCLI
                     sendStringToDevice("asdf\r")
-                    delay(1.0, closure: fail)
+                    delay(1.0, callback: fail)
                 }
                 
                 if BluetoothDevice.deviceWithUUID(peripheral.identifier) != nil {
@@ -454,9 +489,8 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        
         if callbackOnReceive != nil {
-            callbackOnReceive?()
+            callbackOnReceive?(characteristic.value!)
             callbackOnReceive = nil
         }
         
@@ -465,5 +499,13 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     func peripheral(peripheral: CBPeripheral, didReadRSSI RSSI: NSNumber, error: NSError?) {
         rssiCallback?(RSSI)
+    }
+    
+    
+    // MARK: - Misc helper functions
+    private func presentViewController(viewController: UIViewController) {
+        var rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController
+        while let newRoot = rootViewController?.presentedViewController { rootViewController = newRoot }
+        rootViewController?.presentViewController(viewController, animated: true, completion: nil)
     }
 }

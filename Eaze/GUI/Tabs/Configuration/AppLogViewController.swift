@@ -21,27 +21,17 @@ class AppLogViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        view.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        textView.backgroundColor = UIColor.groupTableViewBackgroundColor()
         
-        // color
-        view.backgroundColor = globals.colorTableBackground
-        textView.backgroundColor = globals.colorTableBackground
-        
-        // set text
         textView.text = console.loadLog()
-        
-        // scroll to bottom
-        /*if !textView.text.isEmpty {
-            let offset = CGPoint(x: 0, y: textView.contentSize.height - textView.bounds.height)
-            textView.setContentOffset(offset, animated: false)
-            //textView.scrollRangeToVisible(NSMakeRange(textView.text.characters.count-1, 1))
-        }*/
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        
         if !textView.text.isEmpty {
-            //let offset = CGPoint(x: 0, y: textView.contentSize.height - textView.bounds.height)
-            //textView.setContentOffset(offset, animated: false)
             textView.scrollRangeToVisible(NSMakeRange(textView.text.characters.count-1, 1))
         }
     }
@@ -50,11 +40,9 @@ class AppLogViewController: UIViewController {
     // MARK: - IBActions
 
     @IBAction func action(sender: UIBarButtonItem) {
-        console.halveLog()
-        /*
         // display action screens
         let activityViewController = UIActivityViewController(activityItems: [console.fileURL], applicationActivities: nil)
         activityViewController.popoverPresentationController?.barButtonItem = sender
-        presentViewController(activityViewController, animated: true, completion: nil)*/
+        presentViewController(activityViewController, animated: true, completion: nil)
     }
 }

@@ -25,10 +25,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // inform the serial that we're responsible for the CLI & subscribe to necessary notifications
         notificationCenter.addObserver(self, selector: #selector(CLIViewController.serialClosed), name: SerialClosedNotification, object: nil)
-
-        // we want to be notified when the keyboard is shown (so we can move the textField up)
         notificationCenter.addObserver(self, selector: #selector(CLIViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(CLIViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
 
@@ -44,32 +41,33 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         bottomView.layer.shadowOpacity = 0.5
         bottomView.layer.shadowColor = UIColor.grayColor().CGColor
         
-        // remove any dummy text
+        // remove any dummy text from IB
         mainTextView.text = ""
         
         if UIDevice.isPhone {
-            inputField.placeholder = "Type your commands here"
+            inputField.placeholder = "Type your commands here" // shorter placeholder than on iPad
+        }
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        log("Entering CLI mode")
+        bluetoothSerial.delegate = self
+
+        if bluetoothSerial.isConnected && !cliActive {
+            cliActive = true
+            bluetoothSerial.sendStringToDevice("#") // send a '#' to enter cli mode
         }
     }
     
     deinit {
         if cliActive {
+            log("Exiting CLI mode")
             bluetoothSerial.sendStringToDevice("exit\r")
+            cliActive = false
+            bluetoothSerial.delegate = msp
         }
         notificationCenter.removeObserver(self)
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        if bluetoothSerial.isConnected && !cliActive {
-            cliActive = true
-            bluetoothSerial.delegate = self
-            bluetoothSerial.sendStringToDevice("#") // send a '#' to enter cli mode
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        cliActive = false
-        bluetoothSerial.delegate = msp
     }
     
     override func prefersStatusBarHidden() -> Bool {
@@ -92,6 +90,8 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     }
     
     func serialClosed() {
+        cliActive = false
+        bluetoothSerial.delegate = msp
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -104,7 +104,6 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         let value = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
         let keyboardFrame = value.CGRectValue()
         
-        //TODO: Not animating properly
         self.view.layoutIfNeeded()
         UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
             self.bottomConstraint.constant = keyboardFrame.size.height
@@ -120,7 +119,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
             self.bottomConstraint.constant = 0
             self.view.layoutIfNeeded()
-            }, completion: nil)
+          }, completion: nil)
     }
     
     func dismissKeyboard() {
@@ -144,28 +143,31 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     // MARK: - IBActions
     
     @IBAction func displayActions(sender: UIButton) {
-
         // display an actionsheet with the options 'exit' and 'help'
         let helpAction = UIAlertAction(title: "Help!", style: .Default, handler: { _ in
-            // open help page in safari
-            //UIApplication.sharedApplication().openURL(NSURL(string: "https://github.com/cleanflight/cleanflight/blob/master/docs/Cli.md")!)
             let browser = SwiftModalWebVC(urlString: "https://github.com/cleanflight/cleanflight/blob/master/docs/Cli.md")
             self.presentViewController(browser, animated: true, completion: nil)
         })
+        
         let exitAction = UIAlertAction(title: "Exit CLI", style: .Destructive, handler: { _ in
             // send 'exit\r' wait 5 seconds for the flight controller to reboot
+            log("Exiting CLI mode")
             bluetoothSerial.sendStringToDevice("exit\r")
             MessageView.showProgressHUD("Waiting for FC to exit CLI mode")
             delay(5) {
+                cliActive = false
+                bluetoothSerial.delegate = msp
                 self.dismissViewControllerAnimated(true, completion: {
                     MessageView.hideProgressHUD()
                 })
             }
 
         })
+        
         let actionSheet = UIAlertController(title: nil, message: "Choosing 'Exit' will cause the flightcontroller to reboot. Unsaved changes will be lost", preferredStyle: .ActionSheet)
         actionSheet.addAction(exitAction)
         actionSheet.addAction(helpAction)
+        
         if UIDevice.isPad {
             actionSheet.modalPresentationStyle = .Popover
             actionSheet.popoverPresentationController?.sourceView = sender

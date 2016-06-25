@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class GlassIndicator: UIView {
+final class GlassIndicator: UIView {
     
     // MARK: - Variables
     
@@ -63,7 +63,7 @@ class GlassIndicator: UIView {
         movingView = UIView(frame: bounds)
         addSubview(movingView)
         
-        let offset: CGFloat = UIDevice.isPhone ? 21 : 18
+        let offset: CGFloat = UIDevice.isPhone ? 20 : 21
         
         label = UILabel(frame: CGRect(x: 0, y: bounds.midY-offset, width: bounds.width, height: 32))
         label.font = UIFont.systemFontOfSize(UIDevice.isPhone ? 25 : 29)
@@ -72,7 +72,7 @@ class GlassIndicator: UIView {
         label.textColor = UIColor.whiteColor()
         addSubview(label)
         
-        let offset2: CGFloat = UIDevice.isPhone ? 0 : 4
+        let offset2: CGFloat = UIDevice.isPhone ? -3 : 2
         
         detailLabel = UILabel(frame: CGRect(x: 0, y: label.frame.maxY+offset2, width: bounds.width, height: 14))
         detailLabel.font = UIFont.systemFontOfSize(UIDevice.isPhone ? 12 : 14)

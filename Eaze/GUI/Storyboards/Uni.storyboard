@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -11,7 +12,7 @@
         <!--Tuning Snapshots-->
         <scene sceneID="6nY-IK-sQK">
             <objects>
-                <tableViewController id="Gkv-Z7-Xiw" customClass="TuningSnapshotTableViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="Gkv-Z7-Xiw" customClass="TuningSnapshotTableViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="9mk-xi-rZA">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -77,7 +78,7 @@
         <!--Details-->
         <scene sceneID="cYh-vd-cmP">
             <objects>
-                <tableViewController id="l1t-9t-GJe" customClass="TuningSnapshotDetailTableViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="l1t-9t-GJe" customClass="TuningSnapshotDetailTableViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="Xp3-uy-Oss">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -113,7 +114,7 @@
         <!--Tab View Controller-->
         <scene sceneID="Ve4-3F-49S">
             <objects>
-                <viewController storyboardIdentifier="CLITabViewController" id="ttu-yY-HGA" customClass="CLITabViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CLITabViewController" id="ttu-yY-HGA" customClass="CLITabViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jFn-c2-xMT"/>
                         <viewControllerLayoutGuide type="bottom" id="jhV-fh-Nib"/>
@@ -152,7 +153,7 @@
                                     <action selector="enterCLI:" destination="ttu-yY-HGA" eventType="touchUpInside" id="9jM-x2-cQJ"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="console_filled 100.png" translatesAutoresizingMaskIntoConstraints="NO" id="2oh-Gi-LEv">
+                            <imageView userInteractionEnabled="NO" alpha="0.050000000000000003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CLI big" translatesAutoresizingMaskIntoConstraints="NO" id="2oh-Gi-LEv">
                                 <rect key="frame" x="251" y="133" width="99" height="99"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2oh-Gi-LEv" secondAttribute="height" multiplier="1:1" id="IPo-eX-n3p"/>
@@ -160,9 +161,6 @@
                                         <variation key="widthClass=compact" constant="80"/>
                                     </constraint>
                                 </constraints>
-                            </imageView>
-                            <imageView userInteractionEnabled="NO" alpha="0.14999999999999999" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="console_filled 100.png" translatesAutoresizingMaskIntoConstraints="NO" id="WOX-Ne-cuU">
-                                <rect key="frame" x="263" y="99" width="75" height="75"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -184,9 +182,6 @@
                             <constraint firstItem="Ewn-CR-H0d" firstAttribute="centerX" secondItem="1pj-cv-Zit" secondAttribute="centerX" id="qo7-kU-TjV"/>
                         </constraints>
                         <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="WOX-Ne-cuU"/>
-                            </mask>
                             <mask key="constraints">
                                 <exclude reference="Xh6-En-Ks6"/>
                             </mask>
@@ -211,7 +206,7 @@
         <!--View Controller-->
         <scene sceneID="12m-bV-CU7">
             <objects>
-                <viewController storyboardIdentifier="CLIViewController" modalTransitionStyle="flipHorizontal" id="vFZ-N3-1HC" customClass="CLIViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CLIViewController" modalTransitionStyle="flipHorizontal" id="vFZ-N3-1HC" customClass="CLIViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="QvR-EZ-3wj"/>
                         <viewControllerLayoutGuide type="bottom" id="Z7d-TL-kx8"/>
@@ -220,7 +215,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="86a-Rj-Cu7">
+                            <imageView userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="CFLogo" translatesAutoresizingMaskIntoConstraints="NO" id="86a-Rj-Cu7">
                                 <rect key="frame" x="90" y="354" width="420" height="140"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="86a-Rj-Cu7" secondAttribute="height" multiplier="3/1" id="aPv-B0-HMX"/>
@@ -341,7 +336,7 @@
         <!--Connect View Controller-->
         <scene sceneID="Afh-Bz-ewS">
             <objects>
-                <viewController storyboardIdentifier="ConnectViewController" modalPresentationStyle="formSheet" id="Cx3-Gg-8nq" customClass="ConnectViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConnectViewController" modalPresentationStyle="formSheet" id="Cx3-Gg-8nq" customClass="ConnectViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ACD-MY-Tkp"/>
                         <viewControllerLayoutGuide type="bottom" id="pqI-IT-E9L"/>
@@ -443,8 +438,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Logo" width="1024" height="291"/>
-        <image name="More" width="32" height="32"/>
-        <image name="console_filled 100.png" width="100" height="100"/>
+        <image name="CFLogo" width="1024" height="291"/>
+        <image name="CLI big" width="100" height="100"/>
+        <image name="More" width="25" height="25"/>
     </resources>
 </document>

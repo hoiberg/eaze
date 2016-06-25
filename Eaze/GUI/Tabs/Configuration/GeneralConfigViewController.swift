@@ -6,8 +6,6 @@
 //  Copyright © 2015 Hangar42. All rights reserved.
 //
 
-// TODO: MSP_v1_8_0 ??
-
 import UIKit
 
 class GeneralConfigViewController: GroupedTableViewController, SelectionTableViewControllerDelegate, MSPUpdateSubscriber, StaticAdjustableTextFieldDelegate {
@@ -30,9 +28,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS] // msp codes send for this view
-    //private let mspCodesSub = [MSP_API_VERSION] // msp codes only subscribed to NIET!!!!!!!!!!!!!!!!!!!!!!
-    //private let mspCodes_v1_8 = [MSP_LOOP_TIME]
+    private let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS]
     private var selectedMixerConfiguration = 0
     
     
@@ -42,23 +38,14 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
-        //msp.addSubscriber(self, forCodes: mspCodes_v1_8)
         if bluetoothSerial.isConnected {
-            sendDataRequest()
-            saveButton.enabled = true
-            calibrateAccLabel.enabled = true
-            calibrateMagLabel.enabled = false
-            resetLabel.enabled = true
+            serialOpened()
         } else {
-            saveButton.enabled = false
-            calibrateAccLabel.enabled = false
-            calibrateMagLabel.enabled = false
-            resetLabel.enabled = false
+            serialClosed()
         }
         
         notificationCenter.addObserver(self, selector: #selector(GeneralConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(GeneralConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
-
         
         for field in [rollAdjustment, pitchAdjustment, yawAdjustment] {
             field.maxValue = 360
@@ -80,7 +67,6 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         loopTime.decimal = 0
         loopTime.increment = 100
         loopTime.delegate = self
-
     }
     
     deinit {
@@ -92,9 +78,6 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     func sendDataRequest() {
         msp.sendMSP(mspCodes)
-        /*if dataStorage.apiVersion >= "1.8.0" {
-            msp.sendMSP(mspCodes_v1_8)
-        }*/
     }
     
     func mspUpdated(code: Int) {
@@ -119,7 +102,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             }
             
         default:
-            print("Received MSP update not subscribed to")
+            log(.Warn, "GeneralConfigViewController received MSP code not subscribed to: \(code)")
         }
     }
     
@@ -160,20 +143,25 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 // calibrate acc
-                let alert = UIAlertController(title: "Accelerometer Calibration", message: "Place board or frame on leveled surface, then tap 'Proceed'. Ensure platform is not moving during calibration", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Accelerometer Calibration",
+                                            message: "Place board or frame on leveled surface, then tap 'Proceed'. Ensure platform is not moving during calibration",
+                                     preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Proceed", style: .Default) { _ in
                     log("Initiating ACC calibration")
                     MessageView.showProgressHUD()
                     var success = false
+                    
                     delay(4) {
                         guard !success else { return }
                         log("ACC calibration timeout")
                         MessageView.hideProgressHUD()
                     }
+                    
                     msp.sendMSP(MSP_ACC_CALIBRATION) {
                         success = true
                         delay(3) {
@@ -181,21 +169,28 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                             MessageView.show("Calibration Successful!")
                         }
                     }})
+                
                 presentViewController(alert, animated: true, completion: nil)
+                
             } else if indexPath.row == 1 {
                 // calibrate mag
                 guard dataStorage.activeSensors.bitCheck(2) else { return }
-                let alert = UIAlertController(title: "Compass Calibration", message: "Move multirotor at least 360º on all axis of rotation, within 30 seconds", preferredStyle: .Alert)
+                
+                let alert = UIAlertController(title: "Compass Calibration",
+                                            message: "Move multirotor at least 360º on all axis of rotation, within 30 seconds",
+                                     preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Proceed", style: .Default) { _ in
                     log("Initiating MAG calibration")
                     MessageView.showProgressHUD()
                     var success = false
+                    
                     delay(4) {
                         guard !success else { return }
                         log("MAG calibration timeout")
                         MessageView.hideProgressHUD()
                     }
+                    
                     msp.sendMSP(MSP_MAG_CALIBRATION) {
                         success = true
                         delay(30) {
@@ -203,10 +198,14 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                             MessageView.show("Calibration Successful!")
                         }
                     }})
+                
                 presentViewController(alert, animated: true, completion: nil)
+                
             } else {
                 // reset
-                let alert = UIAlertController(title: "Restore settings to defaults", message: "All current configuration settings will be lost. Continue?", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Restore settings to defaults",
+                                            message: "All current configuration settings will be lost. Continue?",
+                                     preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
                 alert.addAction(UIAlertAction(title: "Proceed", style: .Destructive) { _ in
                     log("Initiating reset to defaults")
@@ -216,10 +215,12 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                         self.tabBarController!.selectedIndex = 0 // because this is the easiest way to reset all vc's
                         let prevPeripheral = bluetoothSerial.connectedPeripheral!
                         bluetoothSerial.disconnect()
+                        
                         delay(0.5) {
                             bluetoothSerial.connectToPeripheral(prevPeripheral)
                         }
                     }})
+                
                 presentViewController(alert, animated: true, completion: nil)
             }
         } else if indexPath.section == 1 {
@@ -245,21 +246,23 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: IBActions
     
     @IBAction func save(sender: AnyObject) {
+        // MSP_SET_BF_CONFIG
         dataStorage.mixerConfiguration = selectedMixerConfiguration
         dataStorage.boardAlignRoll = rollAdjustment.intValue
         dataStorage.boardAlignPitch = pitchAdjustment.intValue
         dataStorage.boardAlignYaw = yawAdjustment.intValue
-        msp.crunchAndSendMSP(MSP_SET_BF_CONFIG)
         
+        // MSP_SET_ACC_TRIM
         dataStorage.accTrimRoll = rollAccTrim.intValue
         dataStorage.accTrimPitch = pitchAccTrim.intValue
-        msp.crunchAndSendMSP(MSP_SET_ACC_TRIM)
         
+        // MSP_SET_LOOP_TIME
         dataStorage.loopTime = loopTime.intValue
-        msp.crunchAndSendMSP(MSP_SET_LOOP_TIME)
         
-        msp.sendMSP(MSP_EEPROM_WRITE)
-        msp.sendMSP(MSP_SET_REBOOT) // Has to reboot only on this screen & the ports screen
+        msp.crunchAndSendMSP([MSP_SET_BF_CONFIG, MSP_SET_ACC_TRIM, MSP_SET_LOOP_TIME]) {
+            msp.sendMSP([MSP_EEPROM_WRITE, MSP_SET_REBOOT]) {
+                delay(1, callback: self.sendDataRequest) // reload
+            }
+        }
     }
-
 }

@@ -44,7 +44,7 @@ extension String {
 }
 
 
-// MARK: - Array
+// MARK: - Arrays
 
 extension RangeReplaceableCollectionType where Generator.Element: Equatable {
     /// Remove first collection element that is equal to the given `object`:
@@ -83,6 +83,17 @@ extension CollectionType {
     }
 }
 
+extension Array where Element: Equatable {
+    /// Returns a copy of the array with the given element removed
+    func arrayByRemovingObject(object: Element) -> [Element] {
+        var new = self
+        if let index = new.indexOf({ $0 == object }) {
+            new.removeAtIndex(index)
+        }
+        return new
+    }
+}
+
 
 // MARK: - NSDate
 
@@ -97,6 +108,17 @@ public func <(lhs: NSDate, rhs: NSDate) -> Bool {
 extension NSDate: Comparable { }
 
 
+// MARK: - NSData
+
+extension NSData {
+    func getBytes() -> [UInt8] {
+        var bytes = [UInt8](count: length / sizeof(UInt8), repeatedValue: 0)
+        getBytes(&bytes, length: length)
+        return bytes
+    }
+}
+
+
 // MARK: - UIDevice
 
 extension UIDevice {
@@ -107,6 +129,12 @@ extension UIDevice {
     class var isPhone: Bool {
         return currentDevice().userInterfaceIdiom == .Phone
     }
+    
+    class var platform: String {
+        var sysinfo = utsname()
+        uname(&sysinfo) // ignore return value
+        return NSString(bytes: &sysinfo.machine, length: Int(_SYS_NAMELEN), encoding: NSASCIIStringEncoding)! as String
+    }
 }
 
 
@@ -115,9 +143,7 @@ extension UIDevice {
 extension UIViewController {
     /// Returns whether this view controller is currently being shown to the user
     var isBeingShown: Bool {
-        get {
-            return isViewLoaded() && view.window != nil
-        }
+        return isViewLoaded() && view.window != nil
     }
 }
 
@@ -181,5 +207,47 @@ extension UIColor {
     /// Takes hex values with alpha like 0x42BC8AFF and converts them to an UIColor object
     convenience init(hexWithAlpha hex: Int) {
         self.init(withRange255Red:(hex >> 24) & 0xFF, green:(hex >> 16) & 0xFF, blue:(hex >> 8) & 0xFF, alpha:hex & 0xFF)
+    }
+}
+
+
+// MARK: - Ints
+// Often, doubles will be 1.999999997 instead of 2 - which will result in an
+// Int being 1 instead of 2 (as it always rounds down). This caused bugs with
+// the tuning fields. So to fix the problem, here are some overrides.
+
+extension UInt8 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
+    }
+}
+
+extension Int8 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
+    }
+}
+
+extension UInt16 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
+    }
+}
+
+extension Int16 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
+    }
+}
+
+extension UInt32 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
+    }
+}
+
+extension Int32 {
+    init(_ other: Double) {
+        self.init(Int(round(other)))
     }
 }

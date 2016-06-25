@@ -5,6 +5,10 @@
 //  Created by Alex on 04-04-16.
 //  Copyright © 2016 Hangar42. All rights reserved.
 //
+//  Idea for future update: "More Info" button on bottom. On tap: blurview moves up (à la yahoo weather) with
+//  FC version info, and other stats. This would replace the info box. The more info button would have a light
+//  40% alpha background.
+//
 
 import UIKit
 
@@ -22,7 +26,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     @IBOutlet weak var amperageIndicator: GlassIndicator!
     @IBOutlet weak var RSSIIndicator: GlassIndicator!
     @IBOutlet weak var BluetoothRSSIIndicator: GlassIndicator!
-    @IBOutlet weak var bottomMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomMarginConstraint: NSLayoutConstraint?
     
     
     // MARK: - Variables
@@ -42,24 +46,17 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        msp.addSubscriber(self, forCodes: mspCodes)
-        msp.addSubscriber(self, forCodes: fastMSPCodes)
-        msp.addSubscriber(self, forCodes: slowMSPCodes)
+        msp.addSubscriber(self, forCodes: mspCodes + fastMSPCodes + slowMSPCodes)
         
         referenceModeLabel.hidden = true
         
         connectButton.backgroundColor = UIColor.clearColor()
-        connectButton.setBackgroundColor(UIColor.blackColor().colorWithAlphaComponent(0.2), forState: .Normal)
-        connectButton.setBackgroundColor(UIColor.whiteColor().colorWithAlphaComponent(0.08), forState: .Highlighted)
+        connectButton.setBackgroundColor(UIColor.blackColor().colorWithAlphaComponent(0.18), forState: .Normal)
+        connectButton.setBackgroundColor(UIColor.blackColor().colorWithAlphaComponent(0.08), forState: .Highlighted)
         
-        if UIScreen.mainScreen().bounds.size.height < 568 {
+        if UIDevice.isPhone && UIScreen.mainScreen().bounds.size.height < 568 {
             // 3.5" - use this constraint to place the bottom indicators a little lower
-            bottomMarginConstraint.constant = 6
-        }
-        
-        if UIScreen.mainScreen().bounds.size.height > 568 {
-            // 4.7" and above - use this constraint to place graphs a bit farther apart
-            bottomMarginConstraint.constant = 6
+            bottomMarginConstraint?.constant = 6
         }
 
         
@@ -102,7 +99,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                               selector: #selector(HomeViewController.didBecomeActive),
                                   name: AppDidBecomeActiveNotification,
                                 object: nil)
-
     }
     
     deinit {
@@ -116,14 +112,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         } else {
             stop()
         }
-        
-        // normally we'd call setup in the init of EFIS, but if we don't do this here,
-        // the efis will get the wrong size on different screen sizes (since it does
-        // not have any constraints that will resize all the subviews etc...)
-        //efis.setup()
-
-        print(view.bounds)
-        print(efis.bounds)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -156,6 +144,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .LightContent
     }
+
     
     private func reloadModeLabels() {
         var x = referenceModeLabel.frame.maxX
@@ -172,21 +161,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         }
     }
     
- /*   private func reloadStaticInfo() {
-        //TODO: Not nice to do this both in mspupdated and here.. send the MSP commands anyway?? Or remove this??
-        // infobox
-        infoBox.firstUpperText = dataStorage.boardName
-        infoBox.secondUpperText = dataStorage.boardVersion > 0 ? "version \(dataStorage.boardVersion)" : ""
-        infoBox.firstLowerText = dataStorage.flightControllerName + " " + dataStorage.flightControllerVersion.stringValue
-        infoBox.secondLowerText = dataStorage.buildInfo
-        infoBox.reloadText()
-        
-        // active sensors
-        for label in sensorLabels {
-            label.background = dataStorage.activeSensors.bitCheck(label.tag)  ? .Dark : .Red
-        }
-    }*/
-    
     
     // MARK: - Data request / update
     
@@ -195,26 +169,23 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
         activityIndicator.stopAnimating()
         
-        //TODO: Test whether this can be removed
-        //reloadStaticInfo()
-        
-        self.slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 1.0,
-                                                               target: self,
-                                                             selector: #selector(HomeViewController.sendSlowDataRequest),
-                                                             userInfo: nil,
-                                                              repeats: true)
+        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 1.0,
+                                                          target: self,
+                                                        selector: #selector(HomeViewController.sendSlowDataRequest),
+                                                        userInfo: nil,
+                                                         repeats: true)
 
-        self.fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.1,
-                                                               target: self,
-                                                             selector: #selector(HomeViewController.sendFastDataRequest),
-                                                             userInfo: nil,
-                                                              repeats: true)
+        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.1,
+                                                          target: self,
+                                                        selector: #selector(HomeViewController.sendFastDataRequest),
+                                                        userInfo: nil,
+                                                         repeats: true)
     }
     
-    //TODO: Test whether this will be called in background
     func stop() {
         connectButton.setTitle("Connect", forState: .Normal)
-        connectButton.setTitleColor(UIColor(hex: 0xFFFFFF /*0x98EE41*/), forState: .Normal)
+        connectButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        activityIndicator.stopAnimating()
         
         efis.roll = 0
         efis.pitch = 0
@@ -237,11 +208,11 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         BluetoothRSSIIndicator.setIndication(1.0)
         
         for label in sensorLabels {
-            label.background = .Red
+            label.background = .Dark
         }
 
-        self.fastUpdateTimer?.invalidate()
-        self.slowUpdateTimer?.invalidate()
+        fastUpdateTimer?.invalidate()
+        slowUpdateTimer?.invalidate()
     }
     
     func sendFastDataRequest() {
@@ -279,12 +250,10 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             infoBox.reloadText()
             
         case MSP_STATUS:
-            // active sensors
             for label in sensorLabels {
                 label.background = dataStorage.activeSensors.bitCheck(label.tag)  ? .Dark : .Red
             }
             
-            // active flight modes
             if dataStorage.activeFlightModes != previousModes {
                 previousModes = dataStorage.activeFlightModes
                 modeLabels.forEach { $0.removeFromSuperview() }
@@ -293,7 +262,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             
         case MSP_ANALOG:
             voltageIndicator.text = "\(dataStorage.voltage.stringWithDecimals(1))V"
-            amperageIndicator.text = "\(dataStorage.amperage)A"
+            amperageIndicator.text = "\(Int(round(dataStorage.amperage)))A"
             RSSIIndicator.text = "\(dataStorage.rssi)%"
             
             // Note: We don't set the voltage indicator, since voltage cannot be used
@@ -302,7 +271,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             RSSIIndicator.setIndication(Double(dataStorage.rssi)/100)
 
         default:
-            print("Invalid MSP code update sent to HomeViewController")
+            log(.Warn, "Invalid MSP code update sent to HomeViewController: \(code)")
         }
     }
     
@@ -338,7 +307,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     }
     
     func serialDidStopScanning() {
-        //guard !bluetoothSerial.isConnecting else { return }
         connectButton.setTitle("Connnect", forState: .Normal)
         activityIndicator.stopAnimating()
     }
@@ -347,7 +315,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     // MARK: - IBActions
     
     @IBAction func connect(sender: AnyObject) {
-        log("CONNECT")
         if bluetoothSerial.isConnected {
             bluetoothSerial.disconnect()
 
@@ -361,9 +328,9 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         
         } else {
             if bluetoothSerial.state != .PoweredOn {
-                let alert = UIAlertController(title: "Bluetooth not on",
-                                              message: "Please turn Bluetooth on before trying to connect",
-                                              preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Bluetooth is turned off",
+                                            message: nil,
+                                     preferredStyle: .Alert)
                 alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
                 presentViewController(alert, animated: true, completion: nil)
                 return

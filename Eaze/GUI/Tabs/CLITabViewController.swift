@@ -9,10 +9,15 @@
 
 import UIKit
 
-class CLITabViewController: UIViewController {
+final class CLITabViewController: UIViewController {
+    
+    // MARK: - IBOutlets
 
-    @IBOutlet weak var enterCLIButton: CleanButton!
+    @IBOutlet weak var enterCLIButton: UIButton!
     @IBOutlet weak var bigLabel: UILabel!
+    
+    
+    // MARK: - Functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +28,6 @@ class CLITabViewController: UIViewController {
         if !bluetoothSerial.isConnected {
             enterCLIButton.enabled = false
         }
-        
         
         if UIDevice.isPhone {
             bigLabel.text = "CLI Mode" // on iPad 'Command Line Interface'
@@ -49,7 +53,6 @@ class CLITabViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func enterCLI(sender: AnyObject) {
-        
         // load CLI async to speed up process
         MessageView.showProgressHUD("Loading CLI")
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {

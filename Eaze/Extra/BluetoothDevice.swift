@@ -9,7 +9,7 @@
 import UIKit
 import CoreBluetooth
 
-class BluetoothDevice: NSObject {
+final class BluetoothDevice: NSObject {
     
     static var devices = BluetoothDevice.loadBluetoothDevices()
     
@@ -51,7 +51,7 @@ class BluetoothDevice: NSObject {
                 return []
             }
         } catch {
-            print("Failed to BluetoothDevices at url: \(filePath), error: \(error)")
+            log(.Error, "Failed to BluetoothDevices at url: \(filePath), error: \(error)")
             return []
         }
     }

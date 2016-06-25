@@ -9,17 +9,12 @@
 
 import UIKit
 
-/// Does nothing. Use as temporary code to keep 'no code' warnings away.
-func foo() {
-    print("Foo function called: this should not happen in release versions!")
-}
-
-/// Delays the execution of the given closure by he given amount of seconds
-func delay(delay:Double, closure:()->()) {
+/// Delays the execution of the given closure by the given amount of seconds
+func delay(delay: Double, callback: ()->()) {
     dispatch_after(
         dispatch_time(
             DISPATCH_TIME_NOW,
             Int64(delay * Double(NSEC_PER_SEC))
         ),
-        dispatch_get_main_queue(), closure)
+        dispatch_get_main_queue(), callback)
 }

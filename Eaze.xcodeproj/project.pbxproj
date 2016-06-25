@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		FA2FD9EE1D1149870003327A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2FD9ED1D1149870003327A /* Assets.xcassets */; };
 		FA2FDA821D114BAB0003327A /* AdjustableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */; };
-		FA2FDA831D114BAB0003327A /* CleanButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA081D114BAB0003327A /* CleanButton.swift */; };
 		FA2FDA841D114BAB0003327A /* DecimalPadPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA091D114BAB0003327A /* DecimalPadPopover.swift */; };
 		FA2FDA851D114BAB0003327A /* DecimalPadPopover.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA0A1D114BAB0003327A /* DecimalPadPopover.xib */; };
 		FA2FDA861D114BAB0003327A /* EFIS.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA0B1D114BAB0003327A /* EFIS.swift */; };
@@ -95,7 +94,6 @@
 		FA2FD9F21D1149870003327A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FA2FD9F81D114B020003327A /* Eaze-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Eaze-Bridging-Header.h"; sourceTree = "<group>"; };
 		FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjustableTextField.swift; sourceTree = "<group>"; };
-		FA2FDA081D114BAB0003327A /* CleanButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CleanButton.swift; sourceTree = "<group>"; };
 		FA2FDA091D114BAB0003327A /* DecimalPadPopover.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecimalPadPopover.swift; sourceTree = "<group>"; };
 		FA2FDA0A1D114BAB0003327A /* DecimalPadPopover.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DecimalPadPopover.xib; sourceTree = "<group>"; };
 		FA2FDA0B1D114BAB0003327A /* EFIS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EFIS.swift; sourceTree = "<group>"; };
@@ -252,20 +250,19 @@
 		FA2FDA061D114BAB0003327A /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FA2FDA101D114BAB0003327A /* MessageView.swift */,
 				FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */,
-				FA2FDA081D114BAB0003327A /* CleanButton.swift */,
+				FA2FDA131D114BAB0003327A /* StaticAdjustableTextField.swift */,
+				FA2FDA141D114BAB0003327A /* StaticAdjustableTextField.xib */,
 				FA2FDA091D114BAB0003327A /* DecimalPadPopover.swift */,
 				FA2FDA0A1D114BAB0003327A /* DecimalPadPopover.xib */,
+				FA2FDA111D114BAB0003327A /* SelectionPopover.swift */,
+				FA2FDA0F1D114BAB0003327A /* GroupedTableViewController.swift */,
+				FA2FDA121D114BAB0003327A /* SelectionTableViewController.swift */,
 				FA2FDA0B1D114BAB0003327A /* EFIS.swift */,
 				FA2FDA0C1D114BAB0003327A /* GlassBox.swift */,
 				FA2FDA0D1D114BAB0003327A /* GlassIndicator.swift */,
 				FA2FDA0E1D114BAB0003327A /* GlassLabel.swift */,
-				FA2FDA0F1D114BAB0003327A /* GroupedTableViewController.swift */,
-				FA2FDA101D114BAB0003327A /* MessageView.swift */,
-				FA2FDA111D114BAB0003327A /* SelectionPopover.swift */,
-				FA2FDA121D114BAB0003327A /* SelectionTableViewController.swift */,
-				FA2FDA131D114BAB0003327A /* StaticAdjustableTextField.swift */,
-				FA2FDA141D114BAB0003327A /* StaticAdjustableTextField.xib */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -275,9 +272,9 @@
 			children = (
 				FA2FDA161D114BAB0003327A /* iPad.storyboard */,
 				FA2FDA171D114BAB0003327A /* iPhone.storyboard */,
-				FA2FDA181D114BAB0003327A /* LaunchScreen.storyboard */,
 				FA2FDA191D114BAB0003327A /* Preferences.storyboard */,
 				FA2FDA1A1D114BAB0003327A /* Uni.storyboard */,
+				FA2FDA181D114BAB0003327A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
 			sourceTree = "<group>";
@@ -285,14 +282,14 @@
 		FA2FDA1B1D114BAB0003327A /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				FA2FDA1C1D114BAB0003327A /* CLI */,
+				FA2FDA2A1D114BAB0003327A /* HomeViewController.swift */,
+				FA2FDA321D114BAB0003327A /* TuningViewController.swift */,
 				FA2FDA1E1D114BAB0003327A /* CLITabViewController.swift */,
 				FA2FDA1F1D114BAB0003327A /* ConfigTableViewController.swift */,
 				FA2FDA201D114BAB0003327A /* Configuration */,
+				FA2FDA1C1D114BAB0003327A /* CLI */,
 				FA2FDA281D114BAB0003327A /* Connect */,
-				FA2FDA2A1D114BAB0003327A /* HomeViewController.swift */,
-				FA2FDA2B1D114BAB0003327A /* Tuning_Snapshots */,
-				FA2FDA321D114BAB0003327A /* TuningViewController.swift */,
+				FA2FDA2B1D114BAB0003327A /* Tuning Snapshots */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -308,13 +305,13 @@
 		FA2FDA201D114BAB0003327A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				FA2FDA211D114BAB0003327A /* AppConfigViewController.swift */,
-				FA2FDA221D114BAB0003327A /* AppLogViewController.swift */,
 				FA2FDA231D114BAB0003327A /* GeneralConfigViewController.swift */,
 				FA2FDA241D114BAB0003327A /* MotorConfigViewController.swift */,
 				FA2FDA251D114BAB0003327A /* PortsConfigViewController.swift */,
 				FA2FDA261D114BAB0003327A /* ReceiverConfigViewController.swift */,
 				FA2FDA271D114BAB0003327A /* ReceiverInputViewController.swift */,
+				FA2FDA211D114BAB0003327A /* AppConfigViewController.swift */,
+				FA2FDA221D114BAB0003327A /* AppLogViewController.swift */,
 			);
 			path = Configuration;
 			sourceTree = "<group>";
@@ -327,16 +324,17 @@
 			path = Connect;
 			sourceTree = "<group>";
 		};
-		FA2FDA2B1D114BAB0003327A /* Tuning_Snapshots */ = {
+		FA2FDA2B1D114BAB0003327A /* Tuning Snapshots */ = {
 			isa = PBXGroup;
 			children = (
 				FA2FDA2C1D114BAB0003327A /* DateFieldCell.xib */,
 				FA2FDA2D1D114BAB0003327A /* NameFieldCell.xib */,
 				FA2FDA2E1D114BAB0003327A /* SingleFieldCell.xib */,
 				FA2FDA2F1D114BAB0003327A /* TripleFieldCell.xib */,
-				FA2FDA301D114BAB0003327A /* TuningSnapshotDetailTableViewController.swift */,
 				FA2FDA311D114BAB0003327A /* TuningSnapshotTableViewController.swift */,
+				FA2FDA301D114BAB0003327A /* TuningSnapshotDetailTableViewController.swift */,
 			);
+			name = "Tuning Snapshots";
 			path = Tuning_Snapshots;
 			sourceTree = "<group>";
 		};
@@ -465,13 +463,13 @@
 			isa = PBXGroup;
 			children = (
 				FA2FDA721D114BAB0003327A /* AppLog.swift */,
-				FA2FDA731D114BAB0003327A /* BluetoothDevice.swift */,
-				FA2FDA741D114BAB0003327A /* Extensions.swift */,
-				FA2FDA751D114BAB0003327A /* Extra.swift */,
-				FA2FDA761D114BAB0003327A /* Math.swift */,
-				FA2FDA771D114BAB0003327A /* SerialPortConfig.swift */,
-				FA2FDA781D114BAB0003327A /* TuningSnapshot.swift */,
 				FA2FDA791D114BAB0003327A /* Version.swift */,
+				FA2FDA731D114BAB0003327A /* BluetoothDevice.swift */,
+				FA2FDA781D114BAB0003327A /* TuningSnapshot.swift */,
+				FA2FDA771D114BAB0003327A /* SerialPortConfig.swift */,
+				FA2FDA741D114BAB0003327A /* Extensions.swift */,
+				FA2FDA761D114BAB0003327A /* Math.swift */,
+				FA2FDA751D114BAB0003327A /* Extra.swift */,
 			);
 			path = Extra;
 			sourceTree = "<group>";
@@ -488,9 +486,9 @@
 		FA2FDA7D1D114BAB0003327A /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				FA2FDA7E1D114BAB0003327A /* Constants.swift */,
-				FA2FDA7F1D114BAB0003327A /* DataStorage.swift */,
 				FA2FDA801D114BAB0003327A /* Globals.swift */,
+				FA2FDA7F1D114BAB0003327A /* DataStorage.swift */,
+				FA2FDA7E1D114BAB0003327A /* Constants.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -661,7 +659,6 @@
 				FA2FDA991D114BAB0003327A /* AppLogViewController.swift in Sources */,
 				FA2FDA981D114BAB0003327A /* AppConfigViewController.swift in Sources */,
 				FA2FDAB51D114BAB0003327A /* MRWeakProxy.m in Sources */,
-				FA2FDA831D114BAB0003327A /* CleanButton.swift in Sources */,
 				FA2FDAAB1D114BAB0003327A /* UIImage+MRImageEffects.m in Sources */,
 				FA2FDAC51D114BAB0003327A /* Extensions.swift in Sources */,
 			);
@@ -823,6 +820,7 @@
 				FA2FD9F71D1149870003327A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

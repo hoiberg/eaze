@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -10,13 +10,13 @@
         <!--Configuration-->
         <scene sceneID="FMn-78-gdh">
             <objects>
-                <tableViewController id="CHz-xr-gOw" customClass="ConfigTableViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="CHz-xr-gOw" customClass="ConfigTableViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="88f-co-dgO">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
-                            <tableViewSection headerTitle="General" id="fjg-xB-27S">
+                            <tableViewSection headerTitle="Cleanflight" id="fjg-xB-27S">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="E08-lL-ntX" style="IBUITableViewCellStyleDefault" id="xg9-Gn-W1l">
                                         <rect key="frame" x="0.0" y="114" width="600" height="44"/>
@@ -105,7 +105,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Misc" id="6jU-FL-n3B">
+                            <tableViewSection headerTitle="App" id="6jU-FL-n3B">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="czb-cf-94E" style="IBUITableViewCellStyleDefault" id="7hn-jR-Fu3">
                                         <rect key="frame" x="0.0" y="385" width="600" height="44"/>
@@ -166,7 +166,9 @@
                             <outlet property="delegate" destination="CHz-xr-gOw" id="sFz-84-NA1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Configuration" id="ddf-YD-LNa"/>
+                    <navigationItem key="navigationItem" title="Configuration" id="ddf-YD-LNa">
+                        <barButtonItem key="backBarButtonItem" title=" " id="CXJ-sZ-7L3"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gBO-C9-GaG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -175,7 +177,7 @@
         <!--General-->
         <scene sceneID="Sgc-BL-PJF">
             <objects>
-                <tableViewController storyboardIdentifier="General" id="uUC-FV-3VN" customClass="GeneralConfigViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="General" id="uUC-FV-3VN" customClass="GeneralConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="LZz-yZ-WI5">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="850"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -273,7 +275,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ugp-Ik-ZHC" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ugp-Ik-ZHC" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -307,7 +309,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNz-Jw-fXU" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JNz-Jw-fXU" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -341,7 +343,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vsj-yW-boX" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vsj-yW-boX" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -379,7 +381,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uir-2E-DrN" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uir-2E-DrN" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -413,7 +415,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ap3-rv-v0E" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ap3-rv-v0E" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -451,7 +453,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8m-na-Jzh" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8m-na-Jzh" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -579,20 +581,7 @@
                     <view key="view" contentMode="scaleToFill" id="PUX-ZA-53r">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="feG-yq-41Z">
-                                <rect key="frame" x="150" y="251" width="300" height="98"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="feG-yq-41Z" secondAttribute="height" multiplier="225:74" id="8kK-kg-WBc"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="feG-yq-41Z" firstAttribute="width" secondItem="PUX-ZA-53r" secondAttribute="width" multiplier="1/2" id="OfZ-FK-9eH"/>
-                            <constraint firstItem="feG-yq-41Z" firstAttribute="centerX" secondItem="PUX-ZA-53r" secondAttribute="centerX" id="aYv-5f-m1y"/>
-                            <constraint firstItem="feG-yq-41Z" firstAttribute="centerY" secondItem="PUX-ZA-53r" secondAttribute="centerY" id="f8m-ar-9uq"/>
-                        </constraints>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="iDN-FR-cMd"/>
                 </viewController>
@@ -616,7 +605,7 @@
         <!--Receiver-->
         <scene sceneID="it9-NN-aUb">
             <objects>
-                <tableViewController storyboardIdentifier="Receiver" id="FTF-GK-IYY" customClass="ReceiverConfigViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Receiver" id="FTF-GK-IYY" customClass="ReceiverConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="0Vk-ev-Ldg">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -745,7 +734,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnA-rx-Gza" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnA-rx-Gza" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -861,7 +850,7 @@
         <!--ESC/Motors-->
         <scene sceneID="44k-5B-NmQ">
             <objects>
-                <tableViewController storyboardIdentifier="Motors" id="8bq-EO-gy6" customClass="MotorConfigViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Motors" id="8bq-EO-gy6" customClass="MotorConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="8O7-Aq-UhP">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -960,7 +949,7 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtz-aH-qeq" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gtz-aH-qeq" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -998,7 +987,7 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMb-lf-aqD" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMb-lf-aqD" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1032,7 +1021,7 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIt-pO-Qec" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fIt-pO-Qec" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1066,7 +1055,7 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCT-AG-xHo" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCT-AG-xHo" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1100,7 +1089,7 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0R-bk-d6I" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0R-bk-d6I" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                     <rect key="frame" x="432" y="2" width="160" height="39"/>
                                                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
@@ -1162,13 +1151,13 @@ Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' 
         <!--Serial Ports-->
         <scene sceneID="KmE-Ij-9o2">
             <objects>
-                <tableViewController storyboardIdentifier="Serial" id="iNy-Rc-qPO" customClass="PortsConfigViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Serial" id="iNy-Rc-qPO" customClass="PortsConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="use-4x-wv9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MessageCellPad" rowHeight="79" id="uuc-0Y-VeP">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MessageCell" rowHeight="79" id="uuc-0Y-VeP">
                                 <rect key="frame" x="0.0" y="114" width="600" height="79"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uuc-0Y-VeP" id="SCa-vs-QkL">
@@ -1192,31 +1181,8 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MessageCellPhone" rowHeight="79" id="9K2-Y0-Fl2">
-                                <rect key="frame" x="0.0" y="193" width="600" height="79"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9K2-Y0-Fl2" id="1Wu-7a-sSz">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="78"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jLy-ih-1ZP">
-                                            <rect key="frame" x="8" y="8" width="584" height="62"/>
-                                            <string key="text">Not all combinations are valid. When the flight controller detects this the serial port configuration will be reset. Do not disable MSP on the first serial port unless unless you know what you are doing!</string>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="13"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="leadingMargin" secondItem="jLy-ih-1ZP" secondAttribute="leading" id="QB4-k6-bVT"/>
-                                        <constraint firstAttribute="topMargin" secondItem="jLy-ih-1ZP" secondAttribute="top" id="VhB-0B-muJ"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="jLy-ih-1ZP" secondAttribute="trailing" id="WYQ-7t-Ezz"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="jLy-ih-1ZP" secondAttribute="bottom" id="hd5-1J-0dk"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="TitleCell" id="kW7-7B-1fu">
-                                <rect key="frame" x="0.0" y="272" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="193" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kW7-7B-1fu" id="1WJ-dZ-YZU">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -1238,7 +1204,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MSPCell" textLabel="yro-Lv-cl5" detailTextLabel="P3U-RS-e9d" style="IBUITableViewCellStyleValue1" id="gJk-SL-jgv">
-                                <rect key="frame" x="0.0" y="316" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="237" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gJk-SL-jgv" id="A9e-xm-J2l">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1262,7 +1228,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="BlackboxCell" textLabel="fGA-BI-VcB" detailTextLabel="1Za-O7-Ejf" style="IBUITableViewCellStyleValue1" id="ePj-E0-gWf">
-                                <rect key="frame" x="0.0" y="360" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="281" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ePj-E0-gWf" id="pxu-xb-cfy">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1286,7 +1252,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TelemetryCell" textLabel="hls-zO-LJG" detailTextLabel="xS0-JP-9b7" style="IBUITableViewCellStyleValue1" id="83C-2m-Z0t">
-                                <rect key="frame" x="0.0" y="404" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="325" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="83C-2m-Z0t" id="Yk5-Si-n0J">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1310,7 +1276,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TelemetryBaudrateCell" textLabel="fzb-Dl-rfg" detailTextLabel="DKY-F3-Nvd" style="IBUITableViewCellStyleValue1" id="5jP-IL-5A5">
-                                <rect key="frame" x="0.0" y="448" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="369" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5jP-IL-5A5" id="yX3-jS-ad7">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1334,7 +1300,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SerialRXCell" textLabel="TdR-m0-JNq" detailTextLabel="BhG-Ki-gf4" style="IBUITableViewCellStyleValue1" id="cno-5t-NJF">
-                                <rect key="frame" x="0.0" y="492" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="413" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cno-5t-NJF" id="SiX-tj-gvF">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1358,7 +1324,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="GPSCell" textLabel="2nW-1B-aw5" detailTextLabel="i9p-yc-PfL" style="IBUITableViewCellStyleValue1" id="4us-03-prY">
-                                <rect key="frame" x="0.0" y="536" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="457" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4us-03-prY" id="E5T-lT-u0t">
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
@@ -1407,7 +1373,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
         <!--Receiver Input-->
         <scene sceneID="IdV-Je-Ay4">
             <objects>
-                <tableViewController storyboardIdentifier="ReceiverInput" id="tEe-Yi-ofh" customClass="ReceiverInputViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ReceiverInput" id="tEe-Yi-ofh" customClass="ReceiverInputViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="p6l-WU-qr1">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1420,7 +1386,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pym-5S-8tn" customClass="StaticAdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                        <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pym-5S-8tn" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                             <rect key="frame" x="432" y="2" width="160" height="39"/>
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -1524,7 +1490,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">Eaze 1.0.0 - iOS Cleanflight Configurator
+                                        <string key="content">Eaze 0.1.0 - iOS Cleanflight Configurator (Beta)
 </string>
                                         <attributes>
                                             <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
@@ -1532,13 +1498,11 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">Compatible with Cleanflight 1.12.1, though most features will work with older or newer versions of Cleanflght or similar firmwares (Betaflight, Baseflight, etc). 
+                                        <string key="content">Compatible with Cleanflight 1.12.1, though most features will work with older or newer versions. More features and support for other firmwares will be added in future updates. 
 
 A HM10 or HM11 Bluetooth module is required for this app. See the tutorial linked below for more information.
 
-This app is an open source project started by Hangar42.nl and it is distributed under the GNU GPL v3 license.
-
-You use this software at your own risk! The developers are not responsible for any damage caused by using this app.
+This app is an open source project started by hangar42.nl and it is distributed under the GNU GPL v3 license. You use this software at your own risk! The developers are not responsible for any damage caused by using this app.
 
 
 Tutorial: www.hangar42.nl/eaze
@@ -1588,7 +1552,7 @@ With icons by icons8.com</string>
         <!--App Preferences-->
         <scene sceneID="JDx-0N-obg">
             <objects>
-                <tableViewController storyboardIdentifier="AppPrefs" id="vI8-ne-Gga" customClass="AppConfigViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="AppPrefs" id="vI8-ne-Gga" customClass="AppConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="q55-v2-5UH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1624,7 +1588,7 @@ With icons by icons8.com</string>
                                                 <action selector="autoConnectNewChanged:" destination="vI8-ne-Gga" eventType="valueChanged" id="iAp-7s-Ylv"/>
                                             </connections>
                                         </switch>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Connect new modules" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMV-Lq-Lv9">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Auto Connect new modules (in close range)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMV-Lq-Lv9">
                                             <rect key="frame" x="8" y="6" width="527" height="32"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1705,7 +1669,7 @@ With icons by icons8.com</string>
         <!--Developer Console-->
         <scene sceneID="yE4-D6-YGf">
             <objects>
-                <viewController storyboardIdentifier="AppLog" id="DVa-Yn-qzn" customClass="AppLogViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AppLog" id="DVa-Yn-qzn" customClass="AppLogViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="iwm-wf-HE0"/>
                         <viewControllerLayoutGuide type="bottom" id="wbf-OH-Dhj"/>
@@ -1768,9 +1732,6 @@ With icons by icons8.com</string>
             <point key="canvasLocation" x="1831" y="1364"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="Logo" width="1024" height="291"/>
-    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NVu-aN-oPQ"/>
     </inferredMetricsTieBreakers>

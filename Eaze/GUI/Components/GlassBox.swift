@@ -9,7 +9,7 @@
 import UIKit
 
 @IBDesignable
-class GlassBox: UIView {
+final class GlassBox: UIView {
     
     // MARK: - Variables
     
@@ -39,11 +39,9 @@ class GlassBox: UIView {
     }
     
     func setup() {
-        //backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-        backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.08)
+        backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.18)
 
         label = UILabel(frame: UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 2, left: 4, bottom: 0, right: 0)))
-        //label.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         label.font = UIFont.systemFontOfSize(13)
         label.textColor = UIColor.whiteColor()
         label.textAlignment = .Left

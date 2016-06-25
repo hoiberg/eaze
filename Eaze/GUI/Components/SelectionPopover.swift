@@ -16,29 +16,16 @@ class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     // MARK: - Variables
     
-    var tableView: UITableView?
+    var tableView: UITableView?,
+        delegate: SelectionPopoverDelegate?,
+        tag = 0 // tag is meant for the delegate to differentiate between different VC's
+    
     var options: [String] = [] {
         didSet { tableView?.reloadData() }
     }
-    var delegate: SelectionPopoverDelegate?
-    var tag = 0 // tag is meant for the delegate to differentiate between different VC's
-
     
-    // MARK: - Functions
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // create table view
-        tableView = UITableView(frame: view.frame, style: .Plain)
-        tableView!.delegate = self
-        tableView!.dataSource = self
-        tableView!.translatesAutoresizingMaskIntoConstraints = false
-        tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        view.addSubview(tableView!)
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
-    }
+    // MARK: - Class Functions
     
     class func presentWithOptions(options: [String], delegate: SelectionPopoverDelegate, tag: Int, sourceRect: CGRect, sourceView: UIView, size: CGSize, permittedArrowDirections: UIPopoverArrowDirection) {
         let selectionC = SelectionPopover()
@@ -60,6 +47,23 @@ class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSo
         topVC!.presentViewController(selectionC, animated: true, completion: nil)
     }
 
+    
+    // MARK: - Functions
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // create table view
+        tableView = UITableView(frame: view.frame, style: .Plain)
+        tableView!.delegate = self
+        tableView!.dataSource = self
+        tableView!.translatesAutoresizingMaskIntoConstraints = false
+        tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        view.addSubview(tableView!)
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
+    }
+    
     
     // MARK: - UITableViewDataSource
 

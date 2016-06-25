@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -28,7 +29,7 @@
                     <constraints>
                         <constraint firstAttribute="width" secondItem="g6A-et-lTy" secondAttribute="height" multiplier="1:1" id="gB5-my-CVx"/>
                     </constraints>
-                    <state key="normal" image="Substract"/>
+                    <state key="normal" image="Subtract"/>
                     <connections>
                         <action selector="buttonTouchDown:" destination="-1" eventType="touchDown" id="521-3c-tJn"/>
                         <action selector="buttonTouchUp:" destination="-1" eventType="touchUpOutside" id="rlx-zV-L4H"/>
@@ -70,6 +71,6 @@
     </objects>
     <resources>
         <image name="Add" width="25" height="25"/>
-        <image name="Substract" width="25" height="25"/>
+        <image name="Subtract" width="25" height="25"/>
     </resources>
 </document>

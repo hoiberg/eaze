@@ -8,39 +8,37 @@
 
 import Foundation
 
-//TODO: deze gebruiken
-let apiMinVersion: Version = "1.2.1", // down to and including
+let appVersion: Version = "0.1.0", // version of this app
+    apiMinVersion: Version = "1.2.1", // down to and including
     apiMaxVersion: Version = "2.0.0", // up to and not including
-    backupRestoreMinApiVersionAccepted: Version = "1.5.0",
-    pidControllerChangeMinApiVersion: Version = "1.5.0",
-    backupFileMinVersionAccepted: Version = "0.55.0"
+    pidControllerChangeMinApiVersion: Version = "1.5.0" // down to and including
 
 let mixerList = [
-    (name: "Tricopter",       model: "tricopter",    image: "tri"),
-    (name: "Quad +",          model: "quad_x",       image: "quad_p"),
-    (name: "Quad X",          model: "quad_x",       image: "quad_x"),
-    (name: "Bicopter",        model: "custom",       image: "bicopter"),
-    (name: "Gimbal",          model: "custom",       image: "custom"),
-    (name: "Y6",              model: "y6",           image: "y6"),
-    (name: "Hex +",           model: "hex_plus",     image: "hex_p"),
-    (name: "Flying Wing",     model: "custom",       image: "flying_wing"),
-    (name: "Y4",              model: "y4",           image: "y4"),
-    (name: "Hex X",           model: "hex_x",        image: "hex_x"),
-    (name: "Octo X8",         model: "custom",       image: "octo_x8"),
-    (name: "Octo Flat +",     model: "custom",       image: "octo_flat_p"),
-    (name: "Octo Flat X",     model: "custom",       image: "octo_flat_x"),
-    (name: "Airplane",        model: "custom",       image: "airplane"),
-    (name: "Heli 120",        model: "custom",       image: "custom"),
-    (name: "Heli 90",         model: "custom",       image: "custom"),
-    (name: "V-tail Quad",     model: "quad_vtail",   image: "vtail_quad"),
-    (name: "Hex H",           model: "custom",       image: "custom"),
-    (name: "PPM to SERVO",    model: "custom",       image: "custom"),
-    (name: "Dualcopter",      model: "custom",       image: "custom"),
-    (name: "Singlecopter",    model: "custom",       image: "custom"),
-    (name: "A-tail Quad",     model: "quad_atail",   image: "atail_quad"),
-    (name: "Custom",          model: "custom",       image: "custom"),
-    (name: "Custom Airplane", model: "custom",       image: "custom"),
-    (name: "Custom Tricopter", model: "custom",      image: "custom")
+    (name: "Tricopter",       model: "tricopter"),
+    (name: "Quad +",          model: "quad_x"),
+    (name: "Quad X",          model: "quad_x"),
+    (name: "Bicopter",        model: "custom"),
+    (name: "Gimbal",          model: "custom"),
+    (name: "Y6",              model: "y6"),
+    (name: "Hex +",           model: "hex_plus"),
+    (name: "Flying Wing",     model: "custom"),
+    (name: "Y4",              model: "y4"),
+    (name: "Hex X",           model: "hex_x"),
+    (name: "Octo X8",         model: "custom"),
+    (name: "Octo Flat +",     model: "custom"),
+    (name: "Octo Flat X",     model: "custom"),
+    (name: "Airplane",        model: "custom"),
+    (name: "Heli 120",        model: "custom"),
+    (name: "Heli 90",         model: "custom"),
+    (name: "V-tail Quad",     model: "quad_vtail"),
+    (name: "Hex H",           model: "custom"),
+    (name: "PPM to SERVO",    model: "custom"),
+    (name: "Dualcopter",      model: "custom"),
+    (name: "Singlecopter",    model: "custom"),
+    (name: "A-tail Quad",     model: "quad_atail"),
+    (name: "Custom",          model: "custom"),
+    (name: "Custom Airplane", model: "custom"),
+    (name: "Custom Tricopter", model: "custom")
 ]
 
 let boards = [

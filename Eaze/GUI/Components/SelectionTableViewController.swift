@@ -12,19 +12,14 @@ protocol SelectionTableViewControllerDelegate {
     func selectionTableWithTag(tag: Int, didSelectItem item: Int)
 }
 
-class SelectionTableViewController: GroupedTableViewController {
+final class SelectionTableViewController: GroupedTableViewController {
     
-    var delegate: SelectionTableViewControllerDelegate?
-    var tag = 0
-    var items: [String] = []
+    var delegate: SelectionTableViewControllerDelegate?,
+        tag = 0,
+        items: [String] = []
     
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-    }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    // MARK: - Functions
     
     override func viewDidLoad() {
         tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -32,7 +27,7 @@ class SelectionTableViewController: GroupedTableViewController {
     }
 
     
-    // MARK: - TableView data source
+    // MARK: - TableViewDataSource
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -53,7 +48,7 @@ class SelectionTableViewController: GroupedTableViewController {
     }
     
     
-    // MARK: - TableView delegate
+    // MARK: - TableViewDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         delegate?.selectionTableWithTag(tag, didSelectItem: indexPath.row)

@@ -78,7 +78,9 @@ class TuningSnapshotTableViewController: UITableViewController {
     }
     
     @IBAction func addBackup(sender: AnyObject) {
-        let alert = UIAlertController(title: "Create Tuning Snapshot", message: "This will create a new tuning snaphot of the data that is currently on the flight controller. Please enter a name:", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Create Tuning Snapshot",
+                                    message: "This will create a new tuning snaphot of the data that is currently on the flight controller. Please enter a name:",
+                             preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel) { (_) in }
         let backupAction = UIAlertAction(title: "Create snapshot", style: .Default) { (_) in
             let nameField = alert.textFields![0] as UITextField
@@ -86,6 +88,7 @@ class TuningSnapshotTableViewController: UITableViewController {
             self.snapshots.insert(newSnapshot, atIndex: 0)
             self.tableView.reloadData()
         }
+        
         backupAction.enabled = false
         
         alert.addTextFieldWithConfigurationHandler { (textField) in

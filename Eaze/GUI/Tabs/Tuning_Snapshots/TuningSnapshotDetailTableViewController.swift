@@ -50,7 +50,6 @@ class TuningSnapshotDetailTableViewController: GroupedTableViewController {
     }
     
     func saveSnapshot() {
-        
         func valueOfTextfield(tag: Int, inSection section: Int, atRow row: Int) -> String {
             let cell = cells[section][row]
             return (cell!.viewWithTag(tag) as! UITextField).text!
@@ -95,7 +94,6 @@ class TuningSnapshotDetailTableViewController: GroupedTableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         // Cell order is:
         // SECTION 1: Snapshot name; Date; PID controller
         // SECTION 2: All 30 PID values
@@ -155,21 +153,23 @@ class TuningSnapshotDetailTableViewController: GroupedTableViewController {
     }
 
     @IBAction func uploadSnapshot(sender: AnyObject) {
-        let alert = UIAlertController(title: "Upload this snapshot to the Flight Controller?", message: "This will overwrite existing tuning settings, and you won't be able to undo this.", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "Upload this snapshot to the Flight Controller?",
+                                    message: "This will overwrite existing tuning settings. This cannot be undone.",
+                             preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Upload", style: .Destructive, handler: {(_) -> Void in
             self.saveSnapshot() // save first
+            
             if self.snapshot.PIDController > dataStorage.PIDControllerNames.count {
                 let alert2 = UIAlertController(title: "PID Controller out of range", message: "Required range: 0-\(dataStorage.PIDControllerNames.count).", preferredStyle: .Alert)
                 alert2.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
                 self.presentViewController(alert2, animated: true, completion: nil)
                 return
             }
-            self.snapshot.uploadToFlightController()
-            notificationCenter.postNotificationName("ReloadTuningViewController", object: nil)
+            
+            self.snapshot.uploadToFlightController() // TODO: TEST WHETHER PIDCONTROLLER ACTUALLY RELOADS
         }))
             
         presentViewController(alert, animated: true, completion: nil)
     }
-    
 }
