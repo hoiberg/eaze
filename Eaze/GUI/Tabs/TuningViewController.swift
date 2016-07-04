@@ -184,13 +184,15 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         
         notificationCenter.addObserver(self, selector: #selector(TuningViewController.serialOpened), name: SerialOpenedNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(TuningViewController.serialClosed), name: SerialClosedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(TuningViewController.reloadView), name: "ReloadTuningViewController", object: nil)
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        reloadRCGraph() // note: because the adjustabletextfield delegate function is called before this
-        reloadThrottleGraph() // the graphs might show a wrong setting for a split second
+        
+        // note: because the adjustabletextfield delegate function is called before this
+        // the graphs might show a wrong setting for a split second
+        reloadThrottleGraph()
+        reloadRCGraph()
     }
     
     deinit {
@@ -219,8 +221,8 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         path.moveToPoint(CGPoint(x: 0, y: height))
         path.addQuadCurveToPoint(CGPoint(x: width, y: height - ratey), controlPoint: CGPoint(x: width / 2.0, y: cony))
         layer.path = path.CGPath
-        layer.strokeColor = view.tintColor.CGColor
-        layer.lineWidth = 2.0
+        layer.strokeColor = UIColor.cleanflightGreen().CGColor // not using tincolor here - cuz that might return grey if called
+        layer.lineWidth = 2.0 // during the modalViewController presentation.
         layer.fillColor = UIColor.clearColor().CGColor
         rcGraph.layer.addSublayer(layer)
     }
@@ -249,7 +251,7 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         path.moveToPoint(CGPoint(x: midx, y: midy))
         path.addQuadCurveToPoint(CGPoint(x: width, y: 0), controlPoint: CGPoint(x: midxr, y: midyr))
         layer.path = path.CGPath
-        layer.strokeColor = view.tintColor.CGColor
+        layer.strokeColor = UIColor.cleanflightGreen().CGColor
         layer.lineWidth = 2.0
         layer.fillColor = UIColor.clearColor().CGColor
         throttleGraph.layer.addSublayer(layer)
@@ -257,12 +259,6 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
 
     
     // MARK: - Data request / update
-    
-    func reloadView() {
-        for code in mspCodes {
-            mspUpdated(code)
-        }
-    }
     
     func sendDataRequest() {
         if dataStorage.apiVersion >= pidControllerChangeMinApiVersion {
@@ -318,8 +314,8 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
                 yawExpo.hidden = true
             }
             
-            reloadRCGraph()
             reloadThrottleGraph()
+            reloadRCGraph()
             
         case MSP_STATUS:
             var str = "\(dataStorage.profile+1)"
@@ -385,7 +381,7 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
             guard bluetoothSerial.isConnected else { return }
             let alert = UIAlertController(title: "Change flight profile?", message: "Unsaved changes will be lost.", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Confirm", style: .Default) { _ in
+            alert.addAction(UIAlertAction(title: "Confirm", style: .Destructive) { _ in
                     var str = "\(dataStorage.profile+1)"
                     if UIDevice.isPhone { str = "Profile " + str + "  ▾" }
                     self.flightProfileButton.setTitle(str, forState: .Normal)

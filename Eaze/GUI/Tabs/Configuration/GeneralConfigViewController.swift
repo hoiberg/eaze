@@ -77,7 +77,11 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: Data request / update
     
     func sendDataRequest() {
-        msp.sendMSP(mspCodes)
+        if dataStorage.apiVersion >= "1.8.0" {
+            msp.sendMSP(mspCodes)
+        } else {
+            msp.sendMSP(mspCodes.arrayByRemovingObject(MSP_LOOP_TIME))
+        }
     }
     
     func mspUpdated(code: Int) {
@@ -115,6 +119,12 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         calibrateAccLabel.enabled = true
         calibrateMagLabel.enabled = false
         resetLabel.enabled = true
+        
+        if dataStorage.apiVersion >= "1.8.0" {
+            loopTime.enabled = true
+        } else {
+            loopTime.enabled = false
+        }
     }
     
     func serialClosed() {
@@ -246,20 +256,24 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: IBActions
     
     @IBAction func save(sender: AnyObject) {
-        // MSP_SET_BF_CONFIG
+        var codes = [Int]()
+        
         dataStorage.mixerConfiguration = selectedMixerConfiguration
         dataStorage.boardAlignRoll = rollAdjustment.intValue
         dataStorage.boardAlignPitch = pitchAdjustment.intValue
         dataStorage.boardAlignYaw = yawAdjustment.intValue
+        codes.append(MSP_SET_BF_CONFIG)
         
-        // MSP_SET_ACC_TRIM
         dataStorage.accTrimRoll = rollAccTrim.intValue
         dataStorage.accTrimPitch = pitchAccTrim.intValue
+        codes.append(MSP_SET_ACC_TRIM)
         
-        // MSP_SET_LOOP_TIME
-        dataStorage.loopTime = loopTime.intValue
+        if dataStorage.apiVersion >= "1.8.0" {
+            dataStorage.loopTime = loopTime.intValue
+            codes.append(MSP_SET_LOOP_TIME)
+        }
         
-        msp.crunchAndSendMSP([MSP_SET_BF_CONFIG, MSP_SET_ACC_TRIM, MSP_SET_LOOP_TIME]) {
+        msp.crunchAndSendMSP(codes) {
             msp.sendMSP([MSP_EEPROM_WRITE, MSP_SET_REBOOT]) {
                 delay(1, callback: self.sendDataRequest) // reload
             }

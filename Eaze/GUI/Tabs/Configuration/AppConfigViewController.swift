@@ -55,10 +55,6 @@ class AppConfigViewController: GroupedTableViewController {
         return devices.count > 0 && section == 0 ? "Bluetooth modules" : "App settings"
     }
     
-    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return devices.count > 0 && section == 0 ? nil : "This app will only auto connect to new modules in close range."
-    }
-    
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
         super.tableView(tableView, willDisplayCell: cell, forRowAtIndexPath: indexPath)
         if let slider = cell.viewWithTag(1) {

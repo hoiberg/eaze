@@ -53,6 +53,7 @@ final class TuningSnapshot: NSObject {
             pitchRate   = dataStorage.pitchRate
         }
         yawRate         = dataStorage.yawRate
+        yawExpo         = dataStorage.yawExpo
         dynamicThrottlePID        = dataStorage.dynamicThrottlePID
         dynamicThrottleBreakpoint = dataStorage.dynamicThrottleBreakpoint
         PIDs            = dataStorage.PIDs
@@ -80,6 +81,7 @@ final class TuningSnapshot: NSObject {
             rollRate = snapshot["rollrate"].doubleValue ?? 0.0
             pitchRate = snapshot["pitchrate"].doubleValue ?? 0.0
             yawRate = snapshot["yawrate"].doubleValue ?? 0.0
+            yawExpo = snapshot["yawexpo"].doubleValue ?? 0.0
             dynamicThrottlePID = snapshot["tpa"].doubleValue ?? 0.0
             dynamicThrottleBreakpoint = snapshot["tpabreakpoint"].integerValue ?? 0
             
@@ -114,6 +116,7 @@ final class TuningSnapshot: NSObject {
         snapshot["rollrate"].doubleValue = rollRate
         snapshot["pitchrate"].doubleValue = pitchRate
         snapshot["yawrate"].doubleValue = yawRate
+        snapshot["yawexpo"].doubleValue = yawExpo
         snapshot["tpa"].doubleValue = dynamicThrottlePID
         snapshot["tpabreakpoint"].integerValue = dynamicThrottleBreakpoint
         
@@ -128,11 +131,18 @@ final class TuningSnapshot: NSObject {
         // create a new unique url if needed
         if fileURL == nil {
             do {
-                let fileManager = NSFileManager.defaultManager()
-                let docsURL = try TuningSnapshot.getDocumentsDirectory()
-                let docName = name == "" ? "unknown" : name
-                var suffix = 0
+                let fileManager = NSFileManager.defaultManager(),
+                    docsURL = try TuningSnapshot.getDocumentsDirectory()
                 
+                var suffix = 0,
+                    docName = name == "" ? "unknown" : name
+                
+                docName = docName.stringByReplacingOccurrencesOfString(".", withString: "_")
+                docName = docName.stringByReplacingOccurrencesOfString(" ", withString: "_")
+                docName = docName.stringByReplacingOccurrencesOfString("/", withString: "_")
+                docName = docName.stringByReplacingOccurrencesOfString("?", withString: "_")
+                docName = docName.stringByReplacingOccurrencesOfString("*", withString: "_")
+
                 // write to file that doesn't exist already
                 var docPath = "\(docsURL.path!)/\(docName).json"
                 if fileManager.fileExistsAtPath(docPath) {
@@ -173,6 +183,7 @@ final class TuningSnapshot: NSObject {
         dataStorage.rollRate = rollRate
         dataStorage.pitchRate = pitchRate
         dataStorage.yawRate = yawRate
+        dataStorage.yawExpo = yawExpo
         dataStorage.dynamicThrottlePID = dynamicThrottlePID
         dataStorage.dynamicThrottleBreakpoint = dynamicThrottleBreakpoint
         msp.crunchAndSendMSP(MSP_SET_RC_TUNING)

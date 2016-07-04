@@ -12,6 +12,8 @@
 //
 //  - This project uses both a folder structure and a XCode group structure. Make sure they stay identical to eachother.
 //
+//  - SwiftWebVC.swift has one edit: prefersStatusBarHidden() has been added (returns true)
+//
 
 import UIKit
 
@@ -65,7 +67,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // set window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         //window?.frame.origin.y = -UIScreen.mainScreen().bounds.height
-        window?.tintColor = UIColor(red: 72/255, green: 160/255, blue: 23/255, alpha: 1.0)
+        window?.tintColor = UIColor.cleanflightGreen()
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
         

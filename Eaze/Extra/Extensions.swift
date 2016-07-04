@@ -208,6 +208,10 @@ extension UIColor {
     convenience init(hexWithAlpha hex: Int) {
         self.init(withRange255Red:(hex >> 24) & 0xFF, green:(hex >> 16) & 0xFF, blue:(hex >> 8) & 0xFF, alpha:hex & 0xFF)
     }
+    
+    class func cleanflightGreen() -> UIColor {
+        return UIColor(red: 72/255, green: 160/255, blue: 23/255, alpha: 1.0)
+    }
 }
 
 

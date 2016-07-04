@@ -22,7 +22,9 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     // MARK: - Variables
     
-    let mspCodes = [MSP_RX_MAP, MSP_RC]
+    let mspCodes = [MSP_RX_MAP, MSP_RC],
+        refNames = ["Roll", "Pitch", "Yaw", "Throttle", "AUX1", "AUX2", "AUX3", "AUX4"]
+    
     var channelNames = [String](count: 32, repeatedValue: ""),
         updateTimer: NSTimer?,
         isFirstTimeMSP_RC = true
@@ -105,9 +107,8 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     func mspUpdated(code: Int) {
         switch code {
         case MSP_RX_MAP:
-            let names = ["Roll", "Pitch", "Yaw", "Throttle", "AUX1", "AUX2", "AUX3", "AUX4"]
             for i in 0 ..< dataStorage.RC_MAP.count {
-                channelNames[i] = names[dataStorage.RC_MAP.indexOf(i)!]
+                channelNames[i] = refNames[dataStorage.RC_MAP.indexOf(i)!]
                 nameLabels[i]?.text = channelNames[i]
             }
 
@@ -160,7 +161,11 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 1 : dataStorage.activeChannels
+        if section == 0 {
+            return 1
+        } else {
+            return bluetoothSerial.isConnected ? dataStorage.activeChannels : 8 // load sample data if not connected
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -182,9 +187,15 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
                 bar = cell.viewWithTag(2) as! UIProgressView,
                 label = cell.viewWithTag(3) as! UILabel
             
-            nameLabel.text = channelNames[indexPath.row]
-            bar.progress = 3000.0 / Float(dataStorage.channels[indexPath.row])
-            label.text = "\(dataStorage.channels[indexPath.row])"
+            if bluetoothSerial.isConnected {
+                nameLabel.text = channelNames[indexPath.row]
+                bar.progress = Float(dataStorage.channels[indexPath.row]) / 3000.0 // convert to 0.0-1.0 scale
+                label.text = "\(dataStorage.channels[indexPath.row])"
+            } else {
+                nameLabel.text = refNames[indexPath.row]
+                bar.progress = 0.5
+                label.text = "1500"
+            }
             
             nameLabels[indexPath.row] = nameLabel
             bars[indexPath.row] = bar

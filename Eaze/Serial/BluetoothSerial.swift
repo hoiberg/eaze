@@ -29,7 +29,7 @@
 //  Note: yes, you can use sendMSP(code, callback), but its purpose is for when timing is important (calibration, reset etc), not UI updates.
 //  *: In case the VC is still in memory while connecting - the actual connecting does only happen on the Dashboard tab.
 
-//TODO: TEST DIDFAILTOCONNECT NOTIFICATION!
+//TODO: Alleen views msp senden in viewwillappear??
 
 import UIKit
 import CoreBluetooth
@@ -65,6 +65,9 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     /// The connected peripheral (nil if none is connected). This device is ready to receive MSP/CLI commands
     var connectedPeripheral: CBPeripheral?
     
+    /// The peripheral that was suddenly disconnected, and we're trying to reconnect to
+    var reconnectingPeripheral: CBPeripheral?
+    
     /// The characteristic we need to write to
     private weak var writeCharacteristic: CBCharacteristic?
     
@@ -91,6 +94,11 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         return connectedPeripheral != nil
     }
     
+    /// Whether we're trying to reconnect a disconnected peripheral
+    var isReconnecting: Bool {
+        return reconnectingPeripheral != nil
+    }
+    
     /// WriteType we use to write data to the peripheral
     var writeType = CBCharacteristicWriteType.WithResponse
     
@@ -99,6 +107,9 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     
     /// Function called when RSSI is read
     private var rssiCallback: (NSNumber -> Void)?
+    
+    /// Whether to expect a disconnection
+    private var forceDisconnect = false
     
     
     // MARK: - Functions
@@ -151,15 +162,18 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         notificationCenter.postNotificationName(BluetoothSerialDidStopScanningNotification, object: nil)
     }
     
-    /// Disconnect from the connected peripheral (to be used while already connected to it)
+    /// Disconnect from the connected peripheral, the pending preipheral, or the reconnecting peripheral
     func disconnect() {
         guard centralManager.state == .PoweredOn else { return }
         log("Disconnecting")
+        forceDisconnect = true // avoid auto reconnect
         
         if let p = connectedPeripheral {
-            centralManager.cancelPeripheralConnection(p)
+            centralManager.cancelPeripheralConnection(p) // didDisconnect will be called, no need to do more stuff in here
         } else if let p = pendingPeripheral {
-            centralManager.cancelPeripheralConnection(p)
+            centralManager.cancelPeripheralConnection(p) // didFailToConnect or didDisconnect will be called
+        } else if let p = reconnectingPeripheral {
+            centralManager.cancelPeripheralConnection(p) // didFailToConnect will be called
         }
     }
     
@@ -241,6 +255,12 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
         peripheral.delegate = self
         
+        // switch from reconnecting to pending  if neccesary
+        if reconnectingPeripheral != nil {
+            reconnectingPeripheral = nil
+            pendingPeripheral = peripheral
+        }
+        
         // Okay, the peripheral is connected but we're not ready yet!
         // First get the 0xFFE0 service
         // Then get the characteristics 0xFFE1 of this service
@@ -252,33 +272,68 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
     }
     
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        let wasConnected = isConnected
+        
         pendingPeripheral = nil
         connectedPeripheral = nil
         writeCharacteristic = nil
+        callbackOnReceive = nil
         msp.didDisconnect() // reset & clear callbacks
         
+        log("Disconnected")
         MessageView.show("Disconnected")
         notificationCenter.postNotificationName(BluetoothSerialDidDisconnectNotification, object: nil)
+        
+        if forceDisconnect || !wasConnected {
+            // re-enable sleep
+            UIApplication.sharedApplication().idleTimerDisabled = false
+            forceDisconnect = false
+        } else {
+            // reconnect
+            reconnectingPeripheral = peripheral
+            centralManager.connectPeripheral(peripheral, options: nil)
+            
+            // switch back to homeviewcontroller
+            let tab = UIApplication.sharedApplication().windows.first?.rootViewController as! UITabBarController
+            tab.selectedIndex = 0
+            
+            // now that the homeviewcontroller is visible, send the notification
+            notificationCenter.postNotificationName(BluetoothSerialWillAutoConnectNotification, object: nil)
+        }
+        
     }
     
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
+        log("Failed to connect")
+        
         pendingPeripheral = nil
+        reconnectingPeripheral = nil
+        writeCharacteristic = nil
+        callbackOnReceive = nil
+        forceDisconnect = false
+
+        UIApplication.sharedApplication().idleTimerDisabled = false
         notificationCenter.postNotificationName(BluetoothSerialDidFailToConnectNotification, object: nil)
     }
     
     func centralManagerDidUpdateState(central: CBCentralManager) {
         if state != .PoweredOn {
             if isConnected {
+                log("Disconnected")
                 MessageView.show("Disconnected")
                 notificationCenter.postNotificationName(BluetoothSerialDidDisconnectNotification, object: nil)
-            } else if isConnecting {
+                UIApplication.sharedApplication().idleTimerDisabled = false
+            } else if isConnecting || isReconnecting {
+                log("Disconnected")
                 notificationCenter.postNotificationName(BluetoothSerialDidFailToConnectNotification, object: nil)
+                UIApplication.sharedApplication().idleTimerDisabled = false
             }
             
             pendingPeripheral = nil
             connectedPeripheral = nil
             writeCharacteristic = nil
             discoveredPeripherals = []
+            callbackOnReceive = nil
             msp.didDisconnect()
         }
         
@@ -338,28 +393,29 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                         return
                     }
                     
-                    // add to our list of recognized devices
-                    if BluetoothDevice.deviceWithUUID(peripheral.identifier) == nil {
+                    if let device = BluetoothDevice.deviceWithUUID(peripheral.identifier) {
+                        // check if name is still the same
+                        if peripheral.name ?? "Unidentified" != device.name {
+                            device.name = peripheral.name ?? "Unidentified"
+                            BluetoothDevice.saveDevices()
+                        }
+                    } else {
+                        // add to our list of recognized devices
                         BluetoothDevice.devices.append(BluetoothDevice(name: peripheral.name ?? "Unidentified",
                                                                        UUID: peripheral.identifier,
                                                                 autoConnect: true,
                                                           writeWithResponse: writeType == .WithResponse))
                         BluetoothDevice.saveDevices()
+
                     }
                     
                     // send first MSP commands for the board info stuff
                     msp.sendMSP([MSP_FC_VARIANT, MSP_FC_VERSION, MSP_BOARD_INFO, MSP_BUILD_INFO]) {
                         log("Connected")
-                        log("Eaze v\(appVersion.stringValue)")
-                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
-                        log("Platform ID \(UIDevice.platform)")
-                        log("API v\(dataStorage.apiVersion.stringValue)")
-                        log("MSP v\(dataStorage.mspVersion)")
-                        log("FC ID \(dataStorage.flightControllerIdentifier)")
-                        log("FC v\(dataStorage.flightControllerVersion.stringValue)")
-                        log("Board ID \(dataStorage.boardIdentifier)")
-                        log("Board v\(dataStorage.boardVersion)")
-                        log("Build \(dataStorage.buildInfo)")
+                        log("Eaze v\(appVersion.stringValue), iOS \(UIDevice.currentDevice().systemVersion), Platform \(UIDevice.platform)")
+                        log("FC ID \(dataStorage.flightControllerIdentifier), v\(dataStorage.flightControllerVersion.stringValue), Build \(dataStorage.buildInfo)")
+                        log("FC API v\(dataStorage.apiVersion.stringValue), MSP v\(dataStorage.mspVersion)")
+                        log("Board ID \(dataStorage.boardIdentifier) v\(dataStorage.boardVersion)")
                         
                         // these only have to be sent once (boxnames is for the mode titles)
                         msp.sendMSP([MSP_BOXNAMES, MSP_STATUS])
@@ -369,24 +425,30 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                         
                         // proceed to tell the rest of the app about recent events
                         notificationCenter.postNotificationName(BluetoothSerialDidConnectNotification, object: nil)
+                        
+                        // disable sleep
+                        UIApplication.sharedApplication().idleTimerDisabled = true
                     }
                 }
                 
                 func fail() {
-                    guard !verified else { return }
+                    guard !verified && isConnected else { return }
                     callbackOnReceive = nil // prevent exitCLI from being called next time we connect
                     log("Module not responding")
                     
                     let alert = UIAlertController(title: "Module not responding", message: "Connect anyway?", preferredStyle: .Alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel) { _ in cancel() })
                     alert.addAction(UIAlertAction(title: "Connect", style: .Default) { _ in
+                        guard self.isConnected else { return }
+                        
                         log("Connecting anyway..")
-                        log("Eaze v\(appVersion.stringValue)")
-                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
-                        log("Platform ID \(UIDevice.platform)")
+                        log("Eaze v\(appVersion.stringValue), iOS \(UIDevice.currentDevice().systemVersion), Platform \(UIDevice.platform)")
                         
                         MessageView.show("Connected")
                         notificationCenter.postNotificationName(BluetoothSerialDidConnectNotification, object: nil)
+                        
+                        // disable sleep
+                        UIApplication.sharedApplication().idleTimerDisabled = true
                     })
 
                     presentViewController(alert)
@@ -412,17 +474,22 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     })
                     
                     alert.addAction(UIAlertAction(title: "Don't exit CLI", style: .Default) { _ in
+                        guard self.isConnected else { return }
+
                         log("Connecting anyway..")
-                        log("Eaze v\(appVersion.stringValue)")
-                        log("iOS v\(UIDevice.currentDevice().systemVersion)")
-                        log("Platform ID \(UIDevice.platform)")
+                        log("Eaze v\(appVersion.stringValue), iOS \(UIDevice.currentDevice().systemVersion), Platform \(UIDevice.platform)")
                         
                         cliActive = true
                         MessageView.show("Connected")
                         notificationCenter.postNotificationName(BluetoothSerialDidConnectNotification, object: nil)
+                        
+                        // disable sleep
+                        UIApplication.sharedApplication().idleTimerDisabled = true
                     })
                     
                     alert.addAction(UIAlertAction(title: "Exit CLI", style: .Destructive) { _ in
+                        guard self.isConnected else { return }
+
                         log("Exiting CLI")
                         self.sendStringToDevice("exit\r")
                         MessageView.showProgressHUD("Waiting for FC to exit CLI mode")
@@ -443,14 +510,14 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 }
                 
                 func secondTry() {
-                    guard !verified else { return }
+                    guard !verified && isConnected else { return }
                     writeType = .WithResponse
                     msp.sendMSP(MSP_API_VERSION) // callback is still in place
                     delay(1.0, callback: thirdTry)
                 }
                 
                 func thirdTry() {
-                    guard !verified else { return }
+                    guard !verified && isConnected else { return }
                     msp.callbacks = [] // clear callback so it doesn't get called later
                     writeType = .WithoutResponse
                     callbackOnReceive = exitCLI
@@ -459,7 +526,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 }
                 
                 func fourthTry() {
-                    guard !verified else { return }
+                    guard !verified && isConnected else { return }
                     writeType = .WithResponse
                     sendStringToDevice("asdf\r")
                     delay(1.0, callback: fail)
@@ -472,7 +539,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 }
                 
                 func smartSecondTry() {
-                    guard !verified else { return }
+                    guard !verified && isConnected else { return }
                     msp.callbacks = [] // clear callback so it doesn't get called later
                     callbackOnReceive = exitCLI
                     sendStringToDevice("asdf\r")

@@ -167,7 +167,7 @@ class TuningSnapshotDetailTableViewController: GroupedTableViewController {
                 return
             }
             
-            self.snapshot.uploadToFlightController() // TODO: TEST WHETHER PIDCONTROLLER ACTUALLY RELOADS
+            self.snapshot.uploadToFlightController() // also reloads UI
         }))
             
         presentViewController(alert, animated: true, completion: nil)

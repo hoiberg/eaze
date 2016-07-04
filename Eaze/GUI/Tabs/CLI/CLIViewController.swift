@@ -51,6 +51,8 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         log("Entering CLI mode")
         bluetoothSerial.delegate = self
 
@@ -58,6 +60,11 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
             cliActive = true
             bluetoothSerial.sendStringToDevice("#") // send a '#' to enter cli mode
         }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        inputField.becomeFirstResponder()
     }
     
     deinit {

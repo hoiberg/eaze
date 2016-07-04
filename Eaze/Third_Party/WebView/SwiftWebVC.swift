@@ -280,4 +280,11 @@ class SwiftWebVC: UIViewController, UIWebViewDelegate {
         self.dismissViewControllerAnimated(true, completion: {})
     }
     
+    
+    /////////////////////////////////////////////////
+    // Modifications for Eaze
+    
+    override func prefersStatusBarHidden() -> Bool {
+        return true
+    }    
 }

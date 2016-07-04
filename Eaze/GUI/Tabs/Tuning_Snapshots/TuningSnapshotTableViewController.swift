@@ -93,6 +93,7 @@ class TuningSnapshotTableViewController: UITableViewController {
         
         alert.addTextFieldWithConfigurationHandler { (textField) in
             textField.placeholder = "Name for the snapshot"
+            textField.autocapitalizationType = .Words
             notificationCenter.addObserverForName(UITextFieldTextDidChangeNotification, object: textField, queue: NSOperationQueue.mainQueue()) { (notification) in
                 backupAction.enabled = textField.text != "" // make sure the textfield is not left empty
             }

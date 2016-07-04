@@ -10,11 +10,10 @@ import UIKit
 
 final class SerialPortConfig {
     
-    private let portIdentifierToNameMapping = [0: "UART1", 1: "UART2", 2: "UART3", 3: "UART4", 20: "USB VCP", 30: "SOFTSERIAL1", 31: "SOFTSERIAL2"]
+    private static let portIdentifierToNameMapping = [0: "UART1", 1: "UART2", 2: "UART3", 3: "UART4", 20: "USB VCP", 30: "SOFTSERIAL1", 31: "SOFTSERIAL2"]
     
     var identifier = 0
-    var name: String { get { return portIdentifierToNameMapping[identifier] ?? "Unavailable" }}
-    var scenario = 0 // only used in pre 1.6.0 api
+    var name: String { get { return SerialPortConfig.portIdentifierToNameMapping[identifier] ?? "Unavailable" }}
     var functions: [SerialPortFunction] = []
     
     var MSP_baudrate = Baudrate.Auto
@@ -25,11 +24,12 @@ final class SerialPortConfig {
 
 
 enum SerialPortFunction: Int {
-    case MSP, GPS, TELEMETRY_FRSKY, TELEMETRY_HOTT, TELEMETRY_MSP, TELEMETRY_SMARTPORT, RX_SERIAL, BLACKBOX
+    // TELM_MSP only < 1.15.0, TELM_LTM only >= 1.15.0 (id TELM_LTM == id TELM_MSP, TELM_LTM replaced TELM_MSP), MAVLINK only >= 1.18.0
+    case MSP, GPS, TELEMETRY_FRSKY, TELEMETRY_HOTT, TELEMETRY_MSP_LTM, TELEMETRY_SMARTPORT, RX_SERIAL, BLACKBOX, TELEMETRY_MAVLINK
     
     static var all: [SerialPortFunction] {
         get {
-            return [MSP, GPS, TELEMETRY_FRSKY, TELEMETRY_HOTT, TELEMETRY_MSP, TELEMETRY_SMARTPORT, RX_SERIAL, BLACKBOX]
+            return [MSP, GPS, TELEMETRY_FRSKY, TELEMETRY_HOTT, TELEMETRY_MSP_LTM, TELEMETRY_SMARTPORT, RX_SERIAL, BLACKBOX, TELEMETRY_MAVLINK]
         }
     }
 }

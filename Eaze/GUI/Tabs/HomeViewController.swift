@@ -315,7 +315,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     // MARK: - IBActions
     
     @IBAction func connect(sender: AnyObject) {
-        if bluetoothSerial.isConnected {
+        if bluetoothSerial.isConnected || bluetoothSerial.isReconnecting {
             bluetoothSerial.disconnect()
 
         } else if bluetoothSerial.isConnecting {
@@ -325,7 +325,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             
         } else if bluetoothSerial.isScanning {
             bluetoothSerial.stopScan()
-        
+                    
         } else {
             if bluetoothSerial.state != .PoweredOn {
                 let alert = UIAlertController(title: "Bluetooth is turned off",

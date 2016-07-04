@@ -29,10 +29,10 @@ final class DataStorage {
     
     // 54 MSP_CF_SERIAL_CONFIG
     var serialPorts: [SerialPortConfig] = []
-    var mspBaudRate: UInt32 = 0 // pre 1.6.0
-    var serialGPSBaudRate: UInt32 = 0 // pre 1.6.0
-    var gpsPasstroughBaudrate: UInt32 = 0 // pre 1.6.0
-    var cliBaudRate: UInt32 = 0 // pre 1.6.0
+    var mspBaudRate: UInt32 = 0             // pre 1.6.0
+    var serialGPSBaudRate: UInt32 = 0       // pre 1.6.0
+    var gpsPasstroughBaudrate: UInt32 = 0   // pre 1.6.0
+    var cliBaudRate: UInt32 = 0             // pre 1.6.0
     
     // 57 MSP_PID_CONTROLLER
     var PIDController = 0
@@ -46,7 +46,7 @@ final class DataStorage {
     
     // 66 MSP_BF_CONFIG
     var mixerConfiguration  = 0
-    var BFFeatures          = 0
+    var BFFeatures          = 0 // not the same for all API versions
     var serialRXType        = 0
     var boardAlignRoll      = 0
     var boardAlignPitch     = 0
@@ -88,12 +88,12 @@ final class DataStorage {
     var throttleMid         = 0.0
     var throttleExpo        = 0.0
     var rollPitchRate       = 0.0 // pre 1.7.0 only
-    var rollRate            = 0.0
-    var pitchRate           = 0.0
+    var rollRate            = 0.0 // min 1.7.0
+    var pitchRate           = 0.0 // min 1.7.0
     var yawRate             = 0.0
-    var yawExpo             = 0.0 // available in >=1.10.0
+    var yawExpo             = 0.0 // min 1.10.0
     var dynamicThrottlePID  = 0.0
-    var dynamicThrottleBreakpoint = 0 // avaiable in >=1.7.0
+    var dynamicThrottleBreakpoint = 0 // min 1.7.0
     
     // 112 MSP_PID
     var PIDs: [[Double]] = []
@@ -103,14 +103,14 @@ final class DataStorage {
     var minThrottle             = 0
     var maxThrottle             = 0
     var minCommand              = 0
-    var failsafeThrottle        = 0
+    var failsafeThrottle        = 0 // pre 1.15.0
     var gpsType                 = 0
     var gpsBaudrate             = 0
     var gpsUbxSbas              = 0
     var multiwiiCurrentOutput   = 0
     var rssiChannel             = 0
     var placeHolder2            = 0
-    var magDeclination          = 0 // not checked ?
+    var magDeclination          = 0.0
     var vBatScale               = 0
     var vBatMinCellVoltage      = 0
     var vBatMaxCellVoltage      = 0

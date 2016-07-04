@@ -496,7 +496,6 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="286 Hz" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AB9-4c-vri">
                                                     <rect key="frame" x="432" y="6" width="160" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="32" id="LC0-e8-skA"/>
                                                         <constraint firstAttribute="width" constant="160" id="yB6-Y1-qff">
                                                             <variation key="widthClass=compact" constant="140"/>
                                                         </constraint>
@@ -632,7 +631,7 @@
                                                         <constraint firstAttribute="width" constant="160" id="jna-qY-7Bp"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="FTF-GK-IYY" id="ZPM-Sh-BJm"/>
                                                     </connections>
@@ -1498,7 +1497,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">Compatible with Cleanflight 1.12.1, though most features will work with older or newer versions. More features and support for other firmwares will be added in future updates. 
+                                        <string key="content">Compatible with Cleanflight 1.13.0, though most features will work with older or newer versions. More features and support for other firmwares will be added in future updates. 
 
 A HM10 or HM11 Bluetooth module is required for this app. See the tutorial linked below for more information.
 

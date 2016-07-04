@@ -25,8 +25,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_MISC] // for all api versions
-    private let mspCodes_v1_8 = [MSP_ARMING_CONFIG] // only if api version >= 1.8.0
+    private let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG]
     
     
     // MARK: - Functions
@@ -35,7 +34,6 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
-        msp.addSubscriber(self, forCodes: mspCodes_v1_8)
         if bluetoothSerial.isConnected {
             serialOpened()
         } else {
@@ -45,23 +43,22 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         notificationCenter.addObserver(self, selector: #selector(MotorConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(MotorConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
         
-        for field in [minThrottleField, midThrottleField, maxThrottleField, minCommandField] {
+        for field in [minThrottleField, maxThrottleField, minCommandField] {
             field.maxValue = 2000
             field.minValue = 0
             field.decimal = 0
             field.increment = 1
         }
         
+        midThrottleField.maxValue = 1599
+        midThrottleField.minValue = 1401
+        midThrottleField.decimal = 0
+        midThrottleField.increment = 1
+        
         disarmDelayField.maxValue = 60
         disarmDelayField.minValue = 0
         disarmDelayField.decimal = 0
         disarmDelayField.increment = 1
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        alwaysDisarmSwitch.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
-        disarmDelayField.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
     }
     
     deinit {
@@ -74,7 +71,9 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     func sendDataRequest() {
         msp.sendMSP(mspCodes)
         if dataStorage.apiVersion >= "1.8.0" {
-            msp.sendMSP(mspCodes_v1_8)
+            msp.sendMSP(mspCodes)
+        } else {
+            msp.sendMSP(mspCodes.arrayByRemovingObject(MSP_ARMING_CONFIG))
         }
     }
     
@@ -106,6 +105,8 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     func serialOpened() {
         sendDataRequest()
         saveButton.enabled = true
+        alwaysDisarmSwitch.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
+        disarmDelayField.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
     }
     
     func serialClosed() {
@@ -116,20 +117,18 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     // MARK: IBActions
     
     @IBAction func save(sender: AnyObject) {
-        // MSP_SET_BF_CONFIG
+        var codes = [Int]()
         dataStorage.BFFeatures.setBit(4, value: Int(motorStopSwitch.on))
         dataStorage.BFFeatures.setBit(18, value: Int(oneShotSwitch.on))
+        codes.append(MSP_SET_BF_CONFIG)
         
-        // MSP_SET_MISC
         dataStorage.minThrottle = minThrottleField.intValue
         dataStorage.midRc = midThrottleField.intValue
         dataStorage.maxThrottle = maxThrottleField.intValue
         dataStorage.minCommand = minCommandField.intValue
-        
-        var codes = [MSP_SET_BF_CONFIG, MSP_SET_MISC]
+        codes.append(MSP_SET_MISC)
         
         if dataStorage.apiVersion >= "1.8.0" {
-            // MSP_SET_ARMING_CONFIG
             dataStorage.disarmKillsSwitch = alwaysDisarmSwitch.on
             dataStorage.autoDisarmDelay = disarmDelayField.intValue
             codes.append(MSP_SET_ARMING_CONFIG)

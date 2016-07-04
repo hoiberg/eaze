@@ -18,7 +18,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: - Variables
     
     private let mspCodes = [MSP_CF_SERIAL_CONFIG]
-    private var ports: [SerialPortConfig] = [] // Working copy of dataStorage's serialPorts
+    private var ports = [SerialPortConfig()] // Working copy of dataStorage's serialPorts, first contains sample port to satisfy the Apple App Review team
     
 
     // MARK: - Functions
@@ -105,9 +105,9 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             
         case 2: // telemetry type
             // first remove all, then add the new one
-            port.functions.removeObjects([.TELEMETRY_FRSKY, .TELEMETRY_HOTT, .TELEMETRY_MSP, .TELEMETRY_SMARTPORT])
+            port.functions.removeObjects([.TELEMETRY_FRSKY, .TELEMETRY_HOTT, .TELEMETRY_MSP_LTM, .TELEMETRY_SMARTPORT, .TELEMETRY_MAVLINK])
             if item > 0 {
-                let options: [SerialPortFunction] = [.TELEMETRY_FRSKY, .TELEMETRY_HOTT, .TELEMETRY_MSP, .TELEMETRY_SMARTPORT]
+                let options: [SerialPortFunction] = [.TELEMETRY_FRSKY, .TELEMETRY_HOTT, .TELEMETRY_MSP_LTM, .TELEMETRY_SMARTPORT, .TELEMETRY_MAVLINK]
                 port.functions.append(options[item - 1])
             }
             
@@ -142,7 +142,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: - UITableViewDataSource
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1 + dataStorage.serialPorts.count // one for the message cell
+        return 1 + ports.count // one for the message cell
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -163,12 +163,12 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             }
             return cell
         } else {
-            if dataStorage.serialPorts.count < indexPath.section {
+            if ports.count < indexPath.section {
                 log(.Error, "Too many sections (\(indexPath.section)) in PortConfigViewController! This should not be possible.")
                 return tableView.dequeueReusableCellWithIdentifier("TitleCell")!
             }
             
-            let port = dataStorage.serialPorts[indexPath.section - 1]
+            let port = ports[indexPath.section - 1]
             switch indexPath.row {
             case 0: // title
                 let cell = tableView.dequeueReusableCellWithIdentifier("TitleCell")!
@@ -187,14 +187,16 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
 
             case 3: // telemetry type
                 let cell = tableView.dequeueReusableCellWithIdentifier("TelemetryCell")!
-                if port.functions.contains(SerialPortFunction.TELEMETRY_FRSKY) {
+                if port.functions.contains(.TELEMETRY_FRSKY) {
                     cell.detailTextLabel?.text = "FrSky"
-                } else if port.functions.contains(SerialPortFunction.TELEMETRY_HOTT) {
+                } else if port.functions.contains(.TELEMETRY_HOTT) {
                     cell.detailTextLabel?.text = "Graupner HOTT"
-                } else if port.functions.contains(SerialPortFunction.TELEMETRY_MSP) {
-                    cell.detailTextLabel?.text = "MSP"
-                } else if port.functions.contains(SerialPortFunction.TELEMETRY_SMARTPORT) {
+                } else if port.functions.contains(.TELEMETRY_MSP_LTM) {
+                    cell.detailTextLabel?.text = dataStorage.apiVersion >= "1.15.0" ? "LTM" : "MSP"
+                } else if port.functions.contains(.TELEMETRY_SMARTPORT) {
                     cell.detailTextLabel?.text = "Smartport"
+                } else if port.functions.contains(.TELEMETRY_MAVLINK) {
+                    cell.detailTextLabel?.text = "MAVLink"
                 } else {
                     cell.detailTextLabel?.text = "Disabled"
                 }
@@ -249,7 +251,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             
         case 3: // telemetry type
             vc.title! += " Telemetry"
-            vc.items = ["Disabled", "FrSky", "Graupner HOTT", "MSP", "Smartport"]
+            vc.items = ["Disabled", "FrSky", "Graupner HOTT", dataStorage.apiVersion >= "1.15.0" ? "LTM" : "MSP", "Smartport"] + (dataStorage.apiVersion >= "1.18.0" ? ["MAVLink"] : [])
 
         case 4: // telemetry baudrate
             vc.title! += " Telemetry Baudrate"

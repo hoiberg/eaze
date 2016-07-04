@@ -109,7 +109,7 @@ final class MessageView: UIView {
     func show() {
         //TODO: Status bar changes color when showing the messageview.. no solution yet.
         ownWindow = UIWindow()
-        ownWindow!.windowLevel = UIWindowLevelStatusBar + 1
+        ownWindow!.windowLevel = /*UIWindowLevelStatusBar + 1*/ UIWindowLevelAlert + 10
         ownWindow!.userInteractionEnabled = false
         ownWindow!.backgroundColor = UIColor.clearColor()
         ownWindow!.hidden = false

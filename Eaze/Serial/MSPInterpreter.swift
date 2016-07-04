@@ -57,12 +57,12 @@ let MSP_BOARD_INFO      = 4
 let MSP_BUILD_INFO      = 5
 
 // MSP codes Cleanflight original features
-let MSP_CF_SERIAL_CONFIG     = 54
-let MSP_SET_CF_SERIAL_CONFIG = 55
-let MSP_PID_CONTROLLER       = 59
-let MSP_SET_PID_CONTROLLER   = 60
-let MSP_ARMING_CONFIG        = 61
-let MSP_SET_ARMING_CONFIG    = 62
+let MSP_CF_SERIAL_CONFIG     = 54 // min 1.6.0 (older versions not supported) not the same for all API versions
+let MSP_SET_CF_SERIAL_CONFIG = 55 // min 1.6.0 (older versions not supported) not the same for all API versions
+let MSP_PID_CONTROLLER       = 59 // min 1.5.0
+let MSP_SET_PID_CONTROLLER   = 60 // min 1.5.0
+let MSP_ARMING_CONFIG        = 61 // min 1.8.0
+let MSP_SET_ARMING_CONFIG    = 62 // min 1.8.0
 
 // MSP codes for Baseflight configurator
 let MSP_RX_MAP          = 64
@@ -72,8 +72,8 @@ let MSP_SET_BF_CONFIG   = 67
 let MSP_SET_REBOOT      = 68
 
 // MSP codes Cleanflight original features
-let MSP_LOOP_TIME       = 73
-let MSP_SET_LOOP_TIME   = 74
+let MSP_LOOP_TIME       = 73 // min 1.8.0
+let MSP_SET_LOOP_TIME   = 74 // min 1.8.0
 
 // MSP codes Multiwi
 let MSP_STATUS          = 101
@@ -81,21 +81,21 @@ let MSP_RAW_IMU         = 102
 let MSP_RC              = 105
 let MSP_ATTITUDE        = 108
 let MSP_ANALOG          = 110
-let MSP_RC_TUNING       = 111
+let MSP_RC_TUNING       = 111 // not the same for all API versions
 let MSP_PID             = 112
 let MSP_MISC            = 114
 let MSP_BOXNAMES        = 116
 let MSP_PIDNAMES        = 117
 let MSP_BOXIDS          = 119
 let MSP_SET_PID         = 202
-let MSP_SET_RC_TUNING   = 204
+let MSP_SET_RC_TUNING   = 204 // not the same for all API versions
 let MSP_ACC_CALIBRATION = 205
 let MSP_MAG_CALIBRATION = 206
 let MSP_SET_MISC        = 207
 let MSP_RESET_CONF      = 208
 let MSP_SELECT_SETTING  = 210
-let MSP_SET_ACC_TRIM    = 239 // Baseflight
-let MSP_ACC_TRIM        = 240 // Baseflight
+let MSP_SET_ACC_TRIM    = 239
+let MSP_ACC_TRIM        = 240
 let MSP_EEPROM_WRITE    = 250
 
 
@@ -412,7 +412,11 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             dataStorage.multiwiiCurrentOutput = Int(data[offset++])
             dataStorage.rssiChannel = Int(data[offset++])
             dataStorage.placeHolder2 = Int(data[offset++])
-            dataStorage.magDeclination = Int(getInt16(data, offset: offset)) / 10 // -18000-18000
+            if dataStorage.apiVersion < "1.18.0" {
+                dataStorage.magDeclination = Double(getInt16(data, offset: offset)) / 10 // -1800-1800
+            } else {
+                dataStorage.magDeclination = Double(getInt16(data, offset: offset)) / 100 // -18000-18000
+            }
             offset += 2
             dataStorage.vBatScale = Int(data[offset++]) // 10-200
             dataStorage.vBatMinCellVoltage = Int(data[offset++]) / 10 // 10-50
@@ -510,31 +514,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         switch code {
             
         case MSP_SET_CF_SERIAL_CONFIG: // 55
-            if dataStorage.apiVersion < "1.6.0" {
-                for port in dataStorage.serialPorts {
-                    buffer.append(UInt8(port.scenario))
-                }
-                
-                buffer.append(dataStorage.mspBaudRate.specificByte(0))
-                buffer.append(dataStorage.mspBaudRate.specificByte(1))
-                buffer.append(dataStorage.mspBaudRate.specificByte(2))
-                buffer.append(dataStorage.mspBaudRate.specificByte(3))
-                
-                buffer.append(dataStorage.cliBaudRate.specificByte(0))
-                buffer.append(dataStorage.cliBaudRate.specificByte(1))
-                buffer.append(dataStorage.cliBaudRate.specificByte(2))
-                buffer.append(dataStorage.cliBaudRate.specificByte(3))
-                
-                buffer.append(dataStorage.serialGPSBaudRate.specificByte(0))
-                buffer.append(dataStorage.serialGPSBaudRate.specificByte(1))
-                buffer.append(dataStorage.serialGPSBaudRate.specificByte(2))
-                buffer.append(dataStorage.serialGPSBaudRate.specificByte(3))
-
-                buffer.append(dataStorage.gpsPasstroughBaudrate.specificByte(0))
-                buffer.append(dataStorage.gpsPasstroughBaudrate.specificByte(1))
-                buffer.append(dataStorage.gpsPasstroughBaudrate.specificByte(2))
-                buffer.append(dataStorage.gpsPasstroughBaudrate.specificByte(3))
-            } else {
+            if dataStorage.apiVersion >= "1.6.0" {
                 for port in dataStorage.serialPorts {
                     buffer.append(UInt8(port.identifier))
                     
@@ -648,8 +628,13 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             buffer.append(UInt8(dataStorage.multiwiiCurrentOutput))
             buffer.append(UInt8(dataStorage.rssiChannel))
             buffer.append(UInt8(dataStorage.placeHolder2))
-            buffer.append(dataStorage.magDeclination.lowByte * 10)
-            buffer.append(dataStorage.magDeclination.highByte * 10)
+            if dataStorage.apiVersion < "1.18.0" {
+                buffer.append(Int16(round(dataStorage.magDeclination * 10)).lowByte)
+                buffer.append(Int16(round(dataStorage.magDeclination * 10)).highByte)
+            } else {
+                buffer.append(Int16(round(dataStorage.magDeclination * 100)).lowByte)
+                buffer.append(Int16(round(dataStorage.magDeclination * 100)).highByte)
+            }
             buffer.append(UInt8(dataStorage.vBatScale))
             buffer.append(UInt8(dataStorage.vBatMinCellVoltage * 10))
             buffer.append(UInt8(dataStorage.vBatMaxCellVoltage * 10))
@@ -760,10 +745,10 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     
     func didDisconnect() {
         reset()
-        if callbacks.count > 0 {
-            log(.Warn, "\(callbacks.count) callbacks remained after disconnecting")
+        //if callbacks.count > 0 {
+        //    log(.Warn, "\(callbacks.count) callbacks remained after disconnecting")
             callbacks = []
-        }
+        //}
     }
     
     func addSubscriber(newSubscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {

@@ -25,9 +25,10 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     // MARK: - Variables
     
     private let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC],
-                serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01"],
                 receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
-    private var RSSIInputChannels = ["Disabled"],
+    
+    private var serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01", "IBUS"],
+                RSSIInputChannels = ["Disabled"],
                 lastValid_RC_MAP = "AETR1234"
     
     private var selectedSerialReceiverMode = 0  {
@@ -130,6 +131,15 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     func serialOpened() {
         sendDataRequest()
         saveButton.enabled = true
+        
+        if dataStorage.apiVersion >= "1.15.0" {
+            // new failsafe setup not yet supported
+            failsafeSwitch.enabled = false
+            failsafeThrottleField.enabled = false
+        } else {
+            failsafeSwitch.enabled = true
+            failsafeThrottleField.enabled = true
+        }
     }
     
     func serialClosed() {
@@ -157,6 +167,11 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
                 vc.title = "Serial Receiver Provider"
                 vc.items = serialReceiverModes
                 vc.delegate = self
+                
+                if dataStorage.apiVersion < "1.15.0" {
+                    vc.items.removeObject("IBUS")
+                }
+
                 navigationController?.pushViewController(vc, animated: true)
             }
             

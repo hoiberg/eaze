@@ -284,12 +284,12 @@
 			children = (
 				FA2FDA2A1D114BAB0003327A /* HomeViewController.swift */,
 				FA2FDA321D114BAB0003327A /* TuningViewController.swift */,
-				FA2FDA1E1D114BAB0003327A /* CLITabViewController.swift */,
 				FA2FDA1F1D114BAB0003327A /* ConfigTableViewController.swift */,
-				FA2FDA201D114BAB0003327A /* Configuration */,
-				FA2FDA1C1D114BAB0003327A /* CLI */,
+				FA2FDA1E1D114BAB0003327A /* CLITabViewController.swift */,
 				FA2FDA281D114BAB0003327A /* Connect */,
 				FA2FDA2B1D114BAB0003327A /* Tuning Snapshots */,
+				FA2FDA201D114BAB0003327A /* Configuration */,
+				FA2FDA1C1D114BAB0003327A /* CLI */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -306,9 +306,9 @@
 			isa = PBXGroup;
 			children = (
 				FA2FDA231D114BAB0003327A /* GeneralConfigViewController.swift */,
+				FA2FDA261D114BAB0003327A /* ReceiverConfigViewController.swift */,
 				FA2FDA241D114BAB0003327A /* MotorConfigViewController.swift */,
 				FA2FDA251D114BAB0003327A /* PortsConfigViewController.swift */,
-				FA2FDA261D114BAB0003327A /* ReceiverConfigViewController.swift */,
 				FA2FDA271D114BAB0003327A /* ReceiverInputViewController.swift */,
 				FA2FDA211D114BAB0003327A /* AppConfigViewController.swift */,
 				FA2FDA221D114BAB0003327A /* AppLogViewController.swift */,
