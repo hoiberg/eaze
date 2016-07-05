@@ -6,8 +6,6 @@
 //  Copyright © 2015 Hangar42. All rights reserved.
 //
 
-//TODO: CLI not exited when quitting app while in CLI mode
-
 import UIKit
 
 class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldDelegate {

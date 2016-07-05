@@ -53,10 +53,13 @@ final class AppLog: NSObject {
         
         if level == .Fatal || level == .Error || level == .Warn {
             print(finalStr, terminator: "")
-        } else {
-            //TODO: ** Uncomment this line when releasing!
+        }
+        
+        #if DEBUG
+        if level == .Info || level == .Debug || level == .Trace {
             print(finalStr, terminator: "")
         }
+        #endif
         
         // limit file size
         if fileHandle?.seekToEndOfFile() > 10000 { // 10kB max file size

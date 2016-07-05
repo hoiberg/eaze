@@ -7,10 +7,13 @@
 //
 //
 //  General notes about this app: (to be moved to a notes.md)
+//
 //  - Because of a bug we can't use the splitViewController in Preferences.storyboard for iPhones (instead,
 //    it uses a different entry point).
 //
 //  - This project uses both a folder structure and a XCode group structure. Make sure they stay identical to eachother.
+//
+//  - If you need some code only to be included in the debug builds and not in release versions, use #if DEBUG (declared in Build Settings -> Swift Compiler Misc Flags)
 //
 //  - SwiftWebVC.swift has one edit: prefersStatusBarHidden() has been added (returns true)
 //
@@ -66,23 +69,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // set window
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        //window?.frame.origin.y = -UIScreen.mainScreen().bounds.height
         window?.tintColor = UIColor.cleanflightGreen()
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
         
-        // launchscreen for animation
-        //launchWindow = UIWindow(frame: UIScreen.mainScreen().bounds)
-        //launchWindow?.rootViewController = UIStoryboard(name: "LaunchScreen", bundle: bundle).instantiateInitialViewController()
-        //launchWindow?.hidden = false
-        
-        //UIView.animateWithDuration( 0.7,
-        //                     delay: 0.2,
-        //                   options: .CurveEaseInOut,
-        //                animations: { self.window?.frame.origin.y = 0
-        //                              self.launchWindow?.frame.origin.y = UIScreen.mainScreen().bounds.height },
-        //                completion: { _ in self.launchWindow = nil })
-
         // ready!
         log("App started")
 
