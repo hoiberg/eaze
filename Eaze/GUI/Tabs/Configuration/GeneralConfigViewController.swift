@@ -29,7 +29,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: - Variables
     
     private let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS]
-    private var selectedMixerConfiguration = 0
+    private var selectedMixerConfiguration = 2
     
     
     // MARK: - Functions
@@ -237,8 +237,9 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             let vc = SelectionTableViewController(style: .Grouped)
             var names: [String] = []
             for mixer in mixerList { names.append(mixer.name) }
-            vc.items = names
             vc.title = "Mixers"
+            vc.items = names
+            vc.selectedItem = selectedMixerConfiguration
             vc.delegate = self
             navigationController?.pushViewController(vc, animated: true)
         }

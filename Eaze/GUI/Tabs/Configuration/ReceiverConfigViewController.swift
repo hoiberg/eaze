@@ -37,7 +37,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         }
     }
     
-    private var selectedReceiverMode = 0  {
+    private var selectedReceiverMode = 2  {
         didSet {
             receiverModeLabel.text = receiverModes[selectedReceiverMode]
         }
@@ -157,6 +157,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
                 vc.tag = 0
                 vc.title = "Receiver Mode"
                 vc.items = receiverModes
+                vc.selectedItem = selectedReceiverMode
                 vc.delegate = self
                 navigationController?.pushViewController(vc, animated: true)
                 
@@ -166,6 +167,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
                 vc.tag = 1
                 vc.title = "Serial Receiver Provider"
                 vc.items = serialReceiverModes
+                vc.selectedItem = selectedSerialReceiverMode
                 vc.delegate = self
                 
                 if dataStorage.apiVersion < "1.15.0" {
@@ -175,12 +177,13 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
                 navigationController?.pushViewController(vc, animated: true)
             }
             
-        } else if indexPath.section == 2 && indexPath.row == 1 {
+        } else if indexPath.section == 2 && indexPath.row == 0 {
             // RSSI channel
             let vc = SelectionTableViewController(style: .Grouped)
             vc.tag = 2
             vc.title = "RSSI Input Channel"
             vc.items = RSSIInputChannels
+            vc.selectedItem = selectedRSSIInputChannel
             vc.delegate = self
             navigationController?.pushViewController(vc, animated: true)
         }

@@ -16,6 +16,7 @@ final class SelectionTableViewController: GroupedTableViewController {
     
     var delegate: SelectionTableViewControllerDelegate?,
         tag = 0,
+        selectedItem: Int?,
         items: [String] = []
     
 
@@ -43,6 +44,12 @@ final class SelectionTableViewController: GroupedTableViewController {
             cell = UITableViewCell(style: .Default, reuseIdentifier: "cell")
         }
         cell!.textLabel!.text = items[indexPath.row]
+        
+        if let i = selectedItem {
+            if indexPath.row == i {
+                cell!.accessoryType = .Checkmark
+            }
+        }
 
         return cell!
     }

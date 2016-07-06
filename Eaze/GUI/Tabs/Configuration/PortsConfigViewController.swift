@@ -238,32 +238,46 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         let vc = SelectionTableViewController(style: .Grouped)
         vc.delegate = self
         vc.tag = (indexPath.section - 1) * 7 + indexPath.row - 1
-        vc.title = port.name
+        vc.title = port.name + " "
 
         switch indexPath.row {
         case 1: // msp
-            vc.title! += " MSP"
+            vc.title! += "MSP"
             vc.items = ["Disabled", "9600", "19200", "38400", "57600", "115200"]
+            let options: [Baudrate] = [.B9600, .B19200, .B38400, .B57600, .B115200]
+            vc.selectedItem = port.functions.contains(.MSP) ? options.indexOf(port.MSP_baudrate)! + 1 : 0
 
         case 2: // blackbox
-            vc.title! += " Blackbox"
+            vc.title! += "Blackbox"
             vc.items = ["Disabled", "19200", "38400", "57600", "115200", "230400", "250000"]
+            let options: [Baudrate] = [.B19200, .B38400, .B57600, .B115200, .B230400, .B250000]
+            vc.selectedItem = port.functions.contains(.BLACKBOX) ? options.indexOf(port.BLACKBOX_baudrate)! + 1 : 0
             
         case 3: // telemetry type
-            vc.title! += " Telemetry"
+            vc.title! += "Telemetry"
             vc.items = ["Disabled", "FrSky", "Graupner HOTT", dataStorage.apiVersion >= "1.15.0" ? "LTM" : "MSP", "Smartport"] + (dataStorage.apiVersion >= "1.18.0" ? ["MAVLink"] : [])
+            let options: [SerialPortFunction] = [.TELEMETRY_FRSKY, .TELEMETRY_HOTT, .TELEMETRY_MSP_LTM, .TELEMETRY_SMARTPORT, .TELEMETRY_MAVLINK]
+            for function in port.functions {
+                vc.selectedItem = options.contains(function) ? options.indexOf(function)! + 1 : 0
+            }
 
         case 4: // telemetry baudrate
-            vc.title! += " Telemetry Baudrate"
+            vc.title! += "Telemetry Baudrate"
             vc.items = ["AUTO", "9600", "19200", "38400", "57600", "115200"]
+            let options: [Baudrate] = [.Auto, .B9600, .B19200, .B38400, .B57600, .B115200]
+            vc.selectedItem = options.indexOf(port.TELEMETRY_baudrate)!
+
 
         case 5: // Serial RX
-            vc.title! += " Serial RX"
+            vc.title! += "Serial RX"
             vc.items = ["Disabled", "Enabled"]
+            vc.selectedItem = port.functions.contains(.RX_SERIAL) ? 1 : 0
 
         case 6: // GPS
-            vc.title! += " GPS"
+            vc.title! += "GPS"
             vc.items = ["Disabled", "9600", "19200", "38400", "57600", "115200"]
+            let options: [Baudrate] = [.B9600, .B19200, .B38400, .B57600, .B115200]
+            vc.selectedItem = port.functions.contains(.GPS) ? options.indexOf(port.GPS_baudrate)! + 1 : 0
 
         default:
             print("Too many cells in PortConfigViewController section")
