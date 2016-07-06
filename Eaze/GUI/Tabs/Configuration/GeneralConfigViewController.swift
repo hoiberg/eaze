@@ -52,6 +52,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             field.minValue = -180
             field.decimal = 0
             field.increment = 1
+            field.suffix = "º"
         }
         
         for field in [rollAccTrim, pitchAccTrim] {

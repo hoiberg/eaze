@@ -5,8 +5,6 @@
 //  Created by Alex on 05-09-15.
 //  Copyright (c) 2015 Hangar42. All rights reserved.
 //
-//TODO: Min knop werkt niet altijd
-
 
 import UIKit
 import QuartzCore
@@ -29,11 +27,15 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     var view: UIView!
     
-    var increment: Double = 0.1,
-        minValue: Double? = nil,
-        maxValue: Double? = nil,
+    var increment = 0.1,
+        minValue: Double?,
+        maxValue: Double?,
         realValue = 0.0
-    
+
+    var suffix: String? {
+        didSet { reloadText() }
+    }
+
     var decimal: Int = 2 {
         didSet {
             reloadText()
@@ -134,6 +136,11 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     private func reloadText() {
         textField.text = doubleValue.stringWithDecimals(decimal)
+        
+        if let suf = suffix {
+            textField.text! += suf
+        }
+
         if !disableDelegateUpdate {
             (delegate as! StaticAdjustableTextFieldDelegate?)?.staticAdjustableTextFieldChangedValue(self)
         } else {
@@ -162,11 +169,11 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
             return true
         } else {
             DecimalPadPopover.presentWithDelegate(  self,
-                text: textField.text!,
-                sourceRect: textField.frame,
-                sourceView: self,
-                size: CGSize(width: 210, height: 280),
-                permittedArrowDirections: UIPopoverArrowDirection.Any)
+                                             text: doubleValue.stringWithDecimals(decimal),
+                                       sourceRect: textField.frame,
+                                       sourceView: self,
+                                             size: CGSize(width: 210, height: 280),
+                         permittedArrowDirections: UIPopoverArrowDirection.Any)
             return false
         }
     }

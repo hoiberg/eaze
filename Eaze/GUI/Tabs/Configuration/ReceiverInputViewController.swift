@@ -178,6 +178,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
             refreshRateField!.minValue = 1
             refreshRateField!.decimal = 0
             refreshRateField!.increment = 1
+            refreshRateField!.suffix = " Hz"
             
             return cell
             

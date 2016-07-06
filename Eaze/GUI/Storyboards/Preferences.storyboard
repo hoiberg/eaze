@@ -266,7 +266,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection headerTitle="Board alignment" footerTitle="Adjustments are in degrees" id="pZ7-Eb-tp9">
+                            <tableViewSection headerTitle="Board alignment" id="pZ7-Eb-tp9">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="2e6-qO-c6Z">
                                         <rect key="frame" x="0.0" y="377" width="600" height="44"/>
@@ -375,7 +375,7 @@
                             <tableViewSection headerTitle="Accelerometer Trim" id="C1G-Kx-gxw">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="wms-Lo-xJK">
-                                        <rect key="frame" x="0.0" y="576" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="560" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wms-Lo-xJK" id="LKn-Do-kPa">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -409,7 +409,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="DO3-ph-S2w">
-                                        <rect key="frame" x="0.0" y="620" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="604" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DO3-ph-S2w" id="f9g-XM-RCb">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -447,7 +447,7 @@
                             <tableViewSection headerTitle="System configuration" footerTitle="Changing loop time or cycle frequency may require PID re-tuning." id="HeT-fm-EFi">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="JbF-g1-vTr">
-                                        <rect key="frame" x="0.0" y="715" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="699" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JbF-g1-vTr" id="lwe-TE-nFb">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -481,7 +481,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="nak-0X-B5I">
-                                        <rect key="frame" x="0.0" y="759" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="743" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nak-0X-B5I" id="OsA-qM-6ZZ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -858,7 +858,7 @@
                             <tableViewSection headerTitle="Features" id="aFe-VK-p2f">
                                 <string key="footerTitle">Motor Stop: Don't spin motors when armed.
 Always Disarm: Disarm motors regardless of throttle value (When arming via AUX channel)
-Disarming Delay: Disarm motors after set delay (seconds). Requires 'Motor Stop' enabled.</string>
+Disarming Delay: Disarm motors after set delay. Requires 'Motor Stop' enabled.</string>
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="X5V-nl-tlb">
                                         <rect key="frame" x="0.0" y="114" width="600" height="44"/>
@@ -1394,7 +1394,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                                 </constraint>
                                             </constraints>
                                         </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh rate (Hz)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vm-oi-pPj">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vm-oi-pPj">
                                             <rect key="frame" x="8" y="6" width="416" height="32"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>

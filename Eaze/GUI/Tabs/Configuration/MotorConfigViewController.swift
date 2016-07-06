@@ -59,6 +59,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         disarmDelayField.minValue = 0
         disarmDelayField.decimal = 0
         disarmDelayField.increment = 1
+        disarmDelayField.suffix = "s"
     }
     
     deinit {

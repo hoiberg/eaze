@@ -29,10 +29,14 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         plusLabel: UILabel!,
         minusLabel: UILabel!
     
-    var increment: Double = 0.1,
-        minValue: Double? = nil,
-        maxValue: Double? = nil,
+    var increment = 0.1,
+        minValue: Double?,
+        maxValue: Double?,
         realValue = 0.0
+    
+    var suffix: String? {
+        didSet { reloadText() }
+    }
     
     var decimal: Int = 2 {
         didSet { reloadText() }
@@ -109,6 +113,11 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
     
     private func reloadText() {
         textField.text = doubleValue.stringWithDecimals(decimal)
+        
+        if let suf = suffix {
+            textField.text! += suf
+        }
+        
         (delegate as! AdjustableTextFieldDelegate?)?.adjustableTextFieldChangedValue(self)
     }
         
@@ -224,7 +233,7 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
             textField.becomeFirstResponder()
         } else {
             DecimalPadPopover.presentWithDelegate( self,
-                                             text: textField.text!,
+                                             text: doubleValue.stringWithDecimals(decimal),
                                        sourceRect: textField.frame,
                                        sourceView: self,
                                              size: CGSize(width: 210, height: 280),
