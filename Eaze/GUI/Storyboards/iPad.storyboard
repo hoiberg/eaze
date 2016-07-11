@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -9,7 +11,7 @@
         <!--Home-->
         <scene sceneID="kV2-9J-daH">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" id="PL3-rV-wk6" userLabel="Home" customClass="HomeViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeViewController" id="PL3-rV-wk6" userLabel="Home" customClass="HomeViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="U1T-p9-IcF"/>
                         <viewControllerLayoutGuide type="bottom" id="aYs-mA-rCJ"/>
@@ -18,14 +20,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rjg-7M-yZQ" customClass="EFIS" customModule="Cleanflight" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rjg-7M-yZQ" customClass="EFIS" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="smallScreen" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A9z-1U-Iue" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A9z-1U-Iue" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="966" y="93" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -35,9 +37,13 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="ARM"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view tag="4" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Od5-tj-xOh" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Od5-tj-xOh" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="966" y="67" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="1Ti-9q-DoW"/>
+                                    <constraint firstAttribute="height" constant="20" id="mLx-hu-AAe"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="0"/>
@@ -45,7 +51,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="SNR"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view tag="3" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hTI-0r-son" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTI-0r-son" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="906" y="67" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -55,7 +61,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="GPS"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view tag="1" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avn-gG-3ri" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avn-gG-3ri" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="848" y="67" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -65,7 +71,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="BAR"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view tag="2" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="69U-LW-rcz" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69U-LW-rcz" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="789" y="67" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -75,7 +81,7 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="MAG"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v2z-uX-csh" customClass="GlassLabel" customModule="Cleanflight" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v2z-uX-csh" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="731" y="67" width="50" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
@@ -85,16 +91,24 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="ACC"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L2G-gY-fbg" customClass="GlassBox" customModule="Cleanflight" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2G-gY-fbg" customClass="GlassBox" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="731" y="22" width="285" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="eiu-YJ-aHC"/>
+                                    <constraint firstAttribute="width" constant="285" id="wtV-jT-dML"/>
+                                </constraints>
                             </view>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-jT-ud9">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="l2y-jT-ud9">
                                 <rect key="frame" x="439" y="32" width="20" height="20"/>
                             </activityIndicatorView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEA-7i-lJ6">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEA-7i-lJ6">
                                 <rect key="frame" x="432" y="22" width="159" height="39"/>
                                 <color key="backgroundColor" red="0.031372549019607843" green="0.0" blue="0.0" alpha="0.17999999999999999" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="159" id="IZD-rV-Gyi"/>
+                                    <constraint firstAttribute="height" constant="39" id="a8K-0d-NQn"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Disconnect">
                                     <color key="titleColor" red="1" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
@@ -103,31 +117,13 @@
                                     <action selector="connect:" destination="PL3-rV-wk6" eventType="touchUpInside" id="gda-nd-Rjn"/>
                                 </connections>
                             </button>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vzH-Dh-Ouw" customClass="GlassIndicator" customModule="Cleanflight" customModuleProvider="target">
-                                <rect key="frame" x="795" y="200" width="130" height="130"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Coe-oV-EZZ" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
+                                <rect key="frame" x="89" y="203" width="130" height="130"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="0%"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="RSSI"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="1" green="0.0" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YlC-C5-gn4" customClass="GlassIndicator" customModule="Cleanflight" customModuleProvider="target">
-                                <rect key="frame" x="795" y="444" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="0"/>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="BT RSSI"/>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="0.0" green="1" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Coe-oV-EZZ" customClass="GlassIndicator" customModule="Cleanflight" customModuleProvider="target">
-                                <rect key="frame" x="90" y="200" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Coe-oV-EZZ" secondAttribute="height" multiplier="1:1" id="8mk-5C-L3w"/>
+                                    <constraint firstAttribute="width" constant="130" id="Yjp-kC-4d0"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0.0V"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="Battery"/>
@@ -136,8 +132,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4nR-Z4-wAM" customClass="GlassIndicator" customModule="Cleanflight" customModuleProvider="target">
-                                <rect key="frame" x="90" y="444" width="130" height="130"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nR-Z4-wAM" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
+                                <rect key="frame" x="89" y="434" width="130" height="130"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0A"/>
@@ -147,8 +143,78 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzH-Dh-Ouw" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
+                                <rect key="frame" x="805" y="203" width="130" height="130"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="0%"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="RSSI"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="1" green="0.0" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YlC-C5-gn4" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
+                                <rect key="frame" x="805" y="434" width="130" height="130"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="text" value="0"/>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="BT RSSI"/>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
+                                        <color key="value" red="0.0" green="1" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="69U-LW-rcz" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="11B-p6-RaC"/>
+                            <constraint firstItem="L2G-gY-fbg" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="2" id="2ae-bG-9Xu"/>
+                            <constraint firstItem="hTI-0r-son" firstAttribute="width" secondItem="Od5-tj-xOh" secondAttribute="width" id="2eW-7m-7SX"/>
+                            <constraint firstItem="Coe-oV-EZZ" firstAttribute="centerX" secondItem="m4w-iS-gvb" secondAttribute="centerX" multiplier="0.3" id="3Ce-u4-bnY"/>
+                            <constraint firstItem="Od5-tj-xOh" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="5zC-zf-08F"/>
+                            <constraint firstItem="hTI-0r-son" firstAttribute="height" secondItem="Od5-tj-xOh" secondAttribute="height" id="70M-NA-If9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v2z-uX-csh" secondAttribute="trailing" constant="223" id="84f-lg-9WE"/>
+                            <constraint firstItem="avn-gG-3ri" firstAttribute="width" secondItem="Od5-tj-xOh" secondAttribute="width" id="Brl-Yj-OOj"/>
+                            <constraint firstItem="A9z-1U-Iue" firstAttribute="width" secondItem="Od5-tj-xOh" secondAttribute="width" id="CQW-Cp-yAe"/>
+                            <constraint firstItem="l2y-jT-ud9" firstAttribute="leading" secondItem="YEA-7i-lJ6" secondAttribute="leading" constant="7" id="Ddp-nE-Fsr"/>
+                            <constraint firstItem="A9z-1U-Iue" firstAttribute="top" secondItem="Od5-tj-xOh" secondAttribute="bottom" constant="6" id="EtK-0N-5Gj"/>
+                            <constraint firstItem="YlC-C5-gn4" firstAttribute="height" secondItem="Coe-oV-EZZ" secondAttribute="height" id="FUe-Ro-fBZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="L2G-gY-fbg" secondAttribute="trailing" constant="-12" id="Fa3-8J-Z2e"/>
+                            <constraint firstItem="A9z-1U-Iue" firstAttribute="height" secondItem="Od5-tj-xOh" secondAttribute="height" id="GO4-ZY-kbi"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="hTI-0r-son" secondAttribute="trailing" constant="48" id="HFi-yg-KJO"/>
+                            <constraint firstItem="4nR-Z4-wAM" firstAttribute="centerX" secondItem="Coe-oV-EZZ" secondAttribute="centerX" id="LXz-f4-2DM"/>
+                            <constraint firstItem="69U-LW-rcz" firstAttribute="width" secondItem="Od5-tj-xOh" secondAttribute="width" id="MKc-O1-e6k"/>
+                            <constraint firstItem="vzH-Dh-Ouw" firstAttribute="height" secondItem="Coe-oV-EZZ" secondAttribute="height" id="OsX-Pn-G9p"/>
+                            <constraint firstItem="4nR-Z4-wAM" firstAttribute="height" secondItem="Coe-oV-EZZ" secondAttribute="height" id="RNf-W5-2II"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="69U-LW-rcz" secondAttribute="trailing" constant="165" id="T0l-IV-dr0"/>
+                            <constraint firstItem="YlC-C5-gn4" firstAttribute="centerX" secondItem="vzH-Dh-Ouw" secondAttribute="centerX" id="V8p-JL-FLx"/>
+                            <constraint firstItem="l2y-jT-ud9" firstAttribute="centerY" secondItem="YEA-7i-lJ6" secondAttribute="centerY" id="XM9-tY-Fqf"/>
+                            <constraint firstItem="v2z-uX-csh" firstAttribute="height" secondItem="Od5-tj-xOh" secondAttribute="height" id="Z1c-P2-KLB"/>
+                            <constraint firstItem="rjg-7M-yZQ" firstAttribute="centerX" secondItem="m4w-iS-gvb" secondAttribute="centerX" id="aAj-Fe-08F"/>
+                            <constraint firstItem="69U-LW-rcz" firstAttribute="height" secondItem="Od5-tj-xOh" secondAttribute="height" id="afx-6d-u8m"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="avn-gG-3ri" secondAttribute="trailing" constant="106" id="c7L-JD-LDm"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Od5-tj-xOh" secondAttribute="trailing" constant="-12" id="dF4-Of-S9m"/>
+                            <constraint firstItem="vzH-Dh-Ouw" firstAttribute="centerY" secondItem="Coe-oV-EZZ" secondAttribute="centerY" id="dm7-J9-pH5"/>
+                            <constraint firstItem="rjg-7M-yZQ" firstAttribute="centerY" secondItem="m4w-iS-gvb" secondAttribute="centerY" id="e0z-hz-U6F"/>
+                            <constraint firstItem="rjg-7M-yZQ" firstAttribute="height" secondItem="m4w-iS-gvb" secondAttribute="height" id="fDX-0q-bpa"/>
+                            <constraint firstItem="YEA-7i-lJ6" firstAttribute="centerX" secondItem="m4w-iS-gvb" secondAttribute="centerX" id="gIb-vd-G5T"/>
+                            <constraint firstItem="YEA-7i-lJ6" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="2" id="goO-Q5-D7D"/>
+                            <constraint firstItem="4nR-Z4-wAM" firstAttribute="centerY" secondItem="m4w-iS-gvb" secondAttribute="centerY" multiplier="1.3" id="gr0-di-BM4"/>
+                            <constraint firstItem="avn-gG-3ri" firstAttribute="height" secondItem="Od5-tj-xOh" secondAttribute="height" id="iQL-u4-oD7"/>
+                            <constraint firstItem="A9z-1U-Iue" firstAttribute="trailing" secondItem="Od5-tj-xOh" secondAttribute="trailing" id="kcR-3h-C9r"/>
+                            <constraint firstItem="v2z-uX-csh" firstAttribute="width" secondItem="Od5-tj-xOh" secondAttribute="width" id="lR0-dU-PuZ"/>
+                            <constraint firstItem="hTI-0r-son" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="miu-BX-nNP"/>
+                            <constraint firstItem="4nR-Z4-wAM" firstAttribute="width" secondItem="Coe-oV-EZZ" secondAttribute="width" id="n2Q-RF-SSY"/>
+                            <constraint firstItem="YlC-C5-gn4" firstAttribute="width" secondItem="Coe-oV-EZZ" secondAttribute="width" id="r2p-zm-JSB"/>
+                            <constraint firstItem="rjg-7M-yZQ" firstAttribute="width" secondItem="m4w-iS-gvb" secondAttribute="width" id="rTw-xB-DWo"/>
+                            <constraint firstItem="YlC-C5-gn4" firstAttribute="centerY" secondItem="4nR-Z4-wAM" secondAttribute="centerY" id="sPF-Ee-cjw"/>
+                            <constraint firstItem="avn-gG-3ri" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="ucm-Ag-IPO"/>
+                            <constraint firstItem="v2z-uX-csh" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="vGs-7y-HKq"/>
+                            <constraint firstItem="Coe-oV-EZZ" firstAttribute="centerY" secondItem="m4w-iS-gvb" secondAttribute="centerY" multiplier="0.7" id="w1V-K8-MhG"/>
+                            <constraint firstItem="vzH-Dh-Ouw" firstAttribute="width" secondItem="Coe-oV-EZZ" secondAttribute="width" id="wmp-os-hPN"/>
+                            <constraint firstItem="vzH-Dh-Ouw" firstAttribute="centerX" secondItem="m4w-iS-gvb" secondAttribute="centerX" multiplier="1.7" id="xwz-ff-jyE"/>
+                        </constraints>
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedTopBarMetrics"/>
@@ -181,7 +247,7 @@
         <!--Tuning-->
         <scene sceneID="2qY-4g-jdJ">
             <objects>
-                <viewController storyboardIdentifier="TuningViewController" id="f2F-4V-rUR" userLabel="Tuning" customClass="TuningViewController" customModule="Cleanflight" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TuningViewController" id="f2F-4V-rUR" userLabel="Tuning" customClass="TuningViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="GK5-XW-6DB"/>
                         <viewControllerLayoutGuide type="bottom" id="l3f-t5-RvG"/>
@@ -209,7 +275,7 @@
                                             <constraint firstAttribute="width" constant="229" id="kOl-Db-jwn"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ERR-hZ-wy5" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ERR-hZ-wy5" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="333" y="23" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -220,7 +286,7 @@
                                             <outlet property="delegate" destination="f2F-4V-rUR" id="dSV-ob-Drn"/>
                                         </connections>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ozc-9q-rqU" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ozc-9q-rqU" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="334" y="61" width="133" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
@@ -236,7 +302,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akr-UV-VSw" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akr-UV-VSw" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="333" y="161" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -265,7 +331,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFO-vz-lDH" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFO-vz-lDH" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="354" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -281,7 +347,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaQ-j3-T6c" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaQ-j3-T6c" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="334" y="199" width="133" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <userDefinedRuntimeAttributes>
@@ -302,7 +368,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yWl-Mm-C5G" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yWl-Mm-C5G" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="392" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -319,7 +385,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrg-FQ-uCR" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrg-FQ-uCR" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="213" y="430" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -336,7 +402,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="my4-n5-JdU" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="my4-n5-JdU" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="214" y="468" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -353,7 +419,7 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aed-AJ-8gz" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aed-AJ-8gz" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="214" y="506" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -361,7 +427,7 @@
                                             <constraint firstAttribute="width" constant="134" id="zzr-tW-H0I"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-YH-0IS" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-YH-0IS" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="316" width="134" height="34"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -505,15 +571,15 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yOh-zX-nyo">
                                         <rect key="frame" x="8" y="42" width="471" height="34"/>
                                         <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wR5-VF-tvN" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wR5-VF-tvN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qdi-La-5Au" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qdi-La-5Au" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfm-e8-nRI" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfm-e8-nRI" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -553,15 +619,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvQ-jG-rBE" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvQ-jG-rBE" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ce-8I-1Hn" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ce-8I-1Hn" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMv-5E-w8b" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMv-5E-w8b" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -596,15 +662,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAg-zx-9ua" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAg-zx-9ua" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6tS-7O-4el" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6tS-7O-4el" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXt-OQ-NOT" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXt-OQ-NOT" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -639,15 +705,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u94-qS-9YY" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u94-qS-9YY" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="95j-yt-aFo" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="95j-yt-aFo" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xri-Cz-v2c" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xri-Cz-v2c" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -682,15 +748,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUw-kG-QzT" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUw-kG-QzT" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G10-om-SyQ" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G10-om-SyQ" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BP8-HS-A2T" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BP8-HS-A2T" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -725,15 +791,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-9C-NZN" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-9C-NZN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJx-7a-9wy" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJx-7a-9wy" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtz-WW-DAj" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtz-WW-DAj" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -768,15 +834,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WRo-KR-cWn" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WRo-KR-cWn" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBq-ax-dSq" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBq-ax-dSq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mhQ-UJ-O94" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mhQ-UJ-O94" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -811,15 +877,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHt-2x-Ja7" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHt-2x-Ja7" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUm-W4-p9y" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUm-W4-p9y" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z69-Li-blq" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z69-Li-blq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -854,15 +920,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqP-HA-evZ" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqP-HA-evZ" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYt-DW-TpN" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYt-DW-TpN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYt-rI-OV7" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYt-rI-OV7" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
@@ -897,15 +963,15 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2u-vb-2Kq" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2u-vb-2Kq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="57" y="0.0" width="134" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zIS-uu-8mD" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zIS-uu-8mD" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qEh-75-SNM" customClass="AdjustableTextField" customModule="Cleanflight" customModuleProvider="target">
+                                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qEh-75-SNM" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
