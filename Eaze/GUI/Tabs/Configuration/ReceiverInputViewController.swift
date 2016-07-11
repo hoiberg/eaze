@@ -114,8 +114,9 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
 
         case MSP_RC:
             for (index, chan) in dataStorage.channels.enumerate() {
-                bars[index]?.progress = Float(chan) / 3000.0 // convert to 0.0-1.0 scale
-                labels[index]?.text = "\(chan)"
+                let realIndex = dataStorage.RC_MAP[safe: index] ?? index
+                bars[realIndex]?.progress = Float(chan) / 3000.0 // convert to 0.0-1.0 scale
+                labels[realIndex]?.text = "\(chan)"
             }
             if isFirstTimeMSP_RC {
                 tableView.reloadData() // to get right amount of channel cells
@@ -189,9 +190,9 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
                 label = cell.viewWithTag(3) as! UILabel
             
             if bluetoothSerial.isConnected {
-                nameLabel.text = channelNames[indexPath.row]
-                bar.progress = Float(dataStorage.channels[indexPath.row]) / 3000.0 // convert to 0.0-1.0 scale
-                label.text = "\(dataStorage.channels[indexPath.row])"
+                nameLabel.text = channelNames[safe: indexPath.row] ?? "ERR"
+                bar.progress = Float(dataStorage.channels[safe: indexPath.row] ?? 0.0) / 3000.0 // convert to 0.0-1.0 scale
+                label.text = "\(dataStorage.channels[safe: indexPath.row] ?? 0)"
             } else {
                 nameLabel.text = refNames[indexPath.row]
                 bar.progress = 0.5
