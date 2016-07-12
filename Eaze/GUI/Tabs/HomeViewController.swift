@@ -33,7 +33,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     private var fastUpdateTimer: NSTimer?,
                 slowUpdateTimer: NSTimer?,
-                previousModes: [String] = [],
+                currentModes: [String] = [],
                 modeLabels: [GlassLabel] = []
     
     private let mspCodes = [MSP_BOARD_INFO, MSP_FC_VARIANT, MSP_FC_VERSION, MSP_BUILD_INFO],
@@ -148,7 +148,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     private func reloadModeLabels() {
         var x = referenceModeLabel.frame.maxX
-        for mode in previousModes {
+        for mode in currentModes {
             let newLabel = GlassLabel(frame: referenceModeLabel.frame)
             newLabel.background = .Green
             newLabel.text = mode
@@ -169,13 +169,13 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
         activityIndicator.stopAnimating()
         
-        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 1.0,
+        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.6,
                                                           target: self,
                                                         selector: #selector(HomeViewController.sendSlowDataRequest),
                                                         userInfo: nil,
                                                          repeats: true)
 
-        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.1,
+        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.15,
                                                           target: self,
                                                         selector: #selector(HomeViewController.sendFastDataRequest),
                                                         userInfo: nil,
@@ -254,10 +254,27 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                 label.background = dataStorage.activeSensors.bitCheck(label.tag)  ? .Dark : .Red
             }
             
-            if dataStorage.activeFlightModes != previousModes {
-                previousModes = dataStorage.activeFlightModes
+            if dataStorage.activeFlightModes != currentModes {
+                // remove previous and add new
+                currentModes = dataStorage.activeFlightModes
                 modeLabels.forEach { $0.removeFromSuperview() }
                 modeLabels = []
+                
+                let height = referenceModeLabel.frame.height,
+                    y = referenceModeLabel.frame.minY
+                var x = referenceModeLabel.frame.maxX
+                
+                for mode in currentModes {
+                    let label = GlassLabel(frame: CGRect(x: 0, y: y, width: 0, height: height))
+                    label.background = .Green
+                    label.text = mode
+                    label.adjustToTextSize()
+                    label.frame.origin.x = x - label.frame.width
+                    x = label.frame.origin.x - 9 // add margin
+                    
+                    modeLabels.append(label)
+                    view.addSubview(label)
+                }
             }
             
         case MSP_ANALOG:
