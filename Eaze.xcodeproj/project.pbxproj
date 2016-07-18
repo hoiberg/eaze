@@ -270,10 +270,10 @@
 		FA2FDA151D114BAB0003327A /* Storyboards */ = {
 			isa = PBXGroup;
 			children = (
-				FA2FDA161D114BAB0003327A /* iPad.storyboard */,
 				FA2FDA171D114BAB0003327A /* iPhone.storyboard */,
-				FA2FDA191D114BAB0003327A /* Preferences.storyboard */,
+				FA2FDA161D114BAB0003327A /* iPad.storyboard */,
 				FA2FDA1A1D114BAB0003327A /* Uni.storyboard */,
+				FA2FDA191D114BAB0003327A /* Preferences.storyboard */,
 				FA2FDA181D114BAB0003327A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
