@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Betaflight@0,25x.png",
+      "filename" : "Betaflight@1x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Betaflight@0,5x.png",
+      "filename" : "Betaflight@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Betaflight.png",
+      "filename" : "Betaflight@3x.png",
       "scale" : "3x"
     }
   ],

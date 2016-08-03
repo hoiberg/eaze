@@ -35,7 +35,7 @@ final class ConfigTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell")!
         cell.textLabel?.text = cellTitles[indexPath.section][indexPath.row]
         cell.imageView?.image = UIImage(named: "Config-" + identifiers[indexPath.section][indexPath.row])
-        cell.imageView?.layer.cornerRadius = 4.0
+        cell.imageView?.layer.cornerRadius = 6.0
         cell.imageView?.clipsToBounds = true
         
         return cell
