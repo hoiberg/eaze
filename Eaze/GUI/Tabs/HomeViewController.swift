@@ -91,6 +91,11 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                                 object: nil)
         
         notificationCenter.addObserver( self,
+                              selector: #selector(HomeViewController.serialDidUpdateState),
+                                  name: BluetoothSerialDidUpdateStateNotification,
+                                object: nil)
+        
+        notificationCenter.addObserver( self,
                               selector: #selector(HomeViewController.willResignActive),
                                   name: AppWillResignActiveNotification,
                                 object: nil)
@@ -99,6 +104,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                               selector: #selector(HomeViewController.didBecomeActive),
                                   name: AppDidBecomeActiveNotification,
                                 object: nil)
+        
     }
     
     deinit {
@@ -326,6 +332,13 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     func serialDidStopScanning() {
         connectButton.setTitle("Connnect", forState: .Normal)
         activityIndicator.stopAnimating()
+    }
+    
+    func serialDidUpdateState() {
+        if bluetoothSerial.state != .PoweredOn {
+            connectButton.setTitle("Connnect", forState: .Normal)
+            activityIndicator.stopAnimating()
+        }
     }
     
     
