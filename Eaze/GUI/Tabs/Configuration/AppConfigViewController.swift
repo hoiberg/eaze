@@ -52,7 +52,7 @@ class AppConfigViewController: GroupedTableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return devices.count > 0 && section == 0 ? "Bluetooth modules" : "App settings"
+        return devices.count > 0 && section == 0 ? "Bluetooth modules" : "Auto Connect"
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
