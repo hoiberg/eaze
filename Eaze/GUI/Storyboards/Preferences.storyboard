@@ -1281,24 +1281,33 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <progressView opaque="NO" tag="2" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="a0b-eY-yl9">
-                                            <rect key="frame" x="299" y="21" width="229" height="2"/>
+                                        <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dbI-AE-u39">
+                                            <rect key="frame" x="292" y="15" width="230" height="14"/>
+                                            <subviews>
+                                                <progressView opaque="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="w0g-4F-zOw">
+                                                    <rect key="frame" x="0.0" y="6" width="230" height="2"/>
+                                                </progressView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" priority="999" constant="229" id="Luc-Rt-mHz"/>
+                                                <constraint firstAttribute="width" priority="750" constant="230" id="FaM-fg-1Ty"/>
+                                                <constraint firstItem="w0g-4F-zOw" firstAttribute="width" secondItem="dbI-AE-u39" secondAttribute="width" id="VRo-hj-HgI"/>
+                                                <constraint firstItem="w0g-4F-zOw" firstAttribute="centerX" secondItem="dbI-AE-u39" secondAttribute="centerX" id="hqe-Cy-q5g"/>
+                                                <constraint firstItem="w0g-4F-zOw" firstAttribute="centerY" secondItem="dbI-AE-u39" secondAttribute="centerY" id="iRg-v3-pcZ"/>
+                                                <constraint firstAttribute="height" constant="14" id="rcW-jk-1sQ"/>
                                             </constraints>
-                                            <color key="trackTintColor" red="0.82931531652360513" green="0.82931531652360513" blue="0.82931531652360513" alpha="1" colorSpace="calibratedRGB"/>
-                                        </progressView>
+                                        </view>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottomMargin" secondItem="plQ-ZS-tN3" secondAttribute="bottom" id="Ar6-U4-xeL"/>
-                                        <constraint firstItem="a0b-eY-yl9" firstAttribute="centerY" secondItem="M0W-VQ-KQa" secondAttribute="centerY" id="GFh-nl-k6M"/>
                                         <constraint firstAttribute="topMargin" secondItem="plQ-ZS-tN3" secondAttribute="top" id="MMx-Pf-ITb"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="tmX-V7-plk" secondAttribute="trailing" id="OQ1-xC-wWc"/>
+                                        <constraint firstItem="dbI-AE-u39" firstAttribute="centerY" secondItem="M0W-VQ-KQa" secondAttribute="centerY" id="R4b-4O-J0g"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="tmX-V7-plk" secondAttribute="bottom" id="SZ4-in-Q4C"/>
                                         <constraint firstAttribute="topMargin" secondItem="tmX-V7-plk" secondAttribute="top" id="T2f-lu-atC"/>
-                                        <constraint firstItem="tmX-V7-plk" firstAttribute="leading" secondItem="a0b-eY-yl9" secondAttribute="trailing" constant="8" id="hWt-N1-01T"/>
+                                        <constraint firstItem="dbI-AE-u39" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="plQ-ZS-tN3" secondAttribute="trailing" id="eQF-ZI-QK9"/>
                                         <constraint firstAttribute="leadingMargin" secondItem="plQ-ZS-tN3" secondAttribute="leading" id="hcP-aR-ewW"/>
-                                        <constraint firstItem="a0b-eY-yl9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="plQ-ZS-tN3" secondAttribute="trailing" id="iKd-nh-luS"/>
+                                        <constraint firstItem="tmX-V7-plk" firstAttribute="leading" secondItem="dbI-AE-u39" secondAttribute="trailing" constant="14" id="weN-ad-hRV"/>
                                     </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>

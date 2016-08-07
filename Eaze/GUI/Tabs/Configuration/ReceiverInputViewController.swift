@@ -155,8 +155,13 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath),
             nameLabel = cell.viewWithTag(1) as! UILabel,
-            bar = cell.viewWithTag(2) as! UIProgressView,
+            barSuperView = cell.viewWithTag(2)!,
+            bar = barSuperView.viewWithTag(1) as! UIProgressView,
             label = cell.viewWithTag(3) as! UILabel
+        
+        barSuperView.layer.cornerRadius = 3
+        barSuperView.layer.masksToBounds = true
+        bar.transform = CGAffineTransformMakeScale(1, 7)
         
         if bluetoothSerial.isConnected {
             nameLabel.text = channelNames[safe: indexPath.row] ?? "ERR"
