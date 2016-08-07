@@ -6,16 +6,13 @@
 //  Copyright © 2015 Hangar42. All rights reserved.
 //
 
-//TODO: Uit testen met ontvanger
-
 import UIKit
 
 final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSubscriber, StaticAdjustableTextFieldDelegate {
     
     // MARK: - Interface vars
     
-    var refreshRateField: StaticAdjustableTextField?,
-        nameLabels = [UILabel?](count: 32, repeatedValue: nil),
+    var nameLabels = [UILabel?](count: 32, repeatedValue: nil),
         labels = [UILabel?](count: 32, repeatedValue: nil),
         bars = [UIProgressView?](count: 32, repeatedValue: nil)
 
@@ -28,16 +25,6 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     var channelNames = [String](count: 32, repeatedValue: ""),
         updateTimer: NSTimer?,
         isFirstTimeMSP_RC = true
-    
-    var updateInterval: Double {
-        get {
-            if let field = refreshRateField {
-                return 1.0 / field.doubleValue
-            } else {
-                return 1.0 / 10.0 // default value
-            }
-        }
-    }
     
     
     // MARK: - Functions
@@ -90,7 +77,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     private func scheduleUpdateTimer() {
         updateTimer?.invalidate() // always invalidate before (re-)scheduling, to prevent multiple timers running at the same time.
-        updateTimer = NSTimer.scheduledTimerWithTimeInterval(updateInterval, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
+        updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
     }
     
     
@@ -158,52 +145,33 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 2
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        } else {
-            return bluetoothSerial.isConnected ? dataStorage.activeChannels : 8 // load sample data if not connected
-        }
+        return bluetoothSerial.isConnected ? dataStorage.activeChannels : 8 // load sample data if not connected
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("RefreshRateCell", forIndexPath: indexPath)
-            refreshRateField = cell.viewWithTag(1) as! StaticAdjustableTextField?
-            refreshRateField!.delegate = self
-            refreshRateField!.intValue = 10
-            refreshRateField!.maxValue = 30
-            refreshRateField!.minValue = 1
-            refreshRateField!.decimal = 0
-            refreshRateField!.increment = 1
-            refreshRateField!.suffix = " Hz"
-            
-            return cell
-            
+        let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath),
+            nameLabel = cell.viewWithTag(1) as! UILabel,
+            bar = cell.viewWithTag(2) as! UIProgressView,
+            label = cell.viewWithTag(3) as! UILabel
+        
+        if bluetoothSerial.isConnected {
+            nameLabel.text = channelNames[safe: indexPath.row] ?? "ERR"
+            bar.progress = Float(dataStorage.channels[safe: indexPath.row] ?? 0.0) / 3000.0 // convert to 0.0-1.0 scale
+            label.text = "\(dataStorage.channels[safe: indexPath.row] ?? 0)"
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath),
-                nameLabel = cell.viewWithTag(1) as! UILabel,
-                bar = cell.viewWithTag(2) as! UIProgressView,
-                label = cell.viewWithTag(3) as! UILabel
-            
-            if bluetoothSerial.isConnected {
-                nameLabel.text = channelNames[safe: indexPath.row] ?? "ERR"
-                bar.progress = Float(dataStorage.channels[safe: indexPath.row] ?? 0.0) / 3000.0 // convert to 0.0-1.0 scale
-                label.text = "\(dataStorage.channels[safe: indexPath.row] ?? 0)"
-            } else {
-                nameLabel.text = refNames[indexPath.row]
-                bar.progress = 0.5
-                label.text = "1500"
-            }
-            
-            nameLabels[indexPath.row] = nameLabel
-            bars[indexPath.row] = bar
-            labels[indexPath.row] = label
-            
-            return cell
+            nameLabel.text = refNames[indexPath.row]
+            bar.progress = 0.5
+            label.text = "1500"
         }
+        
+        nameLabels[indexPath.row] = nameLabel
+        bars[indexPath.row] = bar
+        labels[indexPath.row] = label
+        
+        return cell
     }
 }

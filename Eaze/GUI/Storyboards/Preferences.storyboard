@@ -24,14 +24,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="General" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pNu-KD-9dJ">
-                                            <rect key="frame" x="55" y="0.0" width="530" height="43"/>
+                                            <rect key="frame" x="60" y="0.0" width="525" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="Config-General" id="ais-zL-dJl">
-                                            <rect key="frame" x="15" y="9" width="25" height="25"/>
+                                            <rect key="frame" x="15" y="6" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
                                     </subviews>
@@ -1256,42 +1256,8 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="RefreshRateCell" id="ICD-vq-g96">
-                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ICD-vq-g96" id="Bgb-pG-cEH">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pym-5S-8tn" customClass="StaticAdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                            <rect key="frame" x="432" y="2" width="160" height="39"/>
-                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="160" id="w3U-aj-zOz">
-                                                    <variation key="widthClass=compact" constant="140"/>
-                                                </constraint>
-                                            </constraints>
-                                        </view>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Refresh rate" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Vm-oi-pPj">
-                                            <rect key="frame" x="8" y="6" width="416" height="32"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="pym-5S-8tn" secondAttribute="bottom" constant="-6" id="6fD-Vc-qXH"/>
-                                        <constraint firstItem="pym-5S-8tn" firstAttribute="leading" secondItem="1Vm-oi-pPj" secondAttribute="trailing" constant="8" id="HZj-Je-mPV"/>
-                                        <constraint firstAttribute="bottomMargin" secondItem="1Vm-oi-pPj" secondAttribute="bottom" constant="-3" id="Hhf-NR-k47"/>
-                                        <constraint firstItem="pym-5S-8tn" firstAttribute="top" secondItem="Bgb-pG-cEH" secondAttribute="topMargin" constant="-6" id="apd-e4-2uK"/>
-                                        <constraint firstItem="1Vm-oi-pPj" firstAttribute="top" secondItem="Bgb-pG-cEH" secondAttribute="topMargin" constant="-2" id="hrG-eM-bpb"/>
-                                        <constraint firstAttribute="leadingMargin" secondItem="1Vm-oi-pPj" secondAttribute="leading" id="vUQ-ZZ-Txd"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="pym-5S-8tn" secondAttribute="trailing" id="wDG-Jw-Pul"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                            </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="ChannelCell" id="NoU-9p-neQ">
-                                <rect key="frame" x="0.0" y="158" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NoU-9p-neQ" id="M0W-VQ-KQa">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -1610,7 +1576,7 @@ With icons by icons8.com</string>
         </scene>
     </scenes>
     <resources>
-        <image name="Config-General" width="25" height="25"/>
+        <image name="Config-General" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="NVu-aN-oPQ"/>
