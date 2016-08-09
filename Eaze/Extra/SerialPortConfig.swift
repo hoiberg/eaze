@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class SerialPortConfig {
+struct SerialPortConfig {
     
     private static let portIdentifierToNameMapping = [0: "UART1", 1: "UART2", 2: "UART3", 3: "UART4", 20: "USB VCP", 30: "SOFTSERIAL1", 31: "SOFTSERIAL2"]
     
