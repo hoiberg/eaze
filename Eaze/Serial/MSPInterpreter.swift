@@ -45,7 +45,7 @@
 
 import UIKit
 
-protocol MSPUpdateSubscriber: NSObjectProtocol {
+protocol MSPUpdateSubscriber: AnyObject, NSObjectProtocol {
     func mspUpdated(code: Int)
 }
 
@@ -101,7 +101,7 @@ let MSP_EEPROM_WRITE    = 250
 
 final class MSPInterpreter: BluetoothSerialDelegate {
     
-    var subscribers = [Int: [MSPUpdateSubscriber]]()
+    var subscribers = [Int: WeakSet<MSPUpdateSubscriber>]()
     var callbacks: [(code: Int, callback: Void -> Void)] = []
     
     var state = 0
@@ -753,23 +753,23 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     
     func addSubscriber(newSubscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
         for code in codes {
-            if subscribers[code] != nil {
-                if let _ = subscribers[code]!.indexOf({$0 === newSubscriber}) {
+            if let set = subscribers[code] {
+                if set.containsObject(newSubscriber) {
                     log(.Error, "MSPInterpreter: Tried to subscribe object to MSP code it was already subscribed to")
                 } else {
-                    subscribers[code]!.append(newSubscriber)
+                    set.addObject(newSubscriber)
                 }
             } else {
-                subscribers[code] = [newSubscriber]
+                subscribers[code] = WeakSet<MSPUpdateSubscriber>(newSubscriber)
             }
         }
     }
     
     func removeSubscriber(subscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
         for code in codes {
-            if subscribers[code] != nil {
-                if let index = subscribers[code]!.indexOf({$0 === subscriber}) {
-                    subscribers[code]!.removeAtIndex(index)
+            if let set = subscribers[code] {
+                if set.containsObject(subscriber) {
+                    set.removeObject(subscriber)
                 } else {
                     log(.Error, "MSPInterpreter: Tried to unsubscribe object from code it was not subscribed to")
                 }
