@@ -128,11 +128,12 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
         discoveredPeripherals = []
         
         // search for devices with correct service UUID, and allow duplicates for RSSI update (but only if it is needed for auto connecting new peripherals)
-        centralManager.scanForPeripheralsWithServices( [CBUUID(string: "FFE0")],
-                                              options: [CBCentralManagerScanOptionAllowDuplicatesKey: userDefaults.boolForKey(DefaultsAutoConnectNewKey)])
+        let serviceUUIDs = [CBUUID(string: "FFE0")],
+            scanOptions = [CBCentralManagerScanOptionAllowDuplicatesKey: userDefaults.boolForKey(DefaultsAutoConnectNewKey)]
+        centralManager.scanForPeripheralsWithServices( serviceUUIDs, options: scanOptions)
         
         // maybe the peripheral is still connected
-        for peripheral in centralManager.retrieveConnectedPeripheralsWithServices([CBUUID(string: "FFE0")]) {
+        for peripheral in centralManager.retrieveConnectedPeripheralsWithServices(serviceUUIDs) {
             evaluatePeripheral(peripheral, RSSI: nil)
         }
     }
@@ -504,16 +505,17 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                 }
                 
                 func firstTry() {
+                    callbackOnReceive = nil
                     writeType = .WithoutResponse
                     msp.sendMSP(MSP_API_VERSION, callback: ready)
-                    delay(1.0, callback: secondTry)
+                    delay(2.0, callback: secondTry)
                 }
                 
                 func secondTry() {
                     guard !verified && isConnected else { return }
                     writeType = .WithResponse
                     msp.sendMSP(MSP_API_VERSION) // callback is still in place
-                    delay(1.0, callback: thirdTry)
+                    delay(2.0, callback: thirdTry)
                 }
                 
                 func thirdTry() {
@@ -522,20 +524,20 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     writeType = .WithoutResponse
                     callbackOnReceive = exitCLI
                     sendStringToDevice("asdf\r")
-                    delay(1.0, callback: fourthTry)
+                    delay(2.0, callback: fourthTry)
                 }
                 
                 func fourthTry() {
                     guard !verified && isConnected else { return }
                     writeType = .WithResponse
                     sendStringToDevice("asdf\r")
-                    delay(1.0, callback: fail)
+                    delay(2.0, callback: fail)
                 }
                 
                 func smartFirstTry() {
                     writeType = BluetoothDevice.deviceWithUUID(peripheral.identifier)!.writeWithResponse ? .WithResponse : .WithoutResponse
                     msp.sendMSP(MSP_API_VERSION, callback: ready)
-                    delay(1.0, callback: smartSecondTry)
+                    delay(2.0, callback: smartSecondTry)
                 }
                 
                 func smartSecondTry() {
@@ -543,7 +545,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                     msp.callbacks = [] // clear callback so it doesn't get called later
                     callbackOnReceive = exitCLI
                     sendStringToDevice("asdf\r")
-                    delay(1.0, callback: fail)
+                    delay(2.0, callback: firstTry) // go through the other possibilities as well
                 }
                 
                 if BluetoothDevice.deviceWithUUID(peripheral.identifier) != nil {
