@@ -104,7 +104,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                               selector: #selector(HomeViewController.didBecomeActive),
                                   name: AppDidBecomeActiveNotification,
                                 object: nil)
-        
     }
     
     deinit {
@@ -114,9 +113,9 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         if bluetoothSerial.isConnected {
-            begin()
+            serialOpened() // send request & schedule timer
         } else {
-            stop()
+            serialClosed() // reset UI
         }
     }
     
@@ -135,7 +134,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     func didBecomeActive() {
         guard isBeingShown else { return }
         if bluetoothSerial.isConnected {
-            begin()
+            serialOpened()
         }
     }
     
@@ -171,57 +170,6 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     
     // MARK: - Data request / update
-    
-    func begin() {
-        connectButton.setTitle("Disconnect", forState: .Normal)
-        connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
-        activityIndicator.stopAnimating()
-        
-        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.6,
-                                                          target: self,
-                                                        selector: #selector(HomeViewController.sendSlowDataRequest),
-                                                        userInfo: nil,
-                                                         repeats: true)
-
-        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.15,
-                                                          target: self,
-                                                        selector: #selector(HomeViewController.sendFastDataRequest),
-                                                        userInfo: nil,
-                                                         repeats: true)
-    }
-    
-    func stop() {
-        connectButton.setTitle("Connect", forState: .Normal)
-        connectButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        activityIndicator.stopAnimating()
-        
-        efis.roll = 0
-        efis.pitch = 0
-        efis.heading = 0
-        
-        infoBox.firstUpperText = ""
-        infoBox.secondUpperText = ""
-        infoBox.firstLowerText = ""
-        infoBox.secondLowerText = ""
-        infoBox.reloadText()
-        
-        voltageIndicator.text = "0.0V"
-        amperageIndicator.text = "0A"
-        RSSIIndicator.text = "0%"
-        BluetoothRSSIIndicator.text = "0"
-        
-        voltageIndicator.setIndication(1.0)
-        amperageIndicator.setIndication(1.0)
-        RSSIIndicator.setIndication(1.0)
-        BluetoothRSSIIndicator.setIndication(1.0)
-        
-        for label in sensorLabels {
-            label.background = .Dark
-        }
-
-        fastUpdateTimer?.invalidate()
-        slowUpdateTimer?.invalidate()
-    }
     
     func sendFastDataRequest() {
         msp.sendMSP(fastMSPCodes)
@@ -304,11 +252,54 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     // MARK: - Serial events
     
     func serialOpened() {
-        begin()
+        connectButton.setTitle("Disconnect", forState: .Normal)
+        connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
+        activityIndicator.stopAnimating()
+        
+        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.6,
+                                                                  target: self,
+                                                                  selector: #selector(HomeViewController.sendSlowDataRequest),
+                                                                  userInfo: nil,
+                                                                  repeats: true)
+        
+        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.15,
+                                                                  target: self,
+                                                                  selector: #selector(HomeViewController.sendFastDataRequest),
+                                                                  userInfo: nil,
+                                                                  repeats: true)
     }
     
     func serialClosed() {
-        stop()
+        connectButton.setTitle("Connect", forState: .Normal)
+        connectButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        activityIndicator.stopAnimating()
+        
+        efis.roll = 0
+        efis.pitch = 0
+        efis.heading = 0
+        
+        infoBox.firstUpperText = ""
+        infoBox.secondUpperText = ""
+        infoBox.firstLowerText = ""
+        infoBox.secondLowerText = ""
+        infoBox.reloadText()
+        
+        voltageIndicator.text = "0.0V"
+        amperageIndicator.text = "0A"
+        RSSIIndicator.text = "0%"
+        BluetoothRSSIIndicator.text = "0"
+        
+        voltageIndicator.setIndication(1.0)
+        amperageIndicator.setIndication(1.0)
+        RSSIIndicator.setIndication(1.0)
+        BluetoothRSSIIndicator.setIndication(1.0)
+        
+        for label in sensorLabels {
+            label.background = .Dark
+        }
+        
+        fastUpdateTimer?.invalidate()
+        slowUpdateTimer?.invalidate()
     }
     
     func serialWillAutoConnect() {
