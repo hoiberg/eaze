@@ -151,9 +151,9 @@ final class TuningSnapshot: NSObject {
                 }
                 fileURL = NSURL(string: docPath)
                 if let url = fileURL {
-                        if let error = json.save(url) { //TODO: FOUND NIL
-                            log(.Error, "Error while saving tuning snapshot: \(error.localizedDescription)")
-                        }
+                    if let error = json.save(url) {
+                        log(.Error, "Error while saving tuning snapshot: \(error.localizedDescription)")
+                    }
                 } else {
                     log(.Error, "Failed to create url while saving tuning snapshot: \(docPath)")
                 }
