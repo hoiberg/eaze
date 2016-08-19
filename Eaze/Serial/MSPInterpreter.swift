@@ -57,6 +57,8 @@ let MSP_BOARD_INFO      = 4
 let MSP_BUILD_INFO      = 5
 
 // MSP codes Cleanflight original features
+let MSP_MODE_RANGE           = 34
+let MSP_SET_MODE_RANGE       = 35
 let MSP_CF_SERIAL_CONFIG     = 54 // min 1.6.0 (older versions not supported) not the same for all API versions
 let MSP_SET_CF_SERIAL_CONFIG = 55 // min 1.6.0 (older versions not supported) not the same for all API versions
 let MSP_PID_CONTROLLER       = 59 // min 1.5.0
@@ -205,13 +207,27 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             dataStorage.buildInfo += " " // space
             dataStorage.buildInfo += String(bytes: data[11...18], encoding: NSUTF8StringEncoding) ?? "" // time
             
+        case MSP_MODE_RANGE: // 34
+            dataStorage.modeRanges = []
+            var offset = 0
+            for _ in 0 ..< data.count/4 {
+                var modeRange = ModeRange(id: Int(data[offset++]))
+                modeRange.auxChannelIndex = Int(data[offset++])
+                modeRange.range.start = 900 + Int(data[offset++]) * 25
+                modeRange.range.end = 900 + Int(data[offset++]) * 25
+                dataStorage.modeRanges.append(modeRange)
+            }
+            
+        case MSP_SET_MODE_RANGE: // 35
+            log("MSP_SET_MODE_RANGE received")
+            
         case MSP_CF_SERIAL_CONFIG: // 54
             dataStorage.serialPorts = []
             if dataStorage.apiVersion >= "1.6.0" {
                 var offset = 0
                 let serialPortCount = data.count / 7
                 for _ in 0 ..< serialPortCount {
-                    let port = SerialPortConfig()
+                    var port = SerialPortConfig()
                     port.identifier = Int(data[offset])
                     for function in SerialPortFunction.all {
                         if ((UInt16(1) << UInt16(function.rawValue)) & getUInt16(data, offset: offset + 1)) > 0 {
@@ -654,6 +670,29 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
         
         return buffer
+    }
+    
+    func sendModeRanges(callback endCallback: (Void -> Void)?) {
+        var index = 0
+
+        func sendNextModeRange() {
+            var modeRange = dataStorage.modeRanges[index],
+                buffer: [UInt8] = []
+            
+            buffer.append(UInt8(index++))
+            buffer.append(UInt8(modeRange.identifier))
+            buffer.append(UInt8(modeRange.auxChannelIndex))
+            buffer.append(UInt8((modeRange.range.start - 900) / 25))
+            buffer.append(UInt8((modeRange.range.end - 900) / 25))
+            
+            sendMSP(MSP_SET_MODE_RANGE, bytes: buffer, callback: index == dataStorage.modeRanges.count ? endCallback : sendNextModeRange)
+        }
+        
+        if dataStorage.modeRanges.isEmpty {
+            endCallback?()
+        } else {
+            sendNextModeRange()
+        }
     }
     
     func sendMSP(code: Int, bytes: [UInt8]?, callback: (Void -> Void)?) {

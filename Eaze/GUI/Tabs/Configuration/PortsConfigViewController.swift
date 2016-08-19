@@ -51,7 +51,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     func mspUpdated(code: Int) {
         switch code {
         case MSP_CF_SERIAL_CONFIG:
-            ports = dataStorage.serialPorts
+            ports = dataStorage.serialPorts.deepCopy()
             tableView.reloadData()
             
         default:
@@ -290,7 +290,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: - IBActions
     
     @IBAction func save(sender: AnyObject) {
-        dataStorage.serialPorts = ports
+        dataStorage.serialPorts = ports.deepCopy()
         
         msp.crunchAndSendMSP(MSP_SET_CF_SERIAL_CONFIG) {
             msp.sendMSP([MSP_EEPROM_WRITE, MSP_SET_REBOOT]) {

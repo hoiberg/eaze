@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" shouldIndentWhileEditing="NO" reuseIdentifier="ModeRangeCell" rowHeight="67" id="PME-Q3-bbh" customClass="ModeRangeTableViewCell" customModule="Eaze" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PME-Q3-bbh" id="kzl-2O-epE">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="55"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hVz-E2-mLP">
+                        <rect key="frame" x="83" y="8" width="229" height="16"/>
+                        <subviews>
+                            <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fB3-9e-alJ">
+                                <rect key="frame" x="0.0" y="0.0" width="129" height="16"/>
+                                <color key="backgroundColor" red="0.27886967070000002" green="0.53762440320000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" notEnabled="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="1GL-CQ-cIn"/>
+                            <constraint firstAttribute="trailing" secondItem="fB3-9e-alJ" secondAttribute="trailing" priority="750" constant="100" id="Jhb-En-kGm"/>
+                            <constraint firstItem="fB3-9e-alJ" firstAttribute="height" secondItem="hVz-E2-mLP" secondAttribute="height" id="QcS-lQ-I9h"/>
+                            <constraint firstItem="fB3-9e-alJ" firstAttribute="leading" secondItem="hVz-E2-mLP" secondAttribute="leading" priority="750" id="fnz-aU-3sZ"/>
+                            <constraint firstItem="fB3-9e-alJ" firstAttribute="centerY" secondItem="hVz-E2-mLP" secondAttribute="centerY" id="vlu-2A-UiR"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LeftSliderHandle" translatesAutoresizingMaskIntoConstraints="NO" id="z3w-SN-4w3">
+                        <rect key="frame" x="83" y="24" width="17" height="25"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="z3w-SN-4w3" secondAttribute="height" multiplier="2:3" id="ojA-7a-NFS"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="OEU-gG-V1q">
+                        <rect key="frame" x="3" y="11" width="71" height="33"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="71" id="mrM-zb-yEO">
+                                <variation key="widthClass=compact" constant="60"/>
+                            </constraint>
+                            <constraint firstAttribute="height" constant="33" id="tuG-QH-4CO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                        <state key="normal" title="AUX 1"/>
+                        <variation key="widthClass=compact">
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                        </variation>
+                        <connections>
+                            <action selector="buttonPressed:" destination="PME-Q3-bbh" eventType="touchUpInside" id="Uyn-Fo-YRb"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="71D-Ay-JJe">
+                        <rect key="frame" x="181" y="5" width="4" height="23"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="71D-Ay-JJe" secondAttribute="height" multiplier="4:23" id="0TR-wj-Mq5"/>
+                            <constraint firstAttribute="height" constant="23" id="iOK-hb-n9A"/>
+                        </constraints>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RightSliderHandle" translatesAutoresizingMaskIntoConstraints="NO" id="c77-Kf-oa3">
+                        <rect key="frame" x="195" y="24" width="17" height="25"/>
+                        <accessibility key="accessibilityConfiguration">
+                            <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                        </accessibility>
+                    </imageView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="c77-Kf-oa3" firstAttribute="width" secondItem="z3w-SN-4w3" secondAttribute="width" id="0zp-3i-f0w"/>
+                    <constraint firstItem="OEU-gG-V1q" firstAttribute="centerY" secondItem="kzl-2O-epE" secondAttribute="centerY" id="6BY-h5-XON"/>
+                    <constraint firstItem="z3w-SN-4w3" firstAttribute="top" secondItem="fB3-9e-alJ" secondAttribute="bottom" id="6eD-f3-G6K"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="hVz-E2-mLP" secondAttribute="trailing" id="7Oc-ht-LJM"/>
+                    <constraint firstItem="c77-Kf-oa3" firstAttribute="trailing" secondItem="fB3-9e-alJ" secondAttribute="trailing" id="ELb-48-KPz"/>
+                    <constraint firstItem="hVz-E2-mLP" firstAttribute="top" secondItem="kzl-2O-epE" secondAttribute="topMargin" id="HBc-0R-Sip"/>
+                    <constraint firstItem="z3w-SN-4w3" firstAttribute="leading" secondItem="fB3-9e-alJ" secondAttribute="leading" id="NEh-3X-qLR"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="OEU-gG-V1q" secondAttribute="leading" constant="5" id="NPE-sw-i6N"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="z3w-SN-4w3" secondAttribute="bottom" constant="-2" id="V7I-RW-TBE"/>
+                    <constraint firstItem="c77-Kf-oa3" firstAttribute="top" secondItem="fB3-9e-alJ" secondAttribute="bottom" id="YtZ-A4-QDc"/>
+                    <constraint firstItem="71D-Ay-JJe" firstAttribute="centerX" secondItem="hVz-E2-mLP" secondAttribute="leading" constant="100" id="cnk-Fv-VTv"/>
+                    <constraint firstItem="71D-Ay-JJe" firstAttribute="centerY" secondItem="hVz-E2-mLP" secondAttribute="centerY" id="kST-CJ-4P1"/>
+                    <constraint firstItem="c77-Kf-oa3" firstAttribute="height" secondItem="z3w-SN-4w3" secondAttribute="height" id="oZz-Cs-br7"/>
+                    <constraint firstItem="hVz-E2-mLP" firstAttribute="leading" secondItem="OEU-gG-V1q" secondAttribute="trailing" constant="9" id="vaj-mj-xWE">
+                        <variation key="widthClass=compact" constant="2"/>
+                    </constraint>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="bar" destination="hVz-E2-mLP" id="VnA-1Q-sQN"/>
+                <outlet property="button" destination="OEU-gG-V1q" id="NOl-AQ-dem"/>
+                <outlet property="indicator" destination="71D-Ay-JJe" id="8as-k4-7Pb"/>
+                <outlet property="indicatorPos" destination="cnk-Fv-VTv" id="KZc-M5-yFq"/>
+                <outlet property="leftHandle" destination="z3w-SN-4w3" id="gi1-3P-cJ2"/>
+                <outlet property="rangeBar" destination="fB3-9e-alJ" id="zwS-RV-nJH"/>
+                <outlet property="rangeBarLeading" destination="fnz-aU-3sZ" id="4EH-Hh-0gp"/>
+                <outlet property="rangeBarTrailing" destination="Jhb-En-kGm" id="nqt-xW-8k2"/>
+                <outlet property="rightHandle" destination="c77-Kf-oa3" id="Ddi-af-w3Q"/>
+            </connections>
+            <point key="canvasLocation" x="159" y="556"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="LeftSliderHandle" width="17" height="26"/>
+        <image name="RightSliderHandle" width="17" height="26"/>
+    </resources>
+</document>

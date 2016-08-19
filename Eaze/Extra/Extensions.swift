@@ -94,6 +94,12 @@ extension Array where Element: Equatable {
     }
 }
 
+extension Array where Element: Copyable {
+    func deepCopy() -> [Element] {
+        return map { Element.init(copy: $0) }
+    }
+}
+
 
 // MARK: - NSDate
 
@@ -154,7 +160,7 @@ extension UIImageView {
     /// Sets the color of all non-transparent pixels of the current image
     func tint(color: UIColor) {
         tintColor = color
-        image = image?.imageWithRenderingMode(.AlwaysOriginal)
+        image = image?.imageWithRenderingMode(.AlwaysTemplate)
     }
 }
 
@@ -162,6 +168,9 @@ extension UIImageView {
 // MAKR: - UIButton
 
 extension UIButton {
+    
+    static private let minimumHitArea = CGSizeMake(44, 44)
+    
     func setBackgroundColor(color: UIColor, forState state: UIControlState) {
         let colorView = UIView(frame: self.frame)
         colorView.backgroundColor = color
@@ -173,6 +182,20 @@ extension UIButton {
         UIGraphicsEndImageContext()
         
         self.setBackgroundImage(colorImage, forState: state)
+    }
+    
+    public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+        // if the button is hidden/disabled/transparent it can't be hit
+        if self.hidden || !self.userInteractionEnabled || self.alpha < 0.01 { return nil }
+        
+        // increase the hit frame to be at least as big as `minimumHitArea`
+        let buttonSize = self.bounds.size,
+            widthToAdd = max(UIButton.minimumHitArea.width - buttonSize.width, 0),
+            heightToAdd = max(UIButton.minimumHitArea.height - buttonSize.height, 0),
+            largerFrame = CGRectInset(self.bounds, -widthToAdd / 2, -heightToAdd / 2)
+        
+        // perform hit test on larger frame
+        return (CGRectContainsPoint(largerFrame, point)) ? self : nil
     }
 }
 

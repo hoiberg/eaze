@@ -27,6 +27,9 @@ final class DataStorage {
     // 5 MSP_BUILD_INFO
     var buildInfo = ""
     
+    // 35 MSP_MODE_RANGES
+    var modeRanges: [ModeRange] = []
+    
     // 54 MSP_CF_SERIAL_CONFIG
     var serialPorts: [SerialPortConfig] = []
     var mspBaudRate: UInt32 = 0             // pre 1.6.0
@@ -70,7 +73,7 @@ final class DataStorage {
     var magnetometer    = [0.0, 0.0, 0.0]
     
     // 105 MSP_RC
-    var activeChannels = 0
+    var activeChannels = 7
     var channels = [Int](count: 32, repeatedValue: 0)
     
     // 108 MSP_ATTITUDE

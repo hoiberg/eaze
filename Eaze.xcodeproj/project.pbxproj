@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */; };
 		FA2FD9EE1D1149870003327A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2FD9ED1D1149870003327A /* Assets.xcassets */; };
 		FA2FDA821D114BAB0003327A /* AdjustableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */; };
 		FA2FDA841D114BAB0003327A /* DecimalPadPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA091D114BAB0003327A /* DecimalPadPopover.swift */; };
@@ -86,9 +87,13 @@
 		FA2FDACE1D114BAB0003327A /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA7F1D114BAB0003327A /* DataStorage.swift */; };
 		FA2FDACF1D114BAB0003327A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA801D114BAB0003327A /* Globals.swift */; };
 		FA2FDAD01D114BAB0003327A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA811D114BAB0003327A /* AppDelegate.swift */; };
+		FAF5277C1D59CEE200147D20 /* ModeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF5277B1D59CEE200147D20 /* ModeRange.swift */; };
+		FAF5277F1D59DB2900147D20 /* ModeRangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF5277D1D59DB2900147D20 /* ModeRangeTableViewCell.swift */; };
+		FAF527801D59DB2900147D20 /* ModeRangeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF5277E1D59DB2900147D20 /* ModeRangeTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModesConfigViewController.swift; sourceTree = "<group>"; };
 		FA2FD9E31D1149870003327A /* Eaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA2FD9ED1D1149870003327A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FA2FD9F21D1149870003327A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -194,6 +199,9 @@
 		FA2FDA7F1D114BAB0003327A /* DataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
 		FA2FDA801D114BAB0003327A /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		FA2FDA811D114BAB0003327A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FAF5277B1D59CEE200147D20 /* ModeRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeRange.swift; sourceTree = "<group>"; };
+		FAF5277D1D59DB2900147D20 /* ModeRangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeRangeTableViewCell.swift; sourceTree = "<group>"; };
+		FAF5277E1D59DB2900147D20 /* ModeRangeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModeRangeTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +267,8 @@
 				FA2FDA111D114BAB0003327A /* SelectionPopover.swift */,
 				FA2FDA0F1D114BAB0003327A /* GroupedTableViewController.swift */,
 				FA2FDA121D114BAB0003327A /* SelectionTableViewController.swift */,
+				FAF5277D1D59DB2900147D20 /* ModeRangeTableViewCell.swift */,
+				FAF5277E1D59DB2900147D20 /* ModeRangeTableViewCell.xib */,
 				FA2FDA0B1D114BAB0003327A /* EFIS.swift */,
 				FA2FDA0C1D114BAB0003327A /* GlassBox.swift */,
 				FA2FDA0D1D114BAB0003327A /* GlassIndicator.swift */,
@@ -309,6 +319,7 @@
 				FA2FDA261D114BAB0003327A /* ReceiverConfigViewController.swift */,
 				FA2FDA241D114BAB0003327A /* MotorConfigViewController.swift */,
 				FA2FDA251D114BAB0003327A /* PortsConfigViewController.swift */,
+				FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */,
 				FA2FDA271D114BAB0003327A /* ReceiverInputViewController.swift */,
 				FA2FDA211D114BAB0003327A /* AppConfigViewController.swift */,
 				FA2FDA221D114BAB0003327A /* AppLogViewController.swift */,
@@ -467,6 +478,7 @@
 				FA2FDA731D114BAB0003327A /* BluetoothDevice.swift */,
 				FA2FDA781D114BAB0003327A /* TuningSnapshot.swift */,
 				FA2FDA771D114BAB0003327A /* SerialPortConfig.swift */,
+				FAF5277B1D59CEE200147D20 /* ModeRange.swift */,
 				FA2FDA741D114BAB0003327A /* Extensions.swift */,
 				FA2FDA761D114BAB0003327A /* Math.swift */,
 				FA2FDA751D114BAB0003327A /* Extra.swift */,
@@ -577,6 +589,7 @@
 				FA2FDA941D114BAB0003327A /* Uni.storyboard in Resources */,
 				FA2FDAB61D114BAB0003327A /* SwiftWebVC.strings in Resources */,
 				FA2FDA8F1D114BAB0003327A /* StaticAdjustableTextField.xib in Resources */,
+				FAF527801D59DB2900147D20 /* ModeRangeTableViewCell.xib in Resources */,
 				FA2FDABF1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png in Resources */,
 				FA2FDAB81D114BAB0003327A /* SwiftWebVC.bundle in Resources */,
 				FA2FDA931D114BAB0003327A /* Preferences.storyboard in Resources */,
@@ -621,6 +634,7 @@
 				FA2FDACF1D114BAB0003327A /* Globals.swift in Sources */,
 				FA2FDAAE1D114BAB0003327A /* MRIconView.m in Sources */,
 				FA2FDAB71D114BAB0003327A /* SwiftModalWebVC.swift in Sources */,
+				FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */,
 				FA2FDAB91D114BAB0003327A /* SwiftWebVC.swift in Sources */,
 				FA2FDA9E1D114BAB0003327A /* ReceiverInputViewController.swift in Sources */,
 				FA2FDACD1D114BAB0003327A /* Constants.swift in Sources */,
@@ -645,9 +659,11 @@
 				FA2FDAB41D114BAB0003327A /* MRMethodCopier.m in Sources */,
 				FA2FDA9D1D114BAB0003327A /* ReceiverConfigViewController.swift in Sources */,
 				FA2FDAB01D114BAB0003327A /* MRProgressOverlayView.m in Sources */,
+				FAF5277F1D59DB2900147D20 /* ModeRangeTableViewCell.swift in Sources */,
 				FA2FDACB1D114BAB0003327A /* BluetoothSerial.swift in Sources */,
 				FA2FDAAC1D114BAB0003327A /* MRActivityIndicatorView.m in Sources */,
 				FA2FDA9B1D114BAB0003327A /* MotorConfigViewController.swift in Sources */,
+				FAF5277C1D59CEE200147D20 /* ModeRange.swift in Sources */,
 				FA2FDAC81D114BAB0003327A /* SerialPortConfig.swift in Sources */,
 				FA2FDABC1D114BAB0003327A /* SwiftWebVCActivityChrome.swift in Sources */,
 				FA2FDAD01D114BAB0003327A /* AppDelegate.swift in Sources */,

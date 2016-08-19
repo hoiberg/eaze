@@ -418,7 +418,7 @@ final class BluetoothSerial: NSObject, CBCentralManagerDelegate, CBPeripheralDel
                         log("Board ID \(dataStorage.boardIdentifier) v\(dataStorage.boardVersion)")
                         
                         // these only have to be sent once (boxnames is for the mode titles)
-                        msp.sendMSP([MSP_BOXNAMES, MSP_STATUS])
+                        msp.sendMSP([MSP_BOXNAMES, MSP_BOXIDS, MSP_STATUS])
                         
                         // the user will be happy to know
                         MessageView.show("Connected")

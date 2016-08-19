@@ -3,8 +3,10 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Configuration-->
@@ -403,7 +405,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="General" id="uOg-We-XI1">
-                        <barButtonItem key="rightBarButtonItem" title="Reboot" id="N2c-6d-THB">
+                        <barButtonItem key="rightBarButtonItem" title="Reboot" style="done" id="N2c-6d-THB">
                             <connections>
                                 <action selector="save:" destination="uUC-FV-3VN" id="NY3-6q-U6J"/>
                             </connections>
@@ -702,7 +704,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Receiver" id="v0p-ga-7Rf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="zAI-44-Fs8">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="zAI-44-Fs8">
                             <connections>
                                 <action selector="save:" destination="FTF-GK-IYY" id="DxO-V1-SIO"/>
                             </connections>
@@ -1002,7 +1004,7 @@ Disarming Delay: Disarm motors after set delay. Requires 'Motor Stop' enabled.</
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="ESC/Motors" id="17t-0Y-svg">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="k0v-qf-wW8">
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="k0v-qf-wW8">
                             <connections>
                                 <action selector="save:" destination="8bq-EO-gy6" id="XQJ-7q-DWu"/>
                             </connections>
@@ -1232,7 +1234,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Serial Ports" id="3Kp-w4-kcV">
-                        <barButtonItem key="rightBarButtonItem" title="Reboot" id="xBP-V2-GL4">
+                        <barButtonItem key="rightBarButtonItem" title="Reboot" style="done" id="xBP-V2-GL4">
                             <connections>
                                 <action selector="save:" destination="iNy-Rc-qPO" id="dnL-hg-JzK"/>
                             </connections>
@@ -1282,15 +1284,15 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dbI-AE-u39">
-                                            <rect key="frame" x="292" y="15" width="230" height="14"/>
+                                            <rect key="frame" x="242" y="15" width="280" height="14"/>
                                             <subviews>
                                                 <progressView opaque="NO" tag="1" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="w0g-4F-zOw">
-                                                    <rect key="frame" x="0.0" y="6" width="230" height="2"/>
+                                                    <rect key="frame" x="0.0" y="6" width="280" height="2"/>
                                                 </progressView>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" priority="750" constant="230" id="FaM-fg-1Ty"/>
+                                                <constraint firstAttribute="width" priority="750" constant="280" id="FaM-fg-1Ty"/>
                                                 <constraint firstItem="w0g-4F-zOw" firstAttribute="width" secondItem="dbI-AE-u39" secondAttribute="width" id="VRo-hj-HgI"/>
                                                 <constraint firstItem="w0g-4F-zOw" firstAttribute="centerX" secondItem="dbI-AE-u39" secondAttribute="centerX" id="hqe-Cy-q5g"/>
                                                 <constraint firstItem="w0g-4F-zOw" firstAttribute="centerY" secondItem="dbI-AE-u39" secondAttribute="centerY" id="iRg-v3-pcZ"/>
@@ -1399,7 +1401,7 @@ With icons by icons8.com</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1BB-h3-H41" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3895" y="2034"/>
+            <point key="canvasLocation" x="3895" y="2690"/>
         </scene>
         <!--App Preferences-->
         <scene sceneID="JDx-0N-obg">
@@ -1563,7 +1565,7 @@ With icons by icons8.com</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zX1-Q0-8ca" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4576" y="2034"/>
+            <point key="canvasLocation" x="4576" y="2690"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Fuj-om-qRB">
@@ -1583,8 +1585,81 @@ With icons by icons8.com</string>
             </objects>
             <point key="canvasLocation" x="1831" y="1364"/>
         </scene>
+        <!--Modes-->
+        <scene sceneID="RbO-3U-QeL">
+            <objects>
+                <tableViewController storyboardIdentifier="Modes" id="WJq-mM-icz" customClass="ModesConfigViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="L1N-To-OAT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HeaderCell" rowHeight="31" id="r1D-hl-vbX">
+                                <rect key="frame" x="0.0" y="114" width="600" height="31"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="r1D-hl-vbX" id="5RT-XV-9wy">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="30"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B0g-0M-DpZ">
+                                            <rect key="frame" x="563" y="2" width="27" height="27"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="B0g-0M-DpZ" secondAttribute="height" multiplier="1:1" id="CZI-5w-Xgw"/>
+                                                <constraint firstAttribute="width" constant="27" id="tP0-OC-CKx"/>
+                                            </constraints>
+                                            <state key="normal" image="Add"/>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ARM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m4e-TM-V4f">
+                                            <rect key="frame" x="10" y="5" width="548" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="leadingMargin" secondItem="m4e-TM-V4f" secondAttribute="leading" constant="-2" id="D33-bR-25x"/>
+                                        <constraint firstItem="B0g-0M-DpZ" firstAttribute="leading" secondItem="m4e-TM-V4f" secondAttribute="trailing" constant="5" id="M7w-yc-oiW"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="m4e-TM-V4f" secondAttribute="bottom" constant="-4" id="Uje-LN-ERR"/>
+                                        <constraint firstItem="B0g-0M-DpZ" firstAttribute="centerY" secondItem="5RT-XV-9wy" secondAttribute="centerY" id="d4W-Ef-8FY"/>
+                                        <constraint firstItem="m4e-TM-V4f" firstAttribute="top" secondItem="5RT-XV-9wy" secondAttribute="topMargin" constant="-3" id="eBr-w0-N4w"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="B0g-0M-DpZ" secondAttribute="trailing" constant="2" id="nMk-T4-OMi"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="WJq-mM-icz" id="LE1-53-APA"/>
+                            <outlet property="delegate" destination="WJq-mM-icz" id="lfx-PG-IDR"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Modes" id="pIX-fQ-CiY">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Save" style="done" id="eoo-N8-BDI">
+                                <connections>
+                                    <action selector="save:" destination="WJq-mM-icz" id="aGP-Dg-bqY"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Edit" id="eU6-Iw-r0K">
+                                <connections>
+                                    <action selector="edit:" destination="WJq-mM-icz" id="EMq-dt-MaZ"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="saveButton" destination="eoo-N8-BDI" id="pST-r6-0tb"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zq7-Rk-xd6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3895" y="2013"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="Add" width="25" height="25"/>
         <image name="Config-General" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>

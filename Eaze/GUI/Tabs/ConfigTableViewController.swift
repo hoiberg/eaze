@@ -12,10 +12,10 @@ final class ConfigTableViewController: UITableViewController {
     
     // MARK: - Variables
     
-    private let cellTitles  = [["General", "Receiver", "ESC/Motors", "Serial Ports", "Receiver Input"],
+    private let cellTitles  = [["General", "Receiver", "ESC/Motors", "Serial Ports", "Modes", "Receiver Input"],
                                ["App Preferences", "Developer Console", "About This App"]],
                 sectionTitles = ["Cleanflight", "App"],
-                identifiers = [["General", "Receiver", "Motors", "Serial", "ReceiverInput"],
+                identifiers = [["General", "Receiver", "Motors", "Serial", "Modes", "ReceiverInput"],
                                ["AppPrefs", "AppLog", "AboutApp"]]
     
     private var isLoading = false
