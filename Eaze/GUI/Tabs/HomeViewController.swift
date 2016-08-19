@@ -125,8 +125,10 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         if bluetoothSerial.isConnected {
             fastUpdateTimer?.invalidate()
             slowUpdateTimer?.invalidate()
-        } else if bluetoothSerial.isConnecting {
+        } else if bluetoothSerial.isConnecting || bluetoothSerial.isReconnecting {
             bluetoothSerial.disconnect()
+        } else if bluetoothSerial.isScanning {
+            bluetoothSerial.stopScan()
         }
     }
     
