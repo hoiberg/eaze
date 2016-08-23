@@ -1344,7 +1344,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">Eaze 0.1.0 - iOS Cleanflight Configurator (Beta)
+                                        <string key="content">Eaze 1.0.0 - iOS Cleanflight Configurator
 </string>
                                         <attributes>
                                             <font key="NSFont" size="15" name="HelveticaNeue-Bold"/>
