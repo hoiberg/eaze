@@ -356,7 +356,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bta-w9-kbj">
-                                <rect key="frame" x="21" y="60" width="238" height="358"/>
+                                <rect key="frame" x="21" y="64" width="238" height="351"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="lGI-DT-GZZ">
                                     <rect key="frame" x="0.0" y="72" width="238" height="44"/>
@@ -373,7 +373,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bluetooth Module" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="0pb-Gd-fwn">
                                                     <rect key="frame" x="29" y="0.0" width="180" height="43"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -391,6 +391,7 @@
                                                 <constraint firstItem="0pb-Gd-fwn" firstAttribute="centerY" secondItem="iGQ-Xb-p7d" secondAttribute="centerY" id="qqh-Xm-PEO"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="0.95013541666666668" green="0.95013541666666668" blue="0.95013541666666668" alpha="1" colorSpace="calibratedRGB"/>
                                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                     </tableViewCell>
                                 </prototypes>
@@ -400,12 +401,12 @@
                                 </connections>
                             </tableView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cxI-vu-NJ2">
-                                <rect key="frame" x="91" y="426" width="99" height="44"/>
+                                <rect key="frame" x="91" y="423" width="99" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="ebt-Dy-U1X"/>
                                     <constraint firstAttribute="width" constant="99" id="hqO-Lw-7rY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Cancel"/>
                                 <connections>
                                     <action selector="cancel:" destination="Cx3-Gg-8nq" eventType="touchUpInside" id="p6b-51-PSL"/>
@@ -414,12 +415,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Bta-w9-kbj" firstAttribute="top" secondItem="YrF-8K-ZH6" secondAttribute="bottom" constant="8" id="9Dy-07-WEl"/>
+                            <constraint firstItem="Bta-w9-kbj" firstAttribute="top" secondItem="YrF-8K-ZH6" secondAttribute="bottom" constant="12" id="9Dy-07-WEl"/>
                             <constraint firstItem="YrF-8K-ZH6" firstAttribute="top" secondItem="ACD-MY-Tkp" secondAttribute="bottom" constant="13" id="INv-gj-ILH"/>
                             <constraint firstItem="cxI-vu-NJ2" firstAttribute="centerX" secondItem="OIb-HR-09S" secondAttribute="centerX" id="OJm-77-Bgs"/>
                             <constraint firstItem="YrF-8K-ZH6" firstAttribute="centerX" secondItem="OIb-HR-09S" secondAttribute="centerX" id="pDa-jw-CkI"/>
                             <constraint firstItem="cxI-vu-NJ2" firstAttribute="top" secondItem="Bta-w9-kbj" secondAttribute="bottom" constant="8" id="qne-bk-uVm"/>
-                            <constraint firstItem="pqI-IT-E9L" firstAttribute="top" secondItem="cxI-vu-NJ2" secondAttribute="bottom" id="vaD-Z8-GVs"/>
+                            <constraint firstItem="pqI-IT-E9L" firstAttribute="top" secondItem="cxI-vu-NJ2" secondAttribute="bottom" constant="3" id="vaD-Z8-GVs"/>
                             <constraint firstItem="Bta-w9-kbj" firstAttribute="width" secondItem="OIb-HR-09S" secondAttribute="width" multiplier="0.85" id="vs2-yc-egl"/>
                             <constraint firstItem="Bta-w9-kbj" firstAttribute="centerX" secondItem="OIb-HR-09S" secondAttribute="centerX" id="wbs-iD-PXq"/>
                         </constraints>
