@@ -289,7 +289,7 @@ final class EFIS: UIView {
                 radius = width * 0.3
             } else {
                 // iPhone >3.5"
-                radius = width * 0.36
+                radius = width * 0.34
             }
         } else {
             // iPad

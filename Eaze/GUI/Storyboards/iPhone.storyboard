@@ -120,11 +120,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1wP-KX-sBu" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
-                                <rect key="frame" x="7" y="364" width="80" height="80"/>
+                                <rect key="frame" x="7" y="349" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="1wP-KX-sBu" secondAttribute="height" multiplier="1:1" id="WH3-bL-86n"/>
-                                    <constraint firstAttribute="width" constant="80" id="zUF-v6-2Iz"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0.0V"/>
@@ -135,7 +134,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QmS-Yu-Cox" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
-                                <rect key="frame" x="75" y="424" width="80" height="80"/>
+                                <rect key="frame" x="75" y="414" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0A"/>
@@ -146,7 +145,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="S5L-5e-X6e" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
-                                <rect key="frame" x="234" y="364" width="80" height="80"/>
+                                <rect key="frame" x="234" y="349" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0%"/>
@@ -157,7 +156,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lFk-t5-1F2" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
-                                <rect key="frame" x="165" y="424" width="80" height="80"/>
+                                <rect key="frame" x="165" y="414" width="80" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0"/>
@@ -174,13 +173,13 @@
                             <constraint firstItem="sQO-Po-sYu" firstAttribute="width" secondItem="qKT-Nf-DHr" secondAttribute="width" id="0Bo-V2-z3j"/>
                             <constraint firstItem="0qT-Rt-fOq" firstAttribute="width" secondItem="pjb-hc-Ipx" secondAttribute="width" id="4hC-ZX-UD2"/>
                             <constraint firstItem="S5L-5e-X6e" firstAttribute="height" secondItem="1wP-KX-sBu" secondAttribute="height" id="4lE-QE-S2b"/>
-                            <constraint firstItem="dk6-KA-mLh" firstAttribute="top" secondItem="QmS-Yu-Cox" secondAttribute="bottom" constant="15" id="4sg-pi-8xW"/>
+                            <constraint firstItem="dk6-KA-mLh" firstAttribute="top" relation="greaterThanOrEqual" secondItem="QmS-Yu-Cox" secondAttribute="bottom" constant="15" id="4sg-pi-8xW"/>
                             <constraint firstItem="lFk-t5-1F2" firstAttribute="centerX" secondItem="qKT-Nf-DHr" secondAttribute="centerX" multiplier="1.28" id="6e0-TY-3hN"/>
                             <constraint firstItem="QmS-Yu-Cox" firstAttribute="width" secondItem="1wP-KX-sBu" secondAttribute="width" id="6fv-fH-PKb"/>
                             <constraint firstItem="0qT-Rt-fOq" firstAttribute="centerY" secondItem="pjb-hc-Ipx" secondAttribute="centerY" id="7uk-Ol-X0a"/>
                             <constraint firstItem="lFk-t5-1F2" firstAttribute="width" secondItem="1wP-KX-sBu" secondAttribute="width" id="95Q-qA-puO"/>
                             <constraint firstItem="1wP-KX-sBu" firstAttribute="leading" secondItem="qKT-Nf-DHr" secondAttribute="leadingMargin" constant="-9" id="AKn-bD-T7x"/>
-                            <constraint firstItem="1wP-KX-sBu" firstAttribute="centerY" secondItem="qKT-Nf-DHr" secondAttribute="centerY" multiplier="1.42" id="AYR-O6-6d3"/>
+                            <constraint firstItem="1wP-KX-sBu" firstAttribute="centerY" secondItem="qKT-Nf-DHr" secondAttribute="centerY" multiplier="1.37" priority="750" id="AYR-O6-6d3"/>
                             <constraint firstItem="pjb-hc-Ipx" firstAttribute="leading" secondItem="Eb0-iE-yYO" secondAttribute="leading" id="Axg-h3-Vee"/>
                             <constraint firstItem="dbD-eO-EU1" firstAttribute="trailing" secondItem="aUB-Sj-MuY" secondAttribute="trailing" id="E4v-cv-Shn"/>
                             <constraint firstItem="E5f-rN-t40" firstAttribute="width" secondItem="pjb-hc-Ipx" secondAttribute="width" id="GGz-Hg-etB"/>
@@ -193,6 +192,7 @@
                             <constraint firstItem="E5f-rN-t40" firstAttribute="leading" secondItem="0qT-Rt-fOq" secondAttribute="trailing" constant="10" id="NAU-gl-64e"/>
                             <constraint firstItem="lFk-t5-1F2" firstAttribute="height" secondItem="1wP-KX-sBu" secondAttribute="height" id="Nxb-xg-qDb"/>
                             <constraint firstItem="E5f-rN-t40" firstAttribute="height" secondItem="pjb-hc-Ipx" secondAttribute="height" id="T45-AC-O2i"/>
+                            <constraint firstItem="1wP-KX-sBu" firstAttribute="width" secondItem="qKT-Nf-DHr" secondAttribute="width" multiplier="0.25" id="TIV-yd-SvK"/>
                             <constraint firstAttribute="trailingMargin" secondItem="B2m-fz-Gyx" secondAttribute="trailing" constant="-10" id="TW6-FD-wbQ"/>
                             <constraint firstItem="x2g-hb-inU" firstAttribute="height" secondItem="pjb-hc-Ipx" secondAttribute="height" id="UA8-TB-uaJ"/>
                             <constraint firstItem="sQO-Po-sYu" firstAttribute="centerY" secondItem="qKT-Nf-DHr" secondAttribute="centerY" id="Uad-cy-UzL"/>
@@ -214,6 +214,7 @@
                             <constraint firstItem="dbD-eO-EU1" firstAttribute="top" secondItem="aUB-Sj-MuY" secondAttribute="bottom" constant="3" id="in4-Ts-8cE"/>
                             <constraint firstItem="E5f-rN-t40" firstAttribute="centerY" secondItem="pjb-hc-Ipx" secondAttribute="centerY" id="ksW-d3-BXd"/>
                             <constraint firstItem="aUB-Sj-MuY" firstAttribute="trailing" secondItem="Eb0-iE-yYO" secondAttribute="trailing" id="ltG-R1-uQz"/>
+                            <constraint firstItem="QmS-Yu-Cox" firstAttribute="centerY" secondItem="sQO-Po-sYu" secondAttribute="centerY" multiplier="1.6" id="oOB-ZO-jMs"/>
                             <constraint firstItem="0qT-Rt-fOq" firstAttribute="height" secondItem="pjb-hc-Ipx" secondAttribute="height" id="qlB-XN-l9O"/>
                             <constraint firstAttribute="leadingMargin" secondItem="B2m-fz-Gyx" secondAttribute="leading" constant="10" id="rx9-Ng-trB"/>
                             <constraint firstItem="QmS-Yu-Cox" firstAttribute="height" secondItem="1wP-KX-sBu" secondAttribute="height" id="upa-IJ-zmi"/>

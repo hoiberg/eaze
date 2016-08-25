@@ -84,6 +84,18 @@ final class GlassIndicator: UIView {
         setIndication(0.0)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let temp = [text, detailText]
+        movingView.removeFromSuperview()
+        label.removeFromSuperview()
+        detailLabel.removeFromSuperview()
+        setup()
+        
+        text = temp[0]
+        detailText = temp[1]
+    }
+    
     /// Takes a value of 0.0 to 1.0 and moves the indicator/movingView to the corresponding position
     func setIndication(val: Double) {
         movingView.frame.origin.y = CGFloat(1.0-val) * bounds.height
