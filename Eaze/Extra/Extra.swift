@@ -23,6 +23,16 @@ protocol Copyable {
     init(copy: Self)
 }
 
+protocol ConfigScreen {
+    /// Called when the view will become the active config screen (e.g. tab selected).
+    /// Not the same as viewWillAppear, as it won't be called after e.g. an unwind segue
+    func willBecomePrimaryView()
+    
+    /// Called when the view will seize to be the active config screen (e.g. other tab selected).
+    /// Not the same as viewWillDisappear, as it won't be called when e.g. a modal screen comes up.
+    //func willSeizeToBePrimary()
+}
+
 class WeakSet<ObjectType>: SequenceType {
     
     var count: Int {

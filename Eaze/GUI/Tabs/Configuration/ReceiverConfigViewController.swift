@@ -56,7 +56,9 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
+        
         if bluetoothSerial.isConnected {
+            sendDataRequest()
             serialOpened()
         } else {
             serialClosed()
@@ -129,7 +131,10 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     // MARK: Serial events
     
     func serialOpened() {
-        sendDataRequest()
+        if isBeingShown {
+            sendDataRequest()
+        }
+        
         saveButton.enabled = true
         
         if dataStorage.apiVersion >= "1.15.0" {

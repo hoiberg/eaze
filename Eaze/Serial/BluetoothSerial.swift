@@ -11,25 +11,24 @@
 //  RSSI goes from about -40 to -100 (which is when it looses signal)
 //
 //  How viewcontrollers should implement communication with the FC:
-//  1) In viewDidLoad
-//      a) subscribe to the MSP codes you're going to send (at least those you need the reaction of..)
-//      b) if already connected, send MSP codes and enable buttons etc
-//      c) if not connected, disable buttons etc
+//  1) In viewDidLoad, subscribe to the MSP codes you're going to send (at least those you need the reaction of..)
 //  2) Subscribe to BluetoothSerialDidConnectNotification (*)
-//      in whose selector you send MSP codes and enable buttons etc
+//      in whose selector you send MSP codes (if isBeingShown) and enable buttons etc
 //  3) Subscribe to BluetoothSerialDidDisconnectNotification
 //      in whose selector you disable buttons etc
 //  4) Implement the MSPSubscriber protocol (if neccesary) and put a switch statement in there
 //      in which you update the UI and other stuff according to the code (data) received
+//  5) In either viewWillAppear, viewDidLoad or willBecomePrimary (depending on your view)
+//      a) if already connected, send MSP codes and enable buttons etc
+//      b) if not connected, disable buttons etc
 //
 //  If the viewController sends continous msp data requests, it needs to start the timer in
 //  viewWillAppear, AppDidBecomeActive and serialDidOpen (the latter two only if isBeingShown)
 //  It then stops the timer in viewWillDisappear, AppWillResignActive and serialDidClose (again, the latter two only if isBeingShown).
 //
 //  Note: yes, you can use sendMSP(code, callback), but its purpose is for when timing is important (calibration, reset etc), not UI updates.
-//  *: In case the VC is still in memory while connecting - the actual connecting does only happen on the Dashboard tab.
-
-//TODO: Alleen views msp senden in viewwillappear??
+//  *: Just in case, this might be removed in future versions if deemed unneccesary - the actual connecting should only happen 
+//     while the Dashboard tab is active.
 
 import UIKit
 import CoreBluetooth

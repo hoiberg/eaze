@@ -27,7 +27,9 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
+        
         if bluetoothSerial.isConnected {
+            sendDataRequest()
             serialOpened()
         } else {
             serialClosed()
@@ -64,7 +66,10 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     func serialOpened() {
         if dataStorage.apiVersion >= "1.6.0" {
-            sendDataRequest()
+            if isBeingShown {
+                sendDataRequest()
+            }
+            
             saveButton.enabled = true
         } else {
             ports = []

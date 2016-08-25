@@ -28,8 +28,11 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         msp.addSubscriber(self, forCodes: mspCodes)
+        
         if bluetoothSerial.isConnected {
+            sendDataRequest()
             serialOpened()
         } else {
             serialClosed()
@@ -43,10 +46,6 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         tableView.registerNib(UINib(nibName: "ModeRangeTableViewCell", bundle: nil), forCellReuseIdentifier: "ModeRangeCell")
     }
     
-    deinit {
-        notificationCenter.removeObserver(self)
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if bluetoothSerial.isConnected {
@@ -57,6 +56,10 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         updateTimer?.invalidate()
+    }
+    
+    deinit {
+        notificationCenter.removeObserver(self)
     }
     
     func didBecomeActive() {
@@ -119,14 +122,12 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     // MARK: Serial events
     
     func serialOpened() {
-        sendDataRequest()
-        
-        saveButton.enabled = true
-        
-        // start timer if the view is being shown
         if isBeingShown {
+            sendDataRequest()
             scheduleUpdateTimer()
         }
+        
+        saveButton.enabled = true
     }
     
     func serialClosed() {

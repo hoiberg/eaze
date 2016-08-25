@@ -38,7 +38,10 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
+        
+        // as the view is re-loaded every time it is shown, we don't have to send our requests in viewWillAppear
         if bluetoothSerial.isConnected {
+            sendDataRequest()
             serialOpened()
         } else {
             serialClosed()
@@ -115,7 +118,10 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: Serial events
     
     func serialOpened() {
-        sendDataRequest()
+        if isBeingShown {
+            sendDataRequest()
+        }
+        
         saveButton.enabled = true
         calibrateAccLabel.enabled = true
         calibrateMagLabel.enabled = false

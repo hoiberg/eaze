@@ -24,10 +24,11 @@ let AppWillResignActiveNotification = "AppWillResignActiveNotification",
     AppDidBecomeActiveNotification = "AppDidBecomeActiveNotification"
 
 @UIApplicationMain
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
 
     var window: UIWindow?,
-        launchWindow: UIWindow?
+        launchWindow: UIWindow?,
+        previousTab = 0
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // bluetooth serial
@@ -58,9 +59,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // initial tab bar controller
         let tabBar = UITabBarController()
         tabBar.viewControllers = [first, second, third, fourth]
+        tabBar.delegate = self
         
         // reduce icon size. Because of a bug in iOS we can't resize the image
-        tabBar.viewControllers?.forEach() { $0.tabBarItem!.imageInsets = UIEdgeInsetsMake(1, 0, -1, 0) }
+        tabBar.viewControllers?.forEach { $0.tabBarItem!.imageInsets = UIEdgeInsetsMake(1, 0, -1, 0) }
         
         // tabbar UI
         UITabBar.appearance().backgroundImage = UIImage()
@@ -88,5 +90,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(application: UIApplication) {
         log("Became active")
         notificationCenter.postNotificationName(AppDidBecomeActiveNotification, object: nil)
+    }
+
+    
+    // MARK: - UITabBarDelegate
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        guard tabBarController.selectedIndex != previousTab else { return }
+        previousTab = tabBarController.selectedIndex
+        
+        // notify if it is a configscreen
+        var vc = viewController
+        while let v = vc as? UINavigationController { vc = v.viewControllers.first! }
+        if let v = vc as? ConfigScreen { v.willBecomePrimaryView() }
     }
 }

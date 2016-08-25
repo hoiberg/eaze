@@ -31,10 +31,16 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         msp.addSubscriber(self, forCodes: mspCodes)
+        
         if bluetoothSerial.isConnected {
             sendDataRequest()
+            serialOpened()
+        } else {
+            serialClosed()
         }
+
         
         notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.serialOpened), name: SerialOpenedNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.serialClosed), name: SerialClosedNotification, object: nil)
@@ -48,10 +54,6 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         }
         
     }
-
-    deinit {
-        notificationCenter.removeObserver(self)
-    }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -64,6 +66,11 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         super.viewWillDisappear(animated)
         updateTimer?.invalidate()
     }
+
+    deinit {
+        notificationCenter.removeObserver(self)
+    }
+    
     
     func didBecomeActive() {
         if isBeingShown && bluetoothSerial.isConnected {
@@ -102,7 +109,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         case MSP_RC:
             for (index, chan) in dataStorage.channels.enumerate() {
                 let realIndex = dataStorage.RC_MAP[safe: index] ?? index
-                bars[realIndex]?.progress = Float(chan) / 3000.0 // convert to 0.0-1.0 scale
+                bars[realIndex]?.progress = (Float(chan) - 500.0) / 2000.0 // convert to 0.0-1.0 scale
                 labels[realIndex]?.text = "\(chan)"
             }
             if isFirstTimeMSP_RC {
@@ -120,10 +127,10 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     func serialOpened() {
         isFirstTimeMSP_RC = true
-        sendDataRequest()
         
         // start timer if the view is being shown
         if isBeingShown {
+            sendDataRequest()
             scheduleUpdateTimer()
         }
     }

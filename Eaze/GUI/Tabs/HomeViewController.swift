@@ -256,6 +256,9 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
         activityIndicator.stopAnimating()
         
+        slowUpdateTimer?.invalidate()
+        fastUpdateTimer?.invalidate()
+        
         slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.6,
                                                                   target: self,
                                                                   selector: #selector(HomeViewController.sendSlowDataRequest),

@@ -9,7 +9,7 @@
 import UIKit
 import QuartzCore
 
-final class TuningViewController: UIViewController, MSPUpdateSubscriber, AdjustableTextFieldDelegate, SelectionPopoverDelegate, UIPopoverPresentationControllerDelegate  {
+final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubscriber, AdjustableTextFieldDelegate, SelectionPopoverDelegate, UIPopoverPresentationControllerDelegate  {
     
     // MARK: - IBOutlets. There's too many of them, I know. In a future update this can be replaced by a sigle referencing outlet collection.
     
@@ -91,11 +91,6 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
         
         // send data request
         msp.addSubscriber(self, forCodes: mspCodes)
-        if bluetoothSerial.isConnected {
-            serialOpened()
-        } else {
-            serialClosed()
-        }
         
         // populate helper array
         PIDFields = [[rollP, rollI, rollD], [pitchP, pitchI, pitchD], [yawP, yawI, yawD],
@@ -188,7 +183,6 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         // note: because the adjustabletextfield delegate function is called before this
         // the graphs might show a wrong setting for a split second
         reloadThrottleGraph()
@@ -201,6 +195,16 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return .Default
+    }
+    
+    func willBecomePrimaryView() {
+        // called when our tab is selected
+        if bluetoothSerial.isConnected {
+            sendDataRequest()
+            serialOpened()
+        } else {
+            serialClosed()
+        }
     }
     
     func reloadRCGraph() {
@@ -331,7 +335,10 @@ final class TuningViewController: UIViewController, MSPUpdateSubscriber, Adjusta
     // MARK: - Serial events
     
     func serialOpened() {
-        sendDataRequest()
+        if isBeingShown {
+            sendDataRequest()
+        }
+        
         if UIDevice.isPhone {
             (saveButton as! UIBarButtonItem).enabled = true
             (reloadButton as! UIBarButtonItem).enabled = true

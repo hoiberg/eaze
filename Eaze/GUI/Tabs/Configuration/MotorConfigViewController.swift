@@ -34,7 +34,9 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         super.viewDidLoad()
         
         msp.addSubscriber(self, forCodes: mspCodes)
+        
         if bluetoothSerial.isConnected {
+            sendDataRequest()
             serialOpened()
         } else {
             serialClosed()
@@ -104,7 +106,10 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     // MARK: Serial events
     
     func serialOpened() {
-        sendDataRequest()
+        if isBeingShown {
+            sendDataRequest()
+        }
+        
         saveButton.enabled = true
         alwaysDisarmSwitch.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
         disarmDelayField.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
