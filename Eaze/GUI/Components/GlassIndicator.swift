@@ -86,7 +86,9 @@ final class GlassIndicator: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let temp = [text, detailText]
+        let temp = [text, detailText],
+            c = color
+        
         movingView.removeFromSuperview()
         label.removeFromSuperview()
         detailLabel.removeFromSuperview()
@@ -94,6 +96,7 @@ final class GlassIndicator: UIView {
         
         text = temp[0]
         detailText = temp[1]
+        color = c
     }
     
     /// Takes a value of 0.0 to 1.0 and moves the indicator/movingView to the corresponding position
