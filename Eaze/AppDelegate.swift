@@ -5,18 +5,6 @@
 //  Created by Alex on 09-10-15.
 //  Copyright © 2016 Hangar42. All rights reserved.
 //
-//
-//  General notes about this app: (to be moved to a notes.md)
-//
-//  - Because of a bug we can't use the splitViewController in Preferences.storyboard for iPhones (instead,
-//    it uses a different entry point).
-//
-//  - This project uses both a folder structure and a XCode group structure. Make sure they stay identical to eachother.
-//
-//  - If you need some code only to be included in the debug builds and not in release versions, use #if DEBUG (declared in Build Settings -> Swift Compiler Misc Flags)
-//
-//  - SwiftWebVC.swift has one edit: prefersStatusBarHidden() has been added (returns true)
-//
 
 import UIKit
 
