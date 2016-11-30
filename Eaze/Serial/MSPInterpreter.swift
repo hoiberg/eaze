@@ -43,11 +43,6 @@
  * that use the API and the users of those tools.
  */
 
-// TODO: MSP_RX_CONFIG instead of BF_CONFIG (only on cleanflight)
-// TODO: MSP_BOARD_ALIGNMENT
-// TODO: MSP_FEATURE
-// TODO: MSP_MIXER
-
 import UIKit
 
 protocol MSPUpdateSubscriber: AnyObject, NSObjectProtocol {
@@ -64,6 +59,14 @@ let MSP_BUILD_INFO      = 5
 // MSP codes Cleanflight original features
 let MSP_MODE_RANGE           = 34
 let MSP_SET_MODE_RANGE       = 35
+let MSP_FEATURE              = 36 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_SET_FEATURE          = 37 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_BOARD_ALIGNMENT      = 38 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_SET_BOARD_ALIGNMENT  = 39 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_MIXER                = 42 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_SET_MIXER            = 43 // replacing BF_CONFIG est 1.25.0 (only CLFL)
+let MSP_RX_CONFIG            = 44 // replaced BF_CONFIG in api 1.25.0 (only CLFL)
+let MSP_SET_RX_CONFIG        = 45 // replaced BF_CONFIG in api 1.25.0 (only CLFL)
 let MSP_CF_SERIAL_CONFIG     = 54 // min 1.6.0 (older versions not supported) not the same for all API versions
 let MSP_SET_CF_SERIAL_CONFIG = 55 // min 1.6.0 (older versions not supported) not the same for all API versions
 let MSP_PID_CONTROLLER       = 59 // min 1.5.0
@@ -225,6 +228,45 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             
         case MSP_SET_MODE_RANGE: // 35
             log("MSP_SET_MODE_RANGE received")
+            
+        case MSP_FEATURE: // 36
+            dataStorage.BFFeatures = Int(getUInt32(data, offset: 0))
+            
+        case MSP_SET_FEATURE: // 37
+            log("MSP_SET_FEATURE received")
+            
+        case MSP_BOARD_ALIGNMENT: // 38
+            dataStorage.boardAlignRoll      = Int(getInt16(data, offset: 0)) // -180 - 360
+            dataStorage.boardAlignPitch     = Int(getInt16(data, offset: 2)) // -180 - 360
+            dataStorage.boardAlignYaw       = Int(getInt16(data, offset: 4)) // -180 - 360
+
+        case MSP_SET_BOARD_ALIGNMENT: // 39
+            log("MSP_SET_BOARD_ALIGNMENT received")
+            
+        case MSP_MIXER: // 42
+            dataStorage.mixerConfiguration = Int(data[0])
+            
+        case MSP_SET_MIXER: // 43
+            log("MSP_SET_MIXER received")
+            
+        case MSP_RX_CONFIG: // 44
+            var offset = 0
+            dataStorage.serialRXType = Int(data[offset])
+            offset += 1
+            dataStorage.stickMax = Int(getUInt16(data, offset: offset))
+            offset += 2
+            dataStorage.stickCenter = Int(getUInt16(data, offset: offset))
+            offset += 2
+            dataStorage.stickMin = Int(getUInt16(data, offset: offset))
+            offset += 2
+            dataStorage.satBind = Int(data[offset])
+            offset += 1
+            dataStorage.rxMinuSec = Int(getUInt16(data, offset: offset))
+            offset += 2
+            dataStorage.rxMaxuSec = Int(getUInt16(data, offset: offset))
+            
+        case MSP_SET_RX_CONFIG: // 45
+            log("MSP_SET_RX_CONFIG received")
             
         case MSP_CF_SERIAL_CONFIG: // 54
             dataStorage.serialPorts = []
@@ -533,6 +575,37 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     func crunch(_ code: Int) -> [UInt8] {
         var buffer: [UInt8] = []
         switch code {
+            
+        case MSP_SET_FEATURE: // 37
+            buffer.append(UInt32(dataStorage.BFFeatures).specificByte(0))
+            buffer.append(UInt32(dataStorage.BFFeatures).specificByte(1))
+            buffer.append(UInt32(dataStorage.BFFeatures).specificByte(2))
+            buffer.append(UInt32(dataStorage.BFFeatures).specificByte(3))
+            
+        case MSP_SET_BOARD_ALIGNMENT: // 39
+            buffer.append(Int16(dataStorage.boardAlignRoll).specificByte(0))
+            buffer.append(Int16(dataStorage.boardAlignRoll).specificByte(1))
+            buffer.append(Int16(dataStorage.boardAlignPitch).specificByte(0))
+            buffer.append(Int16(dataStorage.boardAlignPitch).specificByte(1))
+            buffer.append(Int16(dataStorage.boardAlignYaw).specificByte(0))
+            buffer.append(Int16(dataStorage.boardAlignYaw).specificByte(1))
+            
+        case MSP_SET_MIXER: // 43
+            buffer.append(UInt8(dataStorage.mixerConfiguration))
+            
+        case MSP_SET_RX_CONFIG: // 45
+            buffer.append(UInt8(dataStorage.serialRXType))
+            buffer.append(dataStorage.stickMax.lowByte)
+            buffer.append(dataStorage.stickMax.highByte)
+            buffer.append(dataStorage.stickCenter.lowByte)
+            buffer.append(dataStorage.stickCenter.highByte)
+            buffer.append(dataStorage.stickMin.lowByte)
+            buffer.append(dataStorage.stickMin.highByte)
+            buffer.append(UInt8(dataStorage.satBind))
+            buffer.append(dataStorage.rxMinuSec.lowByte)
+            buffer.append(dataStorage.rxMinuSec.highByte)
+            buffer.append(dataStorage.rxMaxuSec.lowByte)
+            buffer.append(dataStorage.rxMaxuSec.highByte)
             
         case MSP_SET_CF_SERIAL_CONFIG: // 55
             if dataStorage.apiVersion >= "1.6.0" {

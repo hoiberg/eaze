@@ -30,6 +30,15 @@ final class DataStorage {
     // 35 MSP_MODE_RANGES
     var modeRanges: [ModeRange] = []
     
+    // 44 MSP_RX_CONFIG
+    // serialRxProvider = serialRXType
+    var stickMax    = 0 // min 1.25.0 - unused
+    var stickCenter = 0 // min 1.25.0 - unused
+    var stickMin    = 0 // min 1.25.0 - unused
+    var satBind     = 0 // min 1.25.0 - unused
+    var rxMinuSec   = 0 // min 1.25.0 - unused
+    var rxMaxuSec   = 0 // min 1.25.0 - unused
+    
     // 54 MSP_CF_SERIAL_CONFIG
     var serialPorts: [SerialPortConfig] = []
     var mspBaudRate: UInt32 = 0             // pre 1.6.0

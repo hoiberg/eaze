@@ -68,5 +68,6 @@ let flightControllerVariants = [
     (identifier: "CLFL", name: "Cleanflight"),
     (identifier: "BAFL", name: "Baseflight"),
     (identifier: "BTFL", name: "Betaflight"),
-    (identifier: "RCFL", name: "Raceflight")
+    (identifier: "RCFL", name: "Raceflight"),
+    (identifier: "INAV", name: "iNav")
 ]
