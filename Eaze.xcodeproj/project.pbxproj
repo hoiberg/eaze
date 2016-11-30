@@ -7,6 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA0045E41DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045BB1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045E51DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045BE1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045E61DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045C11DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045E71DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045C41DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045E81DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045C71DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045E91DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045CA1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045EA1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045CD1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045EB1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045D01DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045EC1DEDD1B900AD93BB /* SwiftModalWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0045D21DEDD1B900AD93BB /* SwiftModalWebVC.swift */; };
+		FA0045ED1DEDD1B900AD93BB /* SwiftWebVC.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA0045D31DEDD1B900AD93BB /* SwiftWebVC.bundle */; };
+		FA0045EE1DEDD1B900AD93BB /* SwiftWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0045D41DEDD1B900AD93BB /* SwiftWebVC.swift */; };
+		FA0045EF1DEDD1B900AD93BB /* SwiftWebVCActivityChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0045D71DEDD1B900AD93BB /* SwiftWebVCActivityChrome.swift */; };
+		FA0045F01DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0045D91DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift */; };
+		FA0045F11DEDD1B900AD93BB /* SwiftWebVCActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0045DA1DEDD1B900AD93BB /* SwiftWebVCActivity.swift */; };
+		FA0045F21DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045DC1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045F31DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045DF1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0045F41DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045E21DEDD1B900AD93BB /* SwiftWebVC.strings */; };
 		FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */; };
 		FA2FD9EE1D1149870003327A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2FD9ED1D1149870003327A /* Assets.xcassets */; };
 		FA2FDA821D114BAB0003327A /* AdjustableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */; };
@@ -60,19 +77,6 @@
 		FA2FDAB31D114BAB0003327A /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA501D114BAB0003327A /* MRMessageInterceptor.m */; };
 		FA2FDAB41D114BAB0003327A /* MRMethodCopier.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA521D114BAB0003327A /* MRMethodCopier.m */; };
 		FA2FDAB51D114BAB0003327A /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA551D114BAB0003327A /* MRWeakProxy.m */; };
-		FA2FDAB61D114BAB0003327A /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA571D114BAB0003327A /* SwiftWebVC.strings */; };
-		FA2FDAB71D114BAB0003327A /* SwiftModalWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA601D114BAB0003327A /* SwiftModalWebVC.swift */; };
-		FA2FDAB81D114BAB0003327A /* SwiftWebVC.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA611D114BAB0003327A /* SwiftWebVC.bundle */; };
-		FA2FDAB91D114BAB0003327A /* SwiftWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA621D114BAB0003327A /* SwiftWebVC.swift */; };
-		FA2FDABA1D114BAB0003327A /* SwiftWebVCActivityChrome-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA651D114BAB0003327A /* SwiftWebVCActivityChrome-iPad.png */; };
-		FA2FDABB1D114BAB0003327A /* SwiftWebVCActivityChrome-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA661D114BAB0003327A /* SwiftWebVCActivityChrome-iPad@2x.png */; };
-		FA2FDABC1D114BAB0003327A /* SwiftWebVCActivityChrome.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA671D114BAB0003327A /* SwiftWebVCActivityChrome.swift */; };
-		FA2FDABD1D114BAB0003327A /* SwiftWebVCActivityChrome@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA681D114BAB0003327A /* SwiftWebVCActivityChrome@2x.png */; };
-		FA2FDABE1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA6A1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad.png */; };
-		FA2FDABF1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA6B1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png */; };
-		FA2FDAC01D114BAB0003327A /* SwiftWebVCActivitySafari.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA6C1D114BAB0003327A /* SwiftWebVCActivitySafari.swift */; };
-		FA2FDAC11D114BAB0003327A /* SwiftWebVCActivitySafari@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA2FDA6D1D114BAB0003327A /* SwiftWebVCActivitySafari@2x.png */; };
-		FA2FDAC21D114BAB0003327A /* SwiftWebVCActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA6E1D114BAB0003327A /* SwiftWebVCActivity.swift */; };
 		FA2FDAC31D114BAB0003327A /* AppLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA721D114BAB0003327A /* AppLog.swift */; };
 		FA2FDAC41D114BAB0003327A /* BluetoothDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA731D114BAB0003327A /* BluetoothDevice.swift */; };
 		FA2FDAC51D114BAB0003327A /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA741D114BAB0003327A /* Extensions.swift */; };
@@ -93,6 +97,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FA0045BC1DEDD1B900AD93BB /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045BF1DEDD1B900AD93BB /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045C21DEDD1B900AD93BB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045C51DEDD1B900AD93BB /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045C81DEDD1B900AD93BB /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045CB1DEDD1B900AD93BB /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045CE1DEDD1B900AD93BB /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045D11DEDD1B900AD93BB /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045D21DEDD1B900AD93BB /* SwiftModalWebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftModalWebVC.swift; sourceTree = "<group>"; };
+		FA0045D31DEDD1B900AD93BB /* SwiftWebVC.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftWebVC.bundle; sourceTree = "<group>"; };
+		FA0045D41DEDD1B900AD93BB /* SwiftWebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVC.swift; sourceTree = "<group>"; };
+		FA0045D71DEDD1B900AD93BB /* SwiftWebVCActivityChrome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivityChrome.swift; sourceTree = "<group>"; };
+		FA0045D91DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivitySafari.swift; sourceTree = "<group>"; };
+		FA0045DA1DEDD1B900AD93BB /* SwiftWebVCActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivity.swift; sourceTree = "<group>"; };
+		FA0045DD1DEDD1B900AD93BB /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045E01DEDD1B900AD93BB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0045E31DEDD1B900AD93BB /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = SwiftWebVC.strings; sourceTree = "<group>"; };
 		FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModesConfigViewController.swift; sourceTree = "<group>"; };
 		FA2FD9E31D1149870003327A /* Eaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA2FD9ED1D1149870003327A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -163,28 +184,6 @@
 		FA2FDA531D114BAB0003327A /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
 		FA2FDA541D114BAB0003327A /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
 		FA2FDA551D114BAB0003327A /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
-		FA2FDA581D114BAB0003327A /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA591D114BAB0003327A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA5A1D114BAB0003327A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA5B1D114BAB0003327A /* es-ES */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-ES"; path = "es-ES.lproj/SwiftWebVC.strings"; sourceTree = "<group>"; };
-		FA2FDA5C1D114BAB0003327A /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA5D1D114BAB0003327A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA5E1D114BAB0003327A /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA5F1D114BAB0003327A /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/SwiftWebVC.strings; sourceTree = "<group>"; };
-		FA2FDA601D114BAB0003327A /* SwiftModalWebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftModalWebVC.swift; sourceTree = "<group>"; };
-		FA2FDA611D114BAB0003327A /* SwiftWebVC.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SwiftWebVC.bundle; sourceTree = "<group>"; };
-		FA2FDA621D114BAB0003327A /* SwiftWebVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVC.swift; sourceTree = "<group>"; };
-		FA2FDA651D114BAB0003327A /* SwiftWebVCActivityChrome-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivityChrome-iPad.png"; sourceTree = "<group>"; };
-		FA2FDA661D114BAB0003327A /* SwiftWebVCActivityChrome-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivityChrome-iPad@2x.png"; sourceTree = "<group>"; };
-		FA2FDA671D114BAB0003327A /* SwiftWebVCActivityChrome.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivityChrome.swift; sourceTree = "<group>"; };
-		FA2FDA681D114BAB0003327A /* SwiftWebVCActivityChrome@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivityChrome@2x.png"; sourceTree = "<group>"; };
-		FA2FDA6A1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivitySafari-iPad.png"; sourceTree = "<group>"; };
-		FA2FDA6B1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivitySafari-iPad@2x.png"; sourceTree = "<group>"; };
-		FA2FDA6C1D114BAB0003327A /* SwiftWebVCActivitySafari.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivitySafari.swift; sourceTree = "<group>"; };
-		FA2FDA6D1D114BAB0003327A /* SwiftWebVCActivitySafari@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SwiftWebVCActivitySafari@2x.png"; sourceTree = "<group>"; };
-		FA2FDA6E1D114BAB0003327A /* SwiftWebVCActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftWebVCActivity.swift; sourceTree = "<group>"; };
-		FA2FDA6F1D114BAB0003327A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/SwiftWebVC.strings"; sourceTree = "<group>"; };
-		FA2FDA701D114BAB0003327A /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/SwiftWebVC.strings"; sourceTree = "<group>"; };
 		FA2FDA721D114BAB0003327A /* AppLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppLog.swift; sourceTree = "<group>"; };
 		FA2FDA731D114BAB0003327A /* BluetoothDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BluetoothDevice.swift; sourceTree = "<group>"; };
 		FA2FDA741D114BAB0003327A /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -215,6 +214,120 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA0045BA1DEDD1B900AD93BB /* da.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045BB1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = da.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045BD1DEDD1B900AD93BB /* de.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045BE1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = de.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045C01DEDD1B900AD93BB /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045C11DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045C31DEDD1B900AD93BB /* es-ES.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045C41DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = "es-ES.lproj";
+			sourceTree = "<group>";
+		};
+		FA0045C61DEDD1B900AD93BB /* es.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045C71DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = es.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045C91DEDD1B900AD93BB /* fr.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045CA1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = fr.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045CC1DEDD1B900AD93BB /* ja.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045CD1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = ja.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045CF1DEDD1B900AD93BB /* pt.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045D01DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = pt.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045D51DEDD1B900AD93BB /* UIActivities */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045D61DEDD1B900AD93BB /* Chrome */,
+				FA0045D81DEDD1B900AD93BB /* Safari */,
+				FA0045DA1DEDD1B900AD93BB /* SwiftWebVCActivity.swift */,
+			);
+			path = UIActivities;
+			sourceTree = "<group>";
+		};
+		FA0045D61DEDD1B900AD93BB /* Chrome */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045D71DEDD1B900AD93BB /* SwiftWebVCActivityChrome.swift */,
+			);
+			path = Chrome;
+			sourceTree = "<group>";
+		};
+		FA0045D81DEDD1B900AD93BB /* Safari */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045D91DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift */,
+			);
+			path = Safari;
+			sourceTree = "<group>";
+		};
+		FA0045DB1DEDD1B900AD93BB /* vi.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045DC1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = vi.lproj;
+			sourceTree = "<group>";
+		};
+		FA0045DE1DEDD1B900AD93BB /* zh-Hans.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045DF1DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = "zh-Hans.lproj";
+			sourceTree = "<group>";
+		};
+		FA0045E11DEDD1B900AD93BB /* zh-Hant.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				FA0045E21DEDD1B900AD93BB /* SwiftWebVC.strings */,
+			);
+			path = "zh-Hant.lproj";
+			sourceTree = "<group>";
+		};
 		FA2FD9DA1D1149870003327A = {
 			isa = PBXGroup;
 			children = (
@@ -429,45 +542,23 @@
 		FA2FDA561D114BAB0003327A /* WebView */ = {
 			isa = PBXGroup;
 			children = (
-				FA2FDA571D114BAB0003327A /* SwiftWebVC.strings */,
-				FA2FDA601D114BAB0003327A /* SwiftModalWebVC.swift */,
-				FA2FDA611D114BAB0003327A /* SwiftWebVC.bundle */,
-				FA2FDA621D114BAB0003327A /* SwiftWebVC.swift */,
-				FA2FDA631D114BAB0003327A /* UIActivities */,
+				FA0045BA1DEDD1B900AD93BB /* da.lproj */,
+				FA0045BD1DEDD1B900AD93BB /* de.lproj */,
+				FA0045C01DEDD1B900AD93BB /* en.lproj */,
+				FA0045C31DEDD1B900AD93BB /* es-ES.lproj */,
+				FA0045C61DEDD1B900AD93BB /* es.lproj */,
+				FA0045C91DEDD1B900AD93BB /* fr.lproj */,
+				FA0045CC1DEDD1B900AD93BB /* ja.lproj */,
+				FA0045CF1DEDD1B900AD93BB /* pt.lproj */,
+				FA0045D21DEDD1B900AD93BB /* SwiftModalWebVC.swift */,
+				FA0045D31DEDD1B900AD93BB /* SwiftWebVC.bundle */,
+				FA0045D41DEDD1B900AD93BB /* SwiftWebVC.swift */,
+				FA0045D51DEDD1B900AD93BB /* UIActivities */,
+				FA0045DB1DEDD1B900AD93BB /* vi.lproj */,
+				FA0045DE1DEDD1B900AD93BB /* zh-Hans.lproj */,
+				FA0045E11DEDD1B900AD93BB /* zh-Hant.lproj */,
 			);
 			path = WebView;
-			sourceTree = "<group>";
-		};
-		FA2FDA631D114BAB0003327A /* UIActivities */ = {
-			isa = PBXGroup;
-			children = (
-				FA2FDA641D114BAB0003327A /* Chrome */,
-				FA2FDA691D114BAB0003327A /* Safari */,
-				FA2FDA6E1D114BAB0003327A /* SwiftWebVCActivity.swift */,
-			);
-			path = UIActivities;
-			sourceTree = "<group>";
-		};
-		FA2FDA641D114BAB0003327A /* Chrome */ = {
-			isa = PBXGroup;
-			children = (
-				FA2FDA651D114BAB0003327A /* SwiftWebVCActivityChrome-iPad.png */,
-				FA2FDA661D114BAB0003327A /* SwiftWebVCActivityChrome-iPad@2x.png */,
-				FA2FDA671D114BAB0003327A /* SwiftWebVCActivityChrome.swift */,
-				FA2FDA681D114BAB0003327A /* SwiftWebVCActivityChrome@2x.png */,
-			);
-			path = Chrome;
-			sourceTree = "<group>";
-		};
-		FA2FDA691D114BAB0003327A /* Safari */ = {
-			isa = PBXGroup;
-			children = (
-				FA2FDA6A1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad.png */,
-				FA2FDA6B1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png */,
-				FA2FDA6C1D114BAB0003327A /* SwiftWebVCActivitySafari.swift */,
-				FA2FDA6D1D114BAB0003327A /* SwiftWebVCActivitySafari@2x.png */,
-			);
-			path = Safari;
 			sourceTree = "<group>";
 		};
 		FA2FDA711D114BAB0003327A /* Extra */ = {
@@ -543,12 +634,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Hangar42;
 				TargetAttributes = {
 					FA2FD9E21D1149870003327A = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = B22Z7NLA6E;
+						LastSwiftMigration = 0810;
 					};
 				};
 			};
@@ -568,6 +660,7 @@
 				pt,
 				"zh-Hans",
 				"zh-Hant",
+				vi,
 			);
 			mainGroup = FA2FD9DA1D1149870003327A;
 			productRefGroup = FA2FD9E41D1149870003327A /* Products */;
@@ -584,27 +677,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0045E51DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDA901D114BAB0003327A /* iPad.storyboard in Resources */,
 				FA2FDAA11D114BAB0003327A /* DateFieldCell.xib in Resources */,
+				FA0045EB1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDA941D114BAB0003327A /* Uni.storyboard in Resources */,
-				FA2FDAB61D114BAB0003327A /* SwiftWebVC.strings in Resources */,
 				FA2FDA8F1D114BAB0003327A /* StaticAdjustableTextField.xib in Resources */,
+				FA0045F31DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FAF527801D59DB2900147D20 /* ModeRangeTableViewCell.xib in Resources */,
-				FA2FDABF1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad@2x.png in Resources */,
-				FA2FDAB81D114BAB0003327A /* SwiftWebVC.bundle in Resources */,
+				FA0045E81DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDA931D114BAB0003327A /* Preferences.storyboard in Resources */,
+				FA0045E91DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDAA31D114BAB0003327A /* SingleFieldCell.xib in Resources */,
-				FA2FDABA1D114BAB0003327A /* SwiftWebVCActivityChrome-iPad.png in Resources */,
+				FA0045EA1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FD9EE1D1149870003327A /* Assets.xcassets in Resources */,
-				FA2FDAC11D114BAB0003327A /* SwiftWebVCActivitySafari@2x.png in Resources */,
 				FA2FDA921D114BAB0003327A /* LaunchScreen.storyboard in Resources */,
-				FA2FDABB1D114BAB0003327A /* SwiftWebVCActivityChrome-iPad@2x.png in Resources */,
+				FA0045F41DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
+				FA0045E71DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDAA41D114BAB0003327A /* TripleFieldCell.xib in Resources */,
+				FA0045E41DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
+				FA0045ED1DEDD1B900AD93BB /* SwiftWebVC.bundle in Resources */,
 				FA2FDAA21D114BAB0003327A /* NameFieldCell.xib in Resources */,
-				FA2FDABE1D114BAB0003327A /* SwiftWebVCActivitySafari-iPad.png in Resources */,
-				FA2FDABD1D114BAB0003327A /* SwiftWebVCActivityChrome@2x.png in Resources */,
 				FA2FDA851D114BAB0003327A /* DecimalPadPopover.xib in Resources */,
+				FA0045E61DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 				FA2FDA911D114BAB0003327A /* iPhone.storyboard in Resources */,
+				FA0045F21DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,11 +712,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA0045EF1DEDD1B900AD93BB /* SwiftWebVCActivityChrome.swift in Sources */,
 				FA2FDAA71D114BAB0003327A /* TuningViewController.swift in Sources */,
 				FA2FDAB31D114BAB0003327A /* MRMessageInterceptor.m in Sources */,
 				FA2FDAC61D114BAB0003327A /* Extra.swift in Sources */,
 				FA2FDA8A1D114BAB0003327A /* GroupedTableViewController.swift in Sources */,
 				FA2FDA861D114BAB0003327A /* EFIS.swift in Sources */,
+				FA0045F11DEDD1B900AD93BB /* SwiftWebVCActivity.swift in Sources */,
+				FA0045EE1DEDD1B900AD93BB /* SwiftWebVC.swift in Sources */,
 				FA2FDA951D114BAB0003327A /* CLIViewController.swift in Sources */,
 				FA2FDAB21D114BAB0003327A /* MRStopButton.m in Sources */,
 				FA2FDAC41D114BAB0003327A /* BluetoothDevice.swift in Sources */,
@@ -632,10 +732,9 @@
 				FA2FDA971D114BAB0003327A /* ConfigTableViewController.swift in Sources */,
 				FA2FDA8E1D114BAB0003327A /* StaticAdjustableTextField.swift in Sources */,
 				FA2FDACF1D114BAB0003327A /* Globals.swift in Sources */,
+				FA0045F01DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift in Sources */,
 				FA2FDAAE1D114BAB0003327A /* MRIconView.m in Sources */,
-				FA2FDAB71D114BAB0003327A /* SwiftModalWebVC.swift in Sources */,
 				FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */,
-				FA2FDAB91D114BAB0003327A /* SwiftWebVC.swift in Sources */,
 				FA2FDA9E1D114BAB0003327A /* ReceiverInputViewController.swift in Sources */,
 				FA2FDACD1D114BAB0003327A /* Constants.swift in Sources */,
 				FA2FDAC31D114BAB0003327A /* AppLog.swift in Sources */,
@@ -650,10 +749,10 @@
 				FA2FDACA1D114BAB0003327A /* Version.swift in Sources */,
 				FA2FDA841D114BAB0003327A /* DecimalPadPopover.swift in Sources */,
 				FA2FDA821D114BAB0003327A /* AdjustableTextField.swift in Sources */,
+				FA0045EC1DEDD1B900AD93BB /* SwiftModalWebVC.swift in Sources */,
 				FA2FDA881D114BAB0003327A /* GlassIndicator.swift in Sources */,
 				FA2FDAA91D114BAB0003327A /* Vjson.swift in Sources */,
 				FA2FDA891D114BAB0003327A /* GlassLabel.swift in Sources */,
-				FA2FDAC21D114BAB0003327A /* SwiftWebVCActivity.swift in Sources */,
 				FA2FDACC1D114BAB0003327A /* MSPInterpreter.swift in Sources */,
 				FA2FDA8C1D114BAB0003327A /* SelectionPopover.swift in Sources */,
 				FA2FDAB41D114BAB0003327A /* MRMethodCopier.m in Sources */,
@@ -665,12 +764,10 @@
 				FA2FDA9B1D114BAB0003327A /* MotorConfigViewController.swift in Sources */,
 				FAF5277C1D59CEE200147D20 /* ModeRange.swift in Sources */,
 				FA2FDAC81D114BAB0003327A /* SerialPortConfig.swift in Sources */,
-				FA2FDABC1D114BAB0003327A /* SwiftWebVCActivityChrome.swift in Sources */,
 				FA2FDAD01D114BAB0003327A /* AppDelegate.swift in Sources */,
 				FA2FDA961D114BAB0003327A /* CLITabViewController.swift in Sources */,
 				FA2FDA8D1D114BAB0003327A /* SelectionTableViewController.swift in Sources */,
 				FA2FDAC91D114BAB0003327A /* TuningSnapshot.swift in Sources */,
-				FA2FDAC01D114BAB0003327A /* SwiftWebVCActivitySafari.swift in Sources */,
 				FA2FDAC71D114BAB0003327A /* Math.swift in Sources */,
 				FA2FDA991D114BAB0003327A /* AppLogViewController.swift in Sources */,
 				FA2FDA981D114BAB0003327A /* AppConfigViewController.swift in Sources */,
@@ -683,19 +780,90 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		FA2FDA571D114BAB0003327A /* SwiftWebVC.strings */ = {
+		FA0045BB1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				FA2FDA581D114BAB0003327A /* da */,
-				FA2FDA591D114BAB0003327A /* de */,
-				FA2FDA5A1D114BAB0003327A /* en */,
-				FA2FDA5B1D114BAB0003327A /* es-ES */,
-				FA2FDA5C1D114BAB0003327A /* es */,
-				FA2FDA5D1D114BAB0003327A /* fr */,
-				FA2FDA5E1D114BAB0003327A /* ja */,
-				FA2FDA5F1D114BAB0003327A /* pt */,
-				FA2FDA6F1D114BAB0003327A /* zh-Hans */,
-				FA2FDA701D114BAB0003327A /* zh-Hant */,
+				FA0045BC1DEDD1B900AD93BB /* da */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045BE1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045BF1DEDD1B900AD93BB /* de */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045C11DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045C21DEDD1B900AD93BB /* en */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045C41DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045C51DEDD1B900AD93BB /* es-ES */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045C71DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045C81DEDD1B900AD93BB /* es */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045CA1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045CB1DEDD1B900AD93BB /* fr */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045CD1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045CE1DEDD1B900AD93BB /* ja */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045D01DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045D11DEDD1B900AD93BB /* pt */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045DC1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045DD1DEDD1B900AD93BB /* vi */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045DF1DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045E01DEDD1B900AD93BB /* zh-Hans */,
+			);
+			name = SwiftWebVC.strings;
+			sourceTree = "<group>";
+		};
+		FA0045E21DEDD1B900AD93BB /* SwiftWebVC.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FA0045E31DEDD1B900AD93BB /* zh-Hant */,
 			);
 			name = SwiftWebVC.strings;
 			sourceTree = "<group>";
@@ -707,6 +875,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -717,8 +886,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -753,6 +924,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -763,8 +935,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -783,6 +957,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -794,6 +969,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = B22Z7NLA6E;
 				INFOPLIST_FILE = "$(SRCROOT)/Eaze/Supporting_Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "-D DEBUG";
@@ -801,6 +977,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Eaze/Supporting_Files/Eaze-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -810,11 +987,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = B22Z7NLA6E;
 				INFOPLIST_FILE = "$(SRCROOT)/Eaze/Supporting_Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = nl.hangar42.eaze;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Eaze/Supporting_Files/Eaze-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

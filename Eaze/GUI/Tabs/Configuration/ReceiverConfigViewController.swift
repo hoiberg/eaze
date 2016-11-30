@@ -24,26 +24,26 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC],
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC],
                 receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
     
-    private var serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01", "IBUS"],
+    fileprivate var serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01", "IBUS"],
                 RSSIInputChannels = ["Disabled"],
                 lastValid_RC_MAP = "AETR1234"
     
-    private var selectedSerialReceiverMode = 0  {
+    fileprivate var selectedSerialReceiverMode = 0  {
         didSet {
             serialReceiverLabel.text = serialReceiverModes[selectedSerialReceiverMode]
         }
     }
     
-    private var selectedReceiverMode = 2  {
+    fileprivate var selectedReceiverMode = 2  {
         didSet {
             receiverModeLabel.text = receiverModes[selectedReceiverMode]
         }
     }
     
-    private var selectedRSSIInputChannel = 0 {
+    fileprivate var selectedRSSIInputChannel = 0 {
         didSet {
             RSSIInputChannelLabel.text = RSSIInputChannels[selectedRSSIInputChannel]
         }
@@ -64,8 +64,8 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             serialClosed()
         }
         
-        notificationCenter.addObserver(self, selector: #selector(ReceiverConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ReceiverConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
         
         failsafeThrottleField.maxValue = 2000
         failsafeThrottleField.minValue = 0
@@ -84,7 +84,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         msp.sendMSP(mspCodes)
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_BF_CONFIG:
             if dataStorage.BFFeatures.bitCheck(0) {
@@ -96,8 +96,8 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             } else {
                 selectedReceiverMode = 1 // pwm (default I guess)
             }
-            failsafeSwitch.on = dataStorage.BFFeatures.bitCheck(8)
-            analogRSSISwitch.on = dataStorage.BFFeatures.bitCheck(15)
+            failsafeSwitch.isOn = dataStorage.BFFeatures.bitCheck(8)
+            analogRSSISwitch.isOn = dataStorage.BFFeatures.bitCheck(15)
             selectedSerialReceiverMode = dataStorage.serialRXType
             
         case MSP_MISC:
@@ -117,7 +117,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             let letters = "AERT1234"
             var str = ""
             for i in 0 ..< dataStorage.RC_MAP.count {
-                str.append(letters[dataStorage.RC_MAP.indexOf(i)!])
+                str += letters[dataStorage.RC_MAP.index(of: i)!]
             }
             channelMapField.text = str
             lastValid_RC_MAP = str
@@ -135,30 +135,30 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             sendDataRequest()
         }
         
-        saveButton.enabled = true
+        saveButton.isEnabled = true
         
         if dataStorage.apiVersion >= "1.15.0" {
             // new failsafe setup not yet supported
-            failsafeSwitch.enabled = false
+            failsafeSwitch.isEnabled = false
             failsafeThrottleField.enabled = false
         } else {
-            failsafeSwitch.enabled = true
+            failsafeSwitch.isEnabled = true
             failsafeThrottleField.enabled = true
         }
     }
     
     func serialClosed() {
-        saveButton.enabled = false
+        saveButton.isEnabled = false
     }
     
     
     // MARK: TableView delegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
             if indexPath.row == 1 {
                 // Receiver mode
-                let vc = SelectionTableViewController(style: .Grouped)
+                let vc = SelectionTableViewController(style: .grouped)
                 vc.tag = 0
                 vc.title = "Receiver Mode"
                 vc.items = receiverModes
@@ -168,7 +168,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
                 
             } else if indexPath.row == 2 {
                 // Serial Receiver mode
-                let vc = SelectionTableViewController(style: .Grouped)
+                let vc = SelectionTableViewController(style: .grouped)
                 vc.tag = 1
                 vc.title = "Serial Receiver Provider"
                 vc.items = serialReceiverModes
@@ -184,7 +184,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             
         } else if indexPath.section == 2 && indexPath.row == 0 {
             // RSSI channel
-            let vc = SelectionTableViewController(style: .Grouped)
+            let vc = SelectionTableViewController(style: .grouped)
             vc.tag = 2
             vc.title = "RSSI Input Channel"
             vc.items = RSSIInputChannels
@@ -197,17 +197,17 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: UITextFieldDelegate
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // allow backspace
         if string.isEmpty { return true }
         
         // only allow AERT1234 to be put in the textfield
-        if string.rangeOfCharacterFromSet(NSCharacterSet(charactersInString: "AERT1234").invertedSet) != nil { return false }
+        if string.rangeOfCharacter(from: CharacterSet(charactersIn: "AERT1234").inverted) != nil { return false }
         
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         // check that the new value of channelMapField is valid
         if textField.text!.characters.count != 8 {
             textField.text = lastValid_RC_MAP
@@ -230,7 +230,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: SelectionTableViewControllerDelegate
     
-    func selectionTableWithTag(tag: Int, didSelectItem item: Int) {
+    func selectionTableWithTag(_ tag: Int, didSelectItem item: Int) {
         if tag == 0 {
             selectedReceiverMode = item
         } else if tag == 1 {
@@ -243,7 +243,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: IBActions
     
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         // MSP_SET_BF_CONFIG
         if selectedReceiverMode == 0 {
             dataStorage.BFFeatures.setBit(0, value: 1)
@@ -267,8 +267,8 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             dataStorage.BFFeatures.setBit(14, value: 1)
         }
         
-        dataStorage.BFFeatures.setBit(8, value: Int(failsafeSwitch.on))
-        dataStorage.BFFeatures.setBit(15, value: Int(analogRSSISwitch.on))
+        dataStorage.BFFeatures.setBit(8, value: failsafeSwitch.isOn ? 1 : 0)
+        dataStorage.BFFeatures.setBit(15, value: analogRSSISwitch.isOn ? 1 : 0)
         dataStorage.serialRXType = selectedSerialReceiverMode
 
         // MSP_SET_MISC

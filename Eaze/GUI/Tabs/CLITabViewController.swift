@@ -22,11 +22,11 @@ final class CLITabViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        notificationCenter.addObserver(self, selector: #selector(CLITabViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(CLITabViewController.serialClosed), name: SerialClosedNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
         
         if !bluetoothSerial.isConnected {
-            enterCLIButton.enabled = false
+            enterCLIButton.isEnabled = false
         }
         
         if UIDevice.isPhone {
@@ -42,24 +42,24 @@ final class CLITabViewController: UIViewController {
     // MARK: - Serial events
     
     func serialOpened() {
-        enterCLIButton.enabled = true
+        enterCLIButton.isEnabled = true
     }
     
     func serialClosed() {
-        enterCLIButton.enabled = false
+        enterCLIButton.isEnabled = false
     }
     
     
     // MARK: - IBActions
     
-    @IBAction func enterCLI(sender: AnyObject) {
+    @IBAction func enterCLI(_ sender: AnyObject) {
         // load CLI async to speed up process
         MessageView.showProgressHUD("Loading CLI")
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-            let vc = self.storyboard?.instantiateViewControllerWithIdentifier("CLIViewController")
-            dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue(label: "nl.hangar42.eaze.loadCLI").async {
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "CLIViewController")
+            DispatchQueue.main.async {
                 MessageView.hideProgressHUD()
-                self.presentViewController(vc!, animated: true, completion: nil)
+                self.present(vc!, animated: true, completion: nil)
             }
         }
     }

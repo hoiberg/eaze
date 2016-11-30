@@ -16,8 +16,8 @@ var console = AppLog()
 var cliActive = false
 
 // shortcuts
-let notificationCenter = NSNotificationCenter.defaultCenter(),
-    userDefaults = NSUserDefaults.standardUserDefaults()
+let notificationCenter = NotificationCenter.default,
+    userDefaults = UserDefaults.standard
 
 // NSUserDefaults keys
 let DefaultsAutoConnectNewKey = "AutoConnectNew",

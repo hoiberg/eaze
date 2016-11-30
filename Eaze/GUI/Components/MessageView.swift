@@ -12,22 +12,22 @@ final class MessageView: UIView {
     
     // MARK: - Class Variables
     
-    static private var currentMessage: MessageView?
-    static private let showTime = 1.25
+    static fileprivate var currentMessage: MessageView?
+    static fileprivate let showTime = 1.25
     
     
     // MARK: - Variables
     
-    var timer: NSTimer?,
+    var timer: Timer?,
         label: UILabel!,
         imageView: UIImageView!,
         ownWindow: UIWindow?
     
     var text: String {
         set {
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 self.label.text = newValue
-                self.imageView.frame.origin.x = self.superview!.bounds.width/2 - self.label.intrinsicContentSize().width/2 - 35
+                self.imageView.frame.origin.x = self.superview!.bounds.width/2 - self.label.intrinsicContentSize.width/2 - 35
                 if self.imageView.frame.origin.x < 5 {
                     self.imageView.frame.origin.x = -44 // to prevent cut-off images
                 }
@@ -41,12 +41,12 @@ final class MessageView: UIView {
     
     // MARK: - Class Functions
     
-    class func show(text: String) {
-        dispatch_async(dispatch_get_main_queue()) {
+    class func show(_ text: String) {
+        DispatchQueue.main.async {
             if let msg = currentMessage {
                 msg.text = text
                 msg.timer?.invalidate()
-                msg.timer = NSTimer.scheduledTimerWithTimeInterval(showTime, target: msg, selector: #selector(MessageView.hide), userInfo: nil, repeats: false)
+                msg.timer = Timer.scheduledTimer(timeInterval: showTime, target: msg, selector: #selector(MessageView.hide), userInfo: nil, repeats: false)
             } else {
                 currentMessage = MessageView()
                 currentMessage?.text = text
@@ -56,15 +56,15 @@ final class MessageView: UIView {
     }
     
     class func showProgressHUD() {
-        MRProgressOverlayView.showOverlayAddedTo(UIApplication.sharedApplication().windows.first!, title: "", mode: .Indeterminate, animated: true)
+        MRProgressOverlayView.showOverlayAdded(to: UIApplication.shared.windows.first!, title: "", mode: .indeterminate, animated: true)
     }
     
-    class func showProgressHUD(title: String) {
-        MRProgressOverlayView.showOverlayAddedTo(UIApplication.sharedApplication().windows.first!, title: title, mode: .Indeterminate, animated: true)
+    class func showProgressHUD(_ title: String) {
+        MRProgressOverlayView.showOverlayAdded(to: UIApplication.shared.windows.first!, title: title, mode: .indeterminate, animated: true)
     }
     
     class func hideProgressHUD() {
-        MRProgressOverlayView.dismissOverlayForView(UIApplication.sharedApplication().windows.first!, animated: true)
+        MRProgressOverlayView.dismissOverlay(for: UIApplication.shared.windows.first!, animated: true)
     }
     
     
@@ -75,20 +75,20 @@ final class MessageView: UIView {
     }
 
     init() {
-        super.init(frame: CGRectZero)
+        super.init(frame: CGRect.zero)
         
         // set own views stuff
-        self.frame = CGRect(x: 0, y: -70, width: UIScreen.mainScreen().bounds.width, height: 70)
-        backgroundColor = UIColor.clearColor()
+        self.frame = CGRect(x: 0, y: -70, width: UIScreen.main.bounds.width, height: 70)
+        backgroundColor = UIColor.clear
         
         // create blurview
-        let blur = UIBlurEffect(style: .Dark),
+        let blur = UIBlurEffect(style: .dark),
             blurView = UIVisualEffectView(effect: blur)
         blurView.frame = bounds
         addSubview(blurView)
         
         // create vibrancyview
-        let vibrancy = UIVibrancyEffect(forBlurEffect: blur),
+        let vibrancy = UIVibrancyEffect(blurEffect: blur),
             vibrancyView = UIVisualEffectView(effect: vibrancy)
         vibrancyView.frame = bounds
         blurView.contentView.addSubview(vibrancyView)
@@ -96,8 +96,8 @@ final class MessageView: UIView {
         // create label
         label = UILabel(frame: blurView.frame)
         label.adjustsFontSizeToFitWidth = true
-        label.font = UIFont.boldSystemFontOfSize(25)
-        label.textAlignment = .Center
+        label.font = UIFont.boldSystemFont(ofSize: 25)
+        label.textAlignment = .center
         vibrancyView.contentView.addSubview(label)
         
         // create imageView for checkmark
@@ -110,21 +110,21 @@ final class MessageView: UIView {
         //TODO: Status bar changes color when showing the messageview.. no solution yet.
         ownWindow = UIWindow()
         ownWindow!.windowLevel = /*UIWindowLevelStatusBar + 1*/ UIWindowLevelAlert + 10
-        ownWindow!.userInteractionEnabled = false
-        ownWindow!.backgroundColor = UIColor.clearColor()
-        ownWindow!.hidden = false
+        ownWindow!.isUserInteractionEnabled = false
+        ownWindow!.backgroundColor = UIColor.clear
+        ownWindow!.isHidden = false
         ownWindow!.addSubview(self)
     
-        UIView.animateWithDuration(0.2) {
+        UIView.animate(withDuration: 0.2, animations: {
             self.frame.origin.y = 0
-        }
+        }) 
 
-        timer = NSTimer.scheduledTimerWithTimeInterval(MessageView.showTime, target: self, selector: #selector(MessageView.hide), userInfo: nil, repeats: false)
+        timer = Timer.scheduledTimer(timeInterval: MessageView.showTime, target: self, selector: #selector(MessageView.hide), userInfo: nil, repeats: false)
     }
     
     func hide() {
-        dispatch_async(dispatch_get_main_queue()) {
-            UIView.animateWithDuration(0.2, animations: {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.2, animations: {
                     self.frame.origin.y = -70
                 }, completion: { _ in
                     self.removeFromSuperview()

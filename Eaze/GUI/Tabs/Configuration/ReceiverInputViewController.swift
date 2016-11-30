@@ -12,9 +12,9 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     // MARK: - Interface vars
     
-    var nameLabels = [UILabel?](count: 32, repeatedValue: nil),
-        labels = [UILabel?](count: 32, repeatedValue: nil),
-        bars = [UIProgressView?](count: 32, repeatedValue: nil)
+    var nameLabels = [UILabel?](repeating: nil, count: 32),
+        labels = [UILabel?](repeating: nil, count: 32),
+        bars = [UIProgressView?](repeating: nil, count: 32)
 
     
     // MARK: - Variables
@@ -22,8 +22,8 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     let mspCodes = [MSP_RX_MAP, MSP_RC],
         refNames = ["Roll", "Pitch", "Yaw", "Throttle", "AUX1", "AUX2", "AUX3", "AUX4"]
     
-    var channelNames = [String](count: 32, repeatedValue: ""),
-        updateTimer: NSTimer?,
+    var channelNames = [String](repeating: "", count: 32),
+        updateTimer: Timer?,
         isFirstTimeMSP_RC = true
     
     
@@ -42,10 +42,10 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         }
 
         
-        notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.serialClosed), name: SerialClosedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.didBecomeActive), name: AppDidBecomeActiveNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ReceiverInputViewController.willResignActive), name: AppWillResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didBecomeActive), name: Notification.Name.App.didBecomeActive, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(willResignActive), name: Notification.Name.App.willResignActive, object: nil)
 
         // populate channelNames
         channelNames[0...3] = ["Roll", "Pitch", "Yaw", "Throttle"]
@@ -55,14 +55,14 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if bluetoothSerial.isConnected {
             scheduleUpdateTimer()
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         updateTimer?.invalidate()
     }
@@ -82,9 +82,9 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         updateTimer?.invalidate()
     }
     
-    private func scheduleUpdateTimer() {
+    fileprivate func scheduleUpdateTimer() {
         updateTimer?.invalidate() // always invalidate before (re-)scheduling, to prevent multiple timers running at the same time.
-        updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
     }
     
     
@@ -98,16 +98,16 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         msp.sendMSP(MSP_RC)
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_RX_MAP:
             for i in 0 ..< dataStorage.RC_MAP.count {
-                channelNames[i] = refNames[dataStorage.RC_MAP.indexOf(i)!]
+                channelNames[i] = refNames[dataStorage.RC_MAP.index(of: i)!]
                 nameLabels[i]?.text = channelNames[i]
             }
 
         case MSP_RC:
-            for (index, chan) in dataStorage.channels.enumerate() {
+            for (index, chan) in dataStorage.channels.enumerated() {
                 let realIndex = dataStorage.RC_MAP[safe: index] ?? index
                 bars[realIndex]?.progress = (Float(chan) - 500.0) / 2000.0 // convert to 0.0-1.0 scale
                 labels[realIndex]?.text = "\(chan)"
@@ -142,7 +142,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     // MARK: - AdjustableTextField
     
-    func staticAdjustableTextFieldChangedValue(field: StaticAdjustableTextField) {
+    func staticAdjustableTextFieldChangedValue(_ field: StaticAdjustableTextField) {
         if bluetoothSerial.isConnected {
             scheduleUpdateTimer()
         }
@@ -151,16 +151,16 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bluetoothSerial.isConnected ? dataStorage.activeChannels : 8 // load sample data if not connected
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath),
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath),
             nameLabel = cell.viewWithTag(1) as! UILabel,
             barSuperView = cell.viewWithTag(2)!,
             bar = barSuperView.viewWithTag(1) as! UIProgressView,
@@ -168,11 +168,11 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         
         barSuperView.layer.cornerRadius = 3
         barSuperView.layer.masksToBounds = true
-        bar.transform = CGAffineTransformMakeScale(1, 7)
+        bar.transform = CGAffineTransform(scaleX: 1, y: 7)
         
         if bluetoothSerial.isConnected {
             nameLabel.text = channelNames[safe: indexPath.row] ?? "ERR"
-            bar.progress = Float(dataStorage.channels[safe: indexPath.row] ?? 0.0) / 3000.0 // convert to 0.0-1.0 scale
+            bar.progress = Float(dataStorage.channels[safe: indexPath.row] ?? 0) / 3000.0 // convert to 0.0-1.0 scale
             label.text = "\(dataStorage.channels[safe: indexPath.row] ?? 0)"
         } else {
             nameLabel.text = refNames[indexPath.row]

@@ -24,7 +24,7 @@ extension String {
     }
     
     subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[self.characters.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (i: Int) -> String {
@@ -32,12 +32,12 @@ extension String {
     }
     
     subscript (r: Range<Int>) -> String {
-        return substringWithRange(startIndex.advancedBy(r.startIndex) ..< startIndex.advancedBy(r.endIndex))
+        return substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
     }
     
-    public func indexOfCharacter(char: Character) -> Int? {
-        if let idx = characters.indexOf(char) {
-            return startIndex.distanceTo(idx)
+    public func indexOfCharacter(_ char: Character) -> Int? {
+        if let idx = characters.index(of: char) {
+            return characters.distance(from: startIndex, to: idx)
         }
         return nil
     }
@@ -46,36 +46,39 @@ extension String {
 
 // MARK: - Arrays
 
-extension RangeReplaceableCollectionType where Generator.Element: Equatable {
+extension RangeReplaceableCollection where Iterator.Element: Equatable {
     /// Remove first collection element that is equal to the given `object`:
-    mutating func removeObject(object: Generator.Element) {
-        if let index = self.indexOf(object) {
-            self.removeAtIndex(index)
+    mutating func removeObject(_ object: Iterator.Element) {
+        if let index = self.index(of: object) {
+            self.remove(at: index)
         }
     }
     
     /// For each given object: Remove first collection element that is equal to the given `object`:
-    mutating func removeObjects(objects: [Generator.Element]) {
+    mutating func removeObjects(_ objects: [Iterator.Element]) {
         for object in objects {
-            if let index = self.indexOf(object) {
-                self.removeAtIndex(index)
+            if let index = self.index(of: object) {
+                self.remove(at: index)
             }
         }
     }
     
     /// Append to this array only if it does not already exist in it
-    mutating func appendIfNonexistent(object: Generator.Element) {
+    mutating func appendIfNonexistent(_ object: Iterator.Element) {
         if !contains(object) {
             append(object)
         }
     }
 }
 
-extension CollectionType {
+extension Collection {
     /// Returns the object that conforms to the predicate, or nil if it does not find any
-    func find(@noescape predicate: (Self.Generator.Element) throws -> Bool) rethrows -> Self.Generator.Element? {
-        return try indexOf(predicate).map({self[$0]})
+    func find(_ predicate: (Self.Iterator.Element) throws -> Bool) rethrows -> Self.Iterator.Element? {
+        return try index(where: predicate).map({self[$0]})
     }
+}
+
+extension Collection where Indices.Iterator.Element == Index {
     
     /// Returns the element at the specified index iff it is within bounds, otherwise nil.
     subscript (safe index: Index) -> Generator.Element? {
@@ -85,10 +88,10 @@ extension CollectionType {
 
 extension Array where Element: Equatable {
     /// Returns a copy of the array with the given element removed
-    func arrayByRemovingObject(object: Element) -> [Element] {
+    func arrayByRemovingObject(_ object: Element) -> [Element] {
         var new = self
-        if let index = new.indexOf({ $0 == object }) {
-            new.removeAtIndex(index)
+        if let index = new.index(where: { $0 == object }) {
+            new.remove(at: index)
         }
         return new
     }
@@ -102,24 +105,24 @@ extension Array where Element: Copyable {
 
 
 // MARK: - NSDate
-
-public func ==(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs === rhs || lhs.compare(rhs) == .OrderedSame
+//TODO: Remove
+/*public func ==(lhs: Date, rhs: Date) -> Bool {
+    return lhs.compare(rhs) == .orderedSame //TODO: Not tested
 }
 
-public func <(lhs: NSDate, rhs: NSDate) -> Bool {
-    return lhs.compare(rhs) == .OrderedAscending
+public func <(lhs: Date, rhs: Date) -> Bool {
+    return lhs.compare(rhs) == .orderedAscending
 }
 
-extension NSDate: Comparable { }
+extension Date: Comparable { }*/
 
 
 // MARK: - NSData
 
-extension NSData {
+extension Data {
     func getBytes() -> [UInt8] {
-        var bytes = [UInt8](count: length / sizeof(UInt8), repeatedValue: 0)
-        getBytes(&bytes, length: length)
+        var bytes = [UInt8](repeating: 0, count: count / MemoryLayout<UInt8>.size)
+        copyBytes(to: &bytes, count: count)
         return bytes
     }
 }
@@ -129,17 +132,17 @@ extension NSData {
 
 extension UIDevice {
     class var isPad: Bool {
-        return currentDevice().userInterfaceIdiom == .Pad
+        return current.userInterfaceIdiom == .pad
     }
     
     class var isPhone: Bool {
-        return currentDevice().userInterfaceIdiom == .Phone
+        return current.userInterfaceIdiom == .phone
     }
     
     class var platform: String {
         var sysinfo = utsname()
         uname(&sysinfo) // ignore return value
-        return NSString(bytes: &sysinfo.machine, length: Int(_SYS_NAMELEN), encoding: NSASCIIStringEncoding)! as String
+        return NSString(bytes: &sysinfo.machine, length: Int(_SYS_NAMELEN), encoding: String.Encoding.ascii.rawValue)! as String
     }
 }
 
@@ -149,7 +152,7 @@ extension UIDevice {
 extension UIViewController {
     /// Returns whether this view controller is currently being shown to the user
     var isBeingShown: Bool {
-        return isViewLoaded() && view.window != nil
+        return isViewLoaded && view.window != nil
     }
 }
 
@@ -158,9 +161,9 @@ extension UIViewController {
 
 extension UIImageView {
     /// Sets the color of all non-transparent pixels of the current image
-    func tint(color: UIColor) {
+    func tint(_ color: UIColor) {
         tintColor = color
-        image = image?.imageWithRenderingMode(.AlwaysTemplate)
+        image = image?.withRenderingMode(.alwaysTemplate)
     }
 }
 
@@ -169,33 +172,33 @@ extension UIImageView {
 
 extension UIButton {
     
-    static private let minimumHitArea = CGSizeMake(44, 44)
+    static fileprivate let minimumHitArea = CGSize(width: 44, height: 44)
     
-    func setBackgroundColor(color: UIColor, forState state: UIControlState) {
+    func setBackgroundColor(_ color: UIColor, forState state: UIControlState) {
         let colorView = UIView(frame: self.frame)
         colorView.backgroundColor = color
         
         UIGraphicsBeginImageContext(colorView.bounds.size)
-        colorView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        colorView.layer.render(in: UIGraphicsGetCurrentContext()!)
         
         let colorImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        self.setBackgroundImage(colorImage, forState: state)
+        self.setBackgroundImage(colorImage, for: state)
     }
     
-    public override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
+    open override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         // if the button is hidden/disabled/transparent it can't be hit
-        if self.hidden || !self.userInteractionEnabled || self.alpha < 0.01 { return nil }
+        if self.isHidden || !self.isUserInteractionEnabled || self.alpha < 0.01 { return nil }
         
         // increase the hit frame to be at least as big as `minimumHitArea`
         let buttonSize = self.bounds.size,
             widthToAdd = max(UIButton.minimumHitArea.width - buttonSize.width, 0),
             heightToAdd = max(UIButton.minimumHitArea.height - buttonSize.height, 0),
-            largerFrame = CGRectInset(self.bounds, -widthToAdd / 2, -heightToAdd / 2)
+            largerFrame = self.bounds.insetBy(dx: -widthToAdd / 2, dy: -heightToAdd / 2)
         
         // perform hit test on larger frame
-        return (CGRectContainsPoint(largerFrame, point)) ? self : nil
+        return (largerFrame.contains(point)) ? self : nil
     }
 }
 

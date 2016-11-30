@@ -8,9 +8,33 @@
 
 import UIKit
 import QuartzCore
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol AdjustableTextFieldDelegate {
-    func adjustableTextFieldChangedValue(field: AdjustableTextField)
+    func adjustableTextFieldChangedValue(_ field: AdjustableTextField)
 }
 
 final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverDelegate {
@@ -43,7 +67,7 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
     }
     
     var enabled: Bool = true {
-        didSet { textField.enabled = enabled }
+        didSet { textField.isEnabled = enabled }
     }
     
     var doubleValue: Double {
@@ -67,8 +91,8 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         get { return Int(doubleValue) }
     }
     
-    private var touch: UITouch?, // used to differentiate old/new touches
-                touchDownTime: NSDate?, // time when the touch was added
+    fileprivate var touch: UITouch?, // used to differentiate old/new touches
+                touchDownTime: Date?, // time when the touch was added
                 buttonsVisible = false, // self explainatory
                 plusButtonIsPressed = false, // self explainatory
                 minusButtonIsPressed = false, // self explainatory
@@ -87,31 +111,31 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         setup()
     }
     
-    private func setup() {
-        backgroundColor = UIColor.clearColor()
+    fileprivate func setup() {
+        backgroundColor = UIColor.clear
         layer.masksToBounds = false
         clipsToBounds = false
         
         // add textfield
         textField = UITextField(frame: bounds)
         textField.delegate = self
-        textField.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
-        textField.userInteractionEnabled = false
-        textField.keyboardType = .DecimalPad
+        textField.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
+        textField.isUserInteractionEnabled = false
+        textField.keyboardType = .decimalPad
 
         addSubview(textField)
         
         // style the textfield
-        textField.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
-        textField.borderStyle = UITextBorderStyle.None
+        textField.backgroundColor = UIColor.black.withAlphaComponent(0.05)
+        textField.borderStyle = UITextBorderStyle.none
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
-        textField.textColor = UIColor.blackColor()
-        textField.textAlignment = NSTextAlignment.Center
+        textField.textColor = UIColor.black
+        textField.textAlignment = NSTextAlignment.center
         
         reloadText()
     }
     
-    private func reloadText() {
+    fileprivate func reloadText() {
         textField.text = doubleValue.stringWithDecimals(decimal)
         
         if let suf = suffix {
@@ -121,14 +145,14 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         (delegate as! AdjustableTextFieldDelegate?)?.adjustableTextFieldChangedValue(self)
     }
         
-    private func addButtons() {
+    fileprivate func addButtons() {
         var v = self as UIView
         for _ in 0...1 {
-            v.superview!.bringSubviewToFront(v) // prevent buttons from being behind other views
+            v.superview!.bringSubview(toFront: v) // prevent buttons from being behind other views
             v = v.superview!
         }
         
-        let font = UIFont.systemFontOfSize(38),
+        let font = UIFont.systemFont(ofSize: 38),
             width = bounds.width * 1.5,
             height = bounds.height * 2,
             x = bounds.width * -0.25,
@@ -137,77 +161,77 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         // plusbutton
         plusButton = UIView(frame: CGRect(x: x, y: -height - margin, width: width, height: height))
         let plusMaskPath = UIBezierPath()
-        plusMaskPath.moveToPoint(CGPoint(x: 0, y: 0))
-        plusMaskPath.addLineToPoint(CGPoint(x: width, y: 0))
-        plusMaskPath.addLineToPoint(CGPoint(x: bounds.width * 1.25, y: height))
-        plusMaskPath.addLineToPoint(CGPoint(x: bounds.width * 0.25, y: height))
-        plusMaskPath.closePath()
+        plusMaskPath.move(to: CGPoint(x: 0, y: 0))
+        plusMaskPath.addLine(to: CGPoint(x: width, y: 0))
+        plusMaskPath.addLine(to: CGPoint(x: bounds.width * 1.25, y: height))
+        plusMaskPath.addLine(to: CGPoint(x: bounds.width * 0.25, y: height))
+        plusMaskPath.close()
         
         let plusMaskLayer = CAShapeLayer()
         plusMaskLayer.frame = plusButton.bounds
-        plusMaskLayer.path = plusMaskPath.CGPath
+        plusMaskLayer.path = plusMaskPath.cgPath
         plusButton.layer.mask = plusMaskLayer
         
         let plusGradient = CAGradientLayer()
         plusGradient.frame = plusButton.bounds
-        plusGradient.colors = [tintColor.colorWithAlphaComponent(0).CGColor, tintColor.CGColor, tintColor.CGColor]
+        plusGradient.colors = [tintColor.withAlphaComponent(0).cgColor, tintColor.cgColor, tintColor.cgColor]
         plusGradient.locations = [0.0, 0.8, 1.0]
-        plusButton.layer.insertSublayer(plusGradient, atIndex: 0)
+        plusButton.layer.insertSublayer(plusGradient, at: 0)
         
-        insertSubview(plusButton, atIndex: 0)
+        insertSubview(plusButton, at: 0)
         
         // minusbutton
         minusButton = UIView(frame: CGRect(x: x, y: bounds.height + margin, width: width, height: height))
         let minusMaskPath = UIBezierPath()
-        minusMaskPath.moveToPoint(CGPoint(x: bounds.width * 0.25, y: 0))
-        minusMaskPath.addLineToPoint(CGPoint(x: bounds.width * 1.25, y: 0))
-        minusMaskPath.addLineToPoint(CGPoint(x: width, y: height))
-        minusMaskPath.addLineToPoint(CGPoint(x: 0, y: height))
-        minusMaskPath.closePath()
+        minusMaskPath.move(to: CGPoint(x: bounds.width * 0.25, y: 0))
+        minusMaskPath.addLine(to: CGPoint(x: bounds.width * 1.25, y: 0))
+        minusMaskPath.addLine(to: CGPoint(x: width, y: height))
+        minusMaskPath.addLine(to: CGPoint(x: 0, y: height))
+        minusMaskPath.close()
         
         let minusMaskLayer = CAShapeLayer()
         minusMaskLayer.frame = minusButton.bounds
-        minusMaskLayer.path = minusMaskPath.CGPath
+        minusMaskLayer.path = minusMaskPath.cgPath
         minusButton.layer.mask = minusMaskLayer
         
         let minusGradient = CAGradientLayer()
         minusGradient.frame = minusButton.bounds
-        minusGradient.colors = [tintColor.CGColor, tintColor.CGColor, tintColor.colorWithAlphaComponent(0).CGColor]
+        minusGradient.colors = [tintColor.cgColor, tintColor.cgColor, tintColor.withAlphaComponent(0).cgColor]
         minusGradient.locations = [0.0, 0.2, 1.0]
-        minusButton.layer.insertSublayer(minusGradient, atIndex: 0)
+        minusButton.layer.insertSublayer(minusGradient, at: 0)
         
-        insertSubview(minusButton, atIndex: 0)
+        insertSubview(minusButton, at: 0)
         
         // pluslabel
         plusLabel = UILabel(frame: plusButton.frame)
         plusLabel.text = "+"
-        plusLabel.textAlignment = .Center
-        plusLabel.textColor = UIColor.whiteColor()
+        plusLabel.textAlignment = .center
+        plusLabel.textColor = UIColor.white
         plusLabel.font = font
         addSubview(plusLabel)
         
         plusLabel.layer.shadowRadius = 2.0
         plusLabel.layer.shadowOpacity = 1.0
-        plusLabel.layer.shadowOffset = CGSizeZero
-        plusLabel.layer.shadowColor = tintColor.CGColor
+        plusLabel.layer.shadowOffset = CGSize.zero
+        plusLabel.layer.shadowColor = tintColor.cgColor
         
         // minus label
         minusLabel = UILabel(frame: minusButton.frame)
         minusLabel.text = "-"
-        minusLabel.textAlignment = .Center
-        minusLabel.textColor = UIColor.whiteColor()
+        minusLabel.textAlignment = .center
+        minusLabel.textColor = UIColor.white
         minusLabel.font = font
         addSubview(minusLabel)
         
         minusLabel.layer.shadowRadius = 2.0
         minusLabel.layer.shadowOpacity = 1.0
-        minusLabel.layer.shadowOffset = CGSizeZero
-        minusLabel.layer.shadowColor = tintColor.CGColor
+        minusLabel.layer.shadowOffset = CGSize.zero
+        minusLabel.layer.shadowColor = tintColor.cgColor
         
         buttonsVisible = true
     }
     
-    private func removeButtons() {
+    fileprivate func removeButtons() {
         guard buttonsVisible else { return }
         plusButton.removeFromSuperview()
         minusButton.removeFromSuperview()
@@ -222,14 +246,14 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         minusButtonIsPressed = false
     }
     
-    private func presentKeyboard() {
+    fileprivate func presentKeyboard() {
         // show either keyboard or decimal pad
         if UIDevice.isPhone {
             tapOutsideRecognizer = UITapGestureRecognizer(target: self, action: #selector(AdjustableTextField.textFieldShouldReturn(_:)))
             tapOutsideRecognizer.cancelsTouchesInView = false
             window!.rootViewController!.view.addGestureRecognizer(tapOutsideRecognizer)
             
-            textField.userInteractionEnabled = true
+            textField.isUserInteractionEnabled = true
             textField.becomeFirstResponder()
         } else {
             DecimalPadPopover.presentWithDelegate( self,
@@ -237,11 +261,11 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
                                        sourceRect: textField.frame,
                                        sourceView: self,
                                              size: CGSize(width: 210, height: 280),
-                         permittedArrowDirections: UIPopoverArrowDirection.Any)
+                         permittedArrowDirections: UIPopoverArrowDirection.any)
         }
     }
     
-    private func makeIncrement() {
+    fileprivate func makeIncrement() {
         // handle positive increment
         if plusButtonIsPressed {
             if maxValue != nil && doubleValue + increment > maxValue {
@@ -251,7 +275,7 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
             } else {
                 // make increment & calculate interval to next makeIncrement()
                 doubleValue += increment
-                let y = (touch!.locationInView(self).y * -1) - 5,
+                let y = (touch!.location(in: self).y * -1) - 5,
                     maxY = bounds.height * 3,
                     min = 0.1,
                     max = 0.6,
@@ -270,7 +294,7 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
             } else {
                 // make increment & calculate interval to next makeIncrement()
                 doubleValue -= increment
-                let y = touch!.locationInView(self).y - bounds.height - 5,
+                let y = touch!.location(in: self).y - bounds.height - 5,
                     maxY = bounds.height * 3,
                     min = 0.1,
                     max = 0.6,
@@ -285,17 +309,17 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
     
     // MARK: - Touches
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        guard enabled && !buttonsVisible && !textField.editing else { return } // ignore new touches
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard enabled && !buttonsVisible && !textField.isEditing else { return } // ignore new touches
         touch = touches.first // keep reference
-        touchDownTime = NSDate() // create timestamp
+        touchDownTime = Date() // create timestamp
         delay(0.12) { // delay appearance buttons
             guard self.touch != nil else { return } // touch might already have been ended by now
             self.addButtons() // if not, finally add the buttons
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard enabled else { return }
         for t in touches {
             if t == touch {
@@ -310,11 +334,11 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard enabled else { return }
         for t in touches {
             if t == touch {
-                let yValue = t.locationInView(self).y
+                let yValue = t.location(in: self).y
                 if buttonsVisible && !plusButtonIsPressed && yValue < -5 {
                     // start positive increment
                     plusButtonIsPressed = true
@@ -340,28 +364,28 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
     
     // MARK: - UITextFieldDelegate
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.textField.resignFirstResponder()
         return true
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         doubleValue = Double(textField.text!.floatValue)
-        textField.userInteractionEnabled = false
+        textField.isUserInteractionEnabled = false
         tapOutsideRecognizer = nil
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         // allow backspace
         if string.isEmpty { return true }
         
         // only allow 0123456789. and , to be put in the textfield
-        if string.rangeOfCharacterFromSet(NSCharacterSet(charactersInString: "0123456789.,").invertedSet) != nil { return false }
+        if string.rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789.,").inverted) != nil { return false }
         
         // replace ,'s with .'s
-        if string.containsString(",") {
-            let newString = string.stringByReplacingOccurrencesOfString(",", withString: ".")
-            textField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: newString)
+        if string.contains(",") {
+            let newString = string.replacingOccurrences(of: ",", with: ".")
+            textField.text = (textField.text! as NSString).replacingCharacters(in: range, with: newString)
             return false
         }
         
@@ -371,7 +395,7 @@ final class AdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverD
     
     // MARK: - DecimalPadPopoverDelegate
     
-    func updateText(newText: String) {
+    func updateText(_ newText: String) {
         textField.text = newText
     }
     

@@ -12,22 +12,22 @@ import UIKit
 final class GlassLabel: UIView {
 
     enum Background: Int {
-        case Red, Green, Dark
+        case red, green, dark
     }
     
     // MARK: - Variables
     
-    private var label: UILabel!
+    fileprivate var label: UILabel!
     
     var background: Background! {
         didSet {
             switch background! {
-            case .Red:
-                backgroundColor = UIColor.clearColor()
-            case .Green:
-                backgroundColor = UIColor(hex: 0x417505).colorWithAlphaComponent(0.4)
-            case .Dark:
-                backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.18)
+            case .red:
+                backgroundColor = UIColor.clear
+            case .green:
+                backgroundColor = UIColor(hex: 0x417505).withAlphaComponent(0.4)
+            case .dark:
+                backgroundColor = UIColor.black.withAlphaComponent(0.18)
             }
         }
     }
@@ -63,17 +63,17 @@ final class GlassLabel: UIView {
     func setup() {
         label = UILabel(frame: bounds)
         label.frame.origin.y += 1
-        label.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.whiteColor()
-        label.textAlignment = .Center
+        label.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
         addSubview(label)
         
         layer.cornerRadius = frame.height/2
-        background = .Dark
+        background = .dark
     }
     
     func adjustToTextSize() {
-        frame.size.width = label.intrinsicContentSize().width + 20
+        frame.size.width = label.intrinsicContentSize.width + 20
     }
 }

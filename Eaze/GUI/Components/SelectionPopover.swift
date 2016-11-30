@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SelectionPopoverDelegate {
-    func popoverSelectedOption(option: Int, tag: Int)
+    func popoverSelectedOption(_ option: Int, tag: Int)
 }
 
 class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate {
@@ -27,24 +27,24 @@ class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     // MARK: - Class Functions
     
-    class func presentWithOptions(options: [String], delegate: SelectionPopoverDelegate, tag: Int, sourceRect: CGRect, sourceView: UIView, size: CGSize, permittedArrowDirections: UIPopoverArrowDirection) {
+    class func presentWithOptions(_ options: [String], delegate: SelectionPopoverDelegate, tag: Int, sourceRect: CGRect, sourceView: UIView, size: CGSize, permittedArrowDirections: UIPopoverArrowDirection) {
         let selectionC = SelectionPopover()
         selectionC.options = options
         selectionC.delegate = delegate
         selectionC.tag = tag
         selectionC.view.frame.size = size
         selectionC.preferredContentSize = size
-        selectionC.modalPresentationStyle = .Popover
+        selectionC.modalPresentationStyle = .popover
         selectionC.popoverPresentationController!.delegate = selectionC
         selectionC.popoverPresentationController!.sourceRect = sourceRect
         selectionC.popoverPresentationController!.sourceView = sourceView
         selectionC.popoverPresentationController!.permittedArrowDirections = permittedArrowDirections
         
-        var topVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+        var topVC = UIApplication.shared.keyWindow?.rootViewController
         while((topVC!.presentedViewController) != nil){
             topVC = topVC!.presentedViewController
         }
-        topVC!.presentViewController(selectionC, animated: true, completion: nil)
+        topVC!.present(selectionC, animated: true, completion: nil)
     }
 
     
@@ -54,31 +54,31 @@ class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSo
         super.viewDidLoad()
 
         // create table view
-        tableView = UITableView(frame: view.frame, style: .Plain)
+        tableView = UITableView(frame: view.frame, style: .plain)
         tableView!.delegate = self
         tableView!.dataSource = self
         tableView!.translatesAutoresizingMaskIntoConstraints = false
-        tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView!.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         view.addSubview(tableView!)
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[view]-0-|", options: [], metrics: nil, views: ["view": tableView!]))
     }
     
     
     // MARK: - UITableViewDataSource
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell?
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell?
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "cell")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         }
         cell!.textLabel!.text = options[indexPath.row]
 
@@ -88,15 +88,15 @@ class SelectionPopover: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     // MARK: - UITableViewDelegate
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dismiss(animated: true, completion: nil)
         delegate?.popoverSelectedOption(indexPath.row, tag: tag)
     }
     
     
     // MARK: - UIPopoverPresentationControllerDelegate
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None // to make sure this VC is always presented as popover
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none // to make sure this VC is always presented as popover
     }
 }

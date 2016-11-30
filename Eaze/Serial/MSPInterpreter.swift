@@ -43,10 +43,15 @@
  * that use the API and the users of those tools.
  */
 
+// TODO: MSP_RX_CONFIG instead of BF_CONFIG (only on cleanflight)
+// TODO: MSP_BOARD_ALIGNMENT
+// TODO: MSP_FEATURE
+// TODO: MSP_MIXER
+
 import UIKit
 
 protocol MSPUpdateSubscriber: AnyObject, NSObjectProtocol {
-    func mspUpdated(code: Int)
+    func mspUpdated(_ code: Int)
 }
 
 // MSP codes
@@ -104,7 +109,7 @@ let MSP_EEPROM_WRITE    = 250
 final class MSPInterpreter: BluetoothSerialDelegate {
     
     var subscribers = [Int: WeakSet<MSPUpdateSubscriber>]()
-    var callbacks: [(code: Int, callback: Void -> Void)] = []
+    var callbacks: [(code: Int, callback: (Void) -> Void)] = []
     
     var state = 0
     var messageDirection: UInt8 = 0
@@ -114,37 +119,37 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     var messageData: [UInt8] = []
     var messageChecksum: UInt8 = 0
     
-    func serialPortReceivedData(data: NSData) {
-        var bytes = [UInt8](count: data.length / sizeof(UInt8), repeatedValue: 0)
-        data.getBytes(&bytes, length: data.length)
+    func serialPortReceivedData(_ data: Data) {
+        var bytes = [UInt8](repeating: 0, count: data.count / MemoryLayout<UInt8>.size)
+        (data as NSData).getBytes(&bytes, length: data.count)
         interpretMSP(bytes)
     }
     
-    func interpretMSP(data: [UInt8]) {
+    func interpretMSP(_ data: [UInt8]) {
         for byte in data {
             switch (state) {
             case 0: // sync char '$'
-                if byte == 36 { state++ }
+                if byte == 36 { state += 1 }
                 
             case 1: // sync char 'M'
-                if byte == 77 { state++ }
+                if byte == 77 { state += 1 }
                 else { state = 0; log(.Error, "Incorrect MSP message: expected 'M' but found \(byte)") } // try again
                 
             case 2: // direction '>' or '<' (should be '>')
                 if byte == 62 { messageDirection = 1 }
                 else { messageDirection = 0 } // ??
-                state++
+                state += 1
                 
             case 3: // length
                 messageLengthExpected = byte
                 messageChecksum = byte
-                state++
+                state += 1
                 
             case 4: // code
                 messageCode = Int(byte)
                 messageChecksum ^= byte
                 if messageLengthExpected > 0 {
-                    state++
+                    state += 1
                 } else {
                     state += 2 // there ain't no data
                 }
@@ -155,7 +160,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 messageLengthReceived += 1
                 
                 if messageLengthReceived >= messageLengthExpected {
-                    state++
+                    state += 1
                 }
                 
             case 6: // checksum
@@ -172,8 +177,8 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
     }
     
-    func processData(code: Int, data: [UInt8]) {
-        func check(length: Int) -> Bool {
+    func processData(_ code: Int, data: [UInt8]) {
+        func check(_ length: Int) -> Bool {
             if data.count < length {
                 log(.Error, "Expected \(length) bytes but received \(data.count) for MSP code \(code) with data: \(data)")
                 reset()
@@ -190,7 +195,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             
         case MSP_FC_VARIANT: // 2
             guard check(4) else { return }            
-            dataStorage.flightControllerIdentifier = String(bytes: data[0...3], encoding: NSUTF8StringEncoding) ?? ""
+            dataStorage.flightControllerIdentifier = String(bytes: data[0...3], encoding: String.Encoding.utf8) ?? ""
 
         case MSP_FC_VERSION: // 3
             guard check(3) else { return }
@@ -198,14 +203,14 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             
         case MSP_BOARD_INFO: // 4
             guard check(5) else { return }
-            dataStorage.boardIdentifier = String(bytes: data[0...3], encoding: NSUTF8StringEncoding) ?? ""
+            dataStorage.boardIdentifier = String(bytes: data[0...3], encoding: String.Encoding.utf8) ?? ""
             dataStorage.boardVersion = Int(getUInt16(data, offset: 4))
             
         case MSP_BUILD_INFO: // 5
             guard check(19) else { return }
-            dataStorage.buildInfo = String(bytes: data[0...10], encoding: NSUTF8StringEncoding) ?? "" // date
+            dataStorage.buildInfo = String(bytes: data[0...10], encoding: String.Encoding.utf8) ?? "" // date
             dataStorage.buildInfo += " " // space
-            dataStorage.buildInfo += String(bytes: data[11...18], encoding: NSUTF8StringEncoding) ?? "" // time
+            dataStorage.buildInfo += String(bytes: data[11...18], encoding: String.Encoding.utf8) ?? "" // time
             
         case MSP_MODE_RANGE: // 34
             dataStorage.modeRanges = []
@@ -257,7 +262,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             if dataStorage.apiVersion >= "1.8.0" {
                 guard check(2) else { return }
                 dataStorage.autoDisarmDelay = Int(data[0])
-                dataStorage.disarmKillsSwitch = Bool(Int(data[1]))
+                dataStorage.disarmKillsSwitch = data[1] == 0
             }
             
         case MSP_SET_ARMING_CONFIG: // 62
@@ -444,7 +449,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             var buf: [UInt8] = []
             for byte in data {
                 if byte == 0x3B { // ; (delimeter char)
-                    let name: NSString = NSString(bytes: &buf, length: buf.count, encoding: NSUTF8StringEncoding)!
+                    let name: NSString = NSString(bytes: &buf, length: buf.count, encoding: String.Encoding.utf8.rawValue)!
                     dataStorage.auxConfigNames.append(String(name))
                     buf = [] // reset for next name
                 } else {
@@ -457,7 +462,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             var buf: [UInt8] = []
             for byte in data {
                 if byte == 0x3B { // ; (delimeter char)
-                    let name: NSString = NSString(bytes: &buf, length: buf.count, encoding: NSUTF8StringEncoding)!
+                    let name: NSString = NSString(bytes: &buf, length: buf.count, encoding: String.Encoding.utf8.rawValue)!
                     dataStorage.PIDNames.append(String(name))
                     buf = [] // reset for next name
                 } else {
@@ -516,16 +521,16 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
         
         // call callbacks
-        for i in (0 ..< callbacks.count).reverse() {
+        for i in (0 ..< callbacks.count).reversed() {
             let item = callbacks[i]
             if item.code == code {
                 item.callback()
-                callbacks.removeAtIndex(i)
+                callbacks.remove(at: i)
             }
         }
     }
     
-    func crunch(code: Int) -> [UInt8] {
+    func crunch(_ code: Int) -> [UInt8] {
         var buffer: [UInt8] = []
         switch code {
             
@@ -553,7 +558,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             
         case MSP_SET_ARMING_CONFIG: // 62
             buffer.append(UInt8(dataStorage.autoDisarmDelay))
-            buffer.append(UInt8(Int(dataStorage.disarmKillsSwitch)))
+            buffer.append(UInt8(dataStorage.disarmKillsSwitch ? 1 : 0))
             
         case MSP_SET_RX_MAP: // 65
             for i in dataStorage.RC_MAP {
@@ -604,7 +609,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             }
 
         case MSP_SET_PID: // 202
-            for (i, triplet) in dataStorage.PIDs.enumerate() {
+            for (i, triplet) in dataStorage.PIDs.enumerated() {
                 switch i {
                 case 0, 1, 2, 3, 7, 9:
                     buffer.append(UInt8(triplet[0] * 10.0))
@@ -672,7 +677,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         return buffer
     }
     
-    func sendModeRanges(callback endCallback: (Void -> Void)?) {
+    func sendModeRanges(callback endCallback: ((Void) -> Void)?) {
         var index = 0
 
         func sendNextModeRange() {
@@ -695,9 +700,9 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
     }
     
-    func sendMSP(code: Int, bytes: [UInt8]?, callback: (Void -> Void)?) {
+    func sendMSP(_ code: Int, bytes: [UInt8]?, callback: ((Void) -> Void)?) {
         // only send msp codes if we'll get the reply
-        guard bluetoothSerial.delegate as! AnyObject? === self && !cliActive else { return }
+        guard bluetoothSerial.delegate as AnyObject? === self && !cliActive else { return }
         
         // add callback
         if callback != nil {
@@ -718,27 +723,27 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         bluetoothSerial.sendBytesToDevice(message)
     }
     
-    func sendMSP(code: Int, bytes: [UInt8]?) {
+    func sendMSP(_ code: Int, bytes: [UInt8]?) {
         sendMSP(code, bytes:  bytes, callback: nil)
     }
     
-    func sendMSP(code: Int) {
+    func sendMSP(_ code: Int) {
         sendMSP(code, bytes: nil, callback: nil)
     }
     
-    func sendMSP(code: Int, callback: (Void -> Void)) {
+    func sendMSP(_ code: Int, callback: @escaping ((Void) -> Void)) {
         sendMSP(code, bytes: nil, callback: callback)
     }
     
     /// Codes are NOT sent sequentially
-    func sendMSP(codes: [Int]) {
+    func sendMSP(_ codes: [Int]) {
         for code in codes {
             sendMSP(code, bytes: nil, callback: nil)
         }
     }
     
     /// Codes are sent sequentially
-    func sendMSP(codes: [Int], callback: (Void -> Void)) {
+    func sendMSP(_ codes: [Int], callback: @escaping ((Void) -> Void)) {
         var i = 0
         func sendNext() {
             if i == codes.endIndex {
@@ -751,16 +756,16 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         sendNext()
     }
     
-    func crunchAndSendMSP(code: Int) {
+    func crunchAndSendMSP(_ code: Int) {
         sendMSP(code, bytes: crunch(code), callback: nil)
     }
     
-    func crunchAndSendMSP(code: Int, callback: (Void -> Void)) {
+    func crunchAndSendMSP(_ code: Int, callback: @escaping ((Void) -> Void)) {
         sendMSP(code, bytes: crunch(code), callback: callback)
     }
     
     /// Codes are sent sequentially
-    func crunchAndSendMSP(codes: [Int], callback: (Void -> Void)) {
+    func crunchAndSendMSP(_ codes: [Int], callback: @escaping ((Void) -> Void)) {
         var i = 0
         func sendNext() {
             if i == codes.endIndex {
@@ -790,7 +795,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         //}
     }
     
-    func addSubscriber(newSubscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
+    func addSubscriber(_ newSubscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
         for code in codes {
             if let set = subscribers[code] {
                 if set.containsObject(newSubscriber) {
@@ -804,7 +809,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
     }
     
-    func removeSubscriber(subscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
+    func removeSubscriber(_ subscriber: MSPUpdateSubscriber, forCodes codes: [Int]) {
         for code in codes {
             if let set = subscribers[code] {
                 if set.containsObject(subscriber) {

@@ -8,8 +8,12 @@
 
 import UIKit
 
-let AppWillResignActiveNotification = "AppWillResignActiveNotification",
-    AppDidBecomeActiveNotification = "AppDidBecomeActiveNotification"
+extension Notification.Name {
+    enum App {
+        static let didBecomeActive = Notification.Name("AppDidBecomeActive")
+        static let willResignActive = Notification.Name("AppWillResignActive")
+    }
+}
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerDelegate {
@@ -18,30 +22,30 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerD
         launchWindow: UIWindow?,
         previousTab = 0
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // bluetooth serial
         bluetoothSerial.delegate = msp
         
         // userdefaults
-        userDefaults.registerDefaults(
-            [DefaultsAutoConnectNewKey: true,
+        userDefaults.register(
+            defaults: [DefaultsAutoConnectNewKey: true,
              DefaultsAutoConnectOldKey: true]
         )
         
         // it's much cleaner to load all initial viewcontrollers programmatically .. first load the storyboards
-        let bundle = NSBundle.mainBundle(),
+        let bundle = Bundle.main,
             specific = UIStoryboard(name: UIDevice.isPhone ? "iPhone" : "iPad", bundle: bundle),
             univerial = UIStoryboard(name: "Uni", bundle: bundle),
             preferences = UIStoryboard(name: "Preferences", bundle: bundle)
         
         // load viewcontrollers
-        let first = specific.instantiateViewControllerWithIdentifier("HomeViewController") // override for testing
+        let first = specific.instantiateViewController(withIdentifier: "HomeViewController") // override for testing
         first.tabBarItem = UITabBarItem(title: "Dashboard", image: UIImage(named: "Dashboard"), tag: 0)
-        let second = specific.instantiateViewControllerWithIdentifier("TuningViewController")
+        let second = specific.instantiateViewController(withIdentifier: "TuningViewController")
         second.tabBarItem = UITabBarItem(title: "Tuning", image: UIImage(named: "Tuning"), tag: 1)
-        let third = preferences.instantiateViewControllerWithIdentifier(UIDevice.isPhone ? "PhoneEntry" : "PadEntry")
+        let third = preferences.instantiateViewController(withIdentifier: UIDevice.isPhone ? "PhoneEntry" : "PadEntry")
         third.tabBarItem = UITabBarItem(title: "Setup", image: UIImage(named: "Config"), tag: 2)
-        let fourth = univerial.instantiateViewControllerWithIdentifier("CLITabViewController")
+        let fourth = univerial.instantiateViewController(withIdentifier: "CLITabViewController")
         fourth.tabBarItem = UITabBarItem(title: "CLI", image: UIImage(named: "CLI"), tag: 3)
 
         // initial tab bar controller
@@ -55,10 +59,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerD
         // tabbar UI
         UITabBar.appearance().backgroundImage = UIImage()
         UITabBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().backgroundColor = UIColor.blackColor()
+        UITabBar.appearance().backgroundColor = UIColor.black
 
         // set window
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window = UIWindow(frame: UIScreen.main.bounds)
         window?.tintColor = UIColor.cleanflightGreen()
         window?.rootViewController = tabBar
         window?.makeKeyAndVisible()
@@ -69,21 +73,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerD
         return true
     }
     
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
         log("Will resign active")
-        notificationCenter.postNotificationName(AppWillResignActiveNotification, object: nil)
+        notificationCenter.post(name: Notification.Name.App.willResignActive, object: nil)
 
     }
     
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         log("Became active")
-        notificationCenter.postNotificationName(AppDidBecomeActiveNotification, object: nil)
+        notificationCenter.post(name: Notification.Name.App.didBecomeActive, object: nil)
     }
 
     
     // MARK: - UITabBarDelegate
     
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         guard tabBarController.selectedIndex != previousTab else { return }
         previousTab = tabBarController.selectedIndex
         

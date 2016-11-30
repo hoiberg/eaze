@@ -7,6 +7,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 final class AppLog: NSObject {
     
@@ -14,28 +38,28 @@ final class AppLog: NSObject {
         case Fatal, Error, Warn, Info, Debug, Trace
     }
     
-    var fileHandle: NSFileHandle?
-    let dateFormatter: NSDateFormatter,
-              fileURL: NSURL
+    var fileHandle: FileHandle?
+    let dateFormatter: DateFormatter,
+              fileURL: URL
     
     override init() {
         // dateformatter
-        dateFormatter = NSDateFormatter()
+        dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm:ss.SSS"
         
         // fileurl
-        let fileManager = NSFileManager.defaultManager(),
-              directory = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first! as NSURL
-                fileURL = directory.URLByAppendingPathComponent("AppLog.txt")
+        let fileManager = FileManager.default,
+              directory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first! as URL
+                fileURL = directory.appendingPathComponent("AppLog.txt")
         
         // create if nonexistent
-        if !fileManager.fileExistsAtPath(fileURL.path!) {
-            fileManager.createFileAtPath(fileURL.path!, contents: nil, attributes: nil)
+        if !fileManager.fileExists(atPath: fileURL.path) {
+            fileManager.createFile(atPath: fileURL.path, contents: nil, attributes: nil)
         }
         
         // filehandle
-        do { fileHandle = try NSFileHandle(forWritingToURL: fileURL) }
-        catch { print("Unable to create fileHandle for URL: \(fileURL.path!)") }
+        do { fileHandle = try FileHandle(forWritingTo: fileURL) }
+        catch { print("Unable to create fileHandle for URL: \(fileURL.path)") }
         
         super.init()
     }
@@ -45,10 +69,10 @@ final class AppLog: NSObject {
         fileHandle?.closeFile()
     }
 
-    func log(level: Level, message: String) {
+    func log(_ level: Level, message: String) {
         // generate actual log text
-        var finalStr = dateFormatter.stringFromDate(NSDate()) + " "
-        if level != .Info { finalStr +=  level.rawValue.uppercaseString + ": " }
+        var finalStr = dateFormatter.string(from: Date()) + " "
+        if level != .Info { finalStr +=  level.rawValue.uppercased() + ": " }
         finalStr += message + "\n"
         
         if level == .Fatal || level == .Error || level == .Warn {
@@ -65,21 +89,21 @@ final class AppLog: NSObject {
         if fileHandle?.seekToEndOfFile() > 10000 { // 10kB max file size
             fileHandle?.closeFile()
             halveLog()
-            do { fileHandle = try NSFileHandle(forWritingToURL: fileURL) }
-            catch { print("Unable to create fileHandle for URL: \(fileURL.path!)") }
+            do { fileHandle = try FileHandle(forWritingTo: fileURL) }
+            catch { print("Unable to create fileHandle for URL: \(fileURL.path)") }
         }
         
         // generate data
-        let data = finalStr.dataUsingEncoding(NSUTF8StringEncoding)!
+        let data = finalStr.data(using: String.Encoding.utf8)!
         
         // write to file
-        fileHandle?.writeData(data)
+        fileHandle?.write(data)
         fileHandle?.synchronizeFile()
     }
     
     func loadLog() -> String {
         do {
-            return try String(contentsOfURL: fileURL, encoding: NSUTF8StringEncoding)
+            return try String(contentsOf: fileURL, encoding: String.Encoding.utf8)
         } catch {
             print("Failed to load log, error: \(error)")
             return "Failed to load log, error: \(error)"
@@ -89,21 +113,21 @@ final class AppLog: NSObject {
     func halveLog() {
         // sperate function so we can easily test this
         do {
-            let temp = try NSString(contentsOfURL: fileURL, encoding: NSUTF8StringEncoding),
+            let temp = try NSString(contentsOf: fileURL, encoding: String.Encoding.utf8.rawValue),
             length = temp.length/2,
             range = NSMakeRange(length, length),
-            data = temp.substringWithRange(range).dataUsingEncoding(NSUTF8StringEncoding)
-            data!.writeToURL(fileURL, atomically: true)
+            data = temp.substring(with: range).data(using: String.Encoding.utf8)
+            try? data!.write(to: fileURL, options: [.atomic])
         } catch {
             print("Failed to cut size of log file: \(error)")
         }
     }
 }
 
-func log(message: String) {
+func log(_ message: String) {
     console.log(.Info, message: message)
 }
 
-func log(level: AppLog.Level, _ message: String) {
+func log(_ level: AppLog.Level, _ message: String) {
     console.log(level, message: message)
 }

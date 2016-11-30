@@ -25,7 +25,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG]
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG]
     
     
     // MARK: - Functions
@@ -42,14 +42,14 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
             serialClosed()
         }
         
-        notificationCenter.addObserver(self, selector: #selector(MotorConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(MotorConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
         
         for field in [minThrottleField, maxThrottleField, minCommandField] {
-            field.maxValue = 2000
-            field.minValue = 0
-            field.decimal = 0
-            field.increment = 1
+            field?.maxValue = 2000
+            field?.minValue = 0
+            field?.decimal = 0
+            field?.increment = 1
         }
         
         midThrottleField.maxValue = 1599
@@ -80,11 +80,11 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         }
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_BF_CONFIG:
-            motorStopSwitch.on = dataStorage.BFFeatures.bitCheck(4)
-            oneShotSwitch.on = dataStorage.BFFeatures.bitCheck(18)
+            motorStopSwitch.isOn = dataStorage.BFFeatures.bitCheck(4)
+            oneShotSwitch.isOn = dataStorage.BFFeatures.bitCheck(18)
             
         case MSP_MISC:
             minThrottleField.intValue = dataStorage.minThrottle
@@ -93,7 +93,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
             minCommandField.intValue = dataStorage.minCommand
             
         case MSP_ARMING_CONFIG:
-            alwaysDisarmSwitch.on = dataStorage.disarmKillsSwitch
+            alwaysDisarmSwitch.isOn = dataStorage.disarmKillsSwitch
             disarmDelayField.intValue = dataStorage.autoDisarmDelay
             
             
@@ -110,22 +110,22 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
             sendDataRequest()
         }
         
-        saveButton.enabled = true
-        alwaysDisarmSwitch.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
+        saveButton.isEnabled = true
+        alwaysDisarmSwitch.isEnabled = dataStorage.apiVersion >= "1.8.0" ? true : false
         disarmDelayField.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
     }
     
     func serialClosed() {
-        saveButton.enabled = false
+        saveButton.isEnabled = false
     }
     
     
     // MARK: IBActions
     
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         var codes = [Int]()
-        dataStorage.BFFeatures.setBit(4, value: Int(motorStopSwitch.on))
-        dataStorage.BFFeatures.setBit(18, value: Int(oneShotSwitch.on))
+        dataStorage.BFFeatures.setBit(4, value: motorStopSwitch.isOn ? 1 : 0)
+        dataStorage.BFFeatures.setBit(18, value: oneShotSwitch.isOn ? 1 : 0)
         codes.append(MSP_SET_BF_CONFIG)
         
         dataStorage.minThrottle = minThrottleField.intValue
@@ -135,7 +135,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         codes.append(MSP_SET_MISC)
         
         if dataStorage.apiVersion >= "1.8.0" {
-            dataStorage.disarmKillsSwitch = alwaysDisarmSwitch.on
+            dataStorage.disarmKillsSwitch = alwaysDisarmSwitch.isOn
             dataStorage.autoDisarmDelay = disarmDelayField.intValue
             codes.append(MSP_SET_ARMING_CONFIG)
         }

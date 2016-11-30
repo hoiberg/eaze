@@ -217,19 +217,19 @@ let hexLookup: Array<String> = [
     "F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "FA", "FB", "FC", "FD", "FE", "FF",
 ]
 
-func isAsciiControl(c: ASCII) -> Bool {
+func isAsciiControl(_ c: ASCII) -> Bool {
     return c < ASCII_SPACE
 }
 
-func isAsciiPrintable(c: ASCII) -> Bool {
+func isAsciiPrintable(_ c: ASCII) -> Bool {
     return (c >= ASCII_SPACE && c < ASCII_DELETE)
 }
 
-func isAsciiNumber(c: ASCII) -> Bool {
+func isAsciiNumber(_ c: ASCII) -> Bool {
     return (c >= ASCII_0 && c <= ASCII_9)
 }
 
-func isAsciiHexadecimalDigit(c: ASCII) -> Bool {
+func isAsciiHexadecimalDigit(_ c: ASCII) -> Bool {
     
     if isAsciiNumber(c) { return true }
     if (c >= ASCII_a && c <= ASCII_f) { return true }
@@ -237,7 +237,7 @@ func isAsciiHexadecimalDigit(c: ASCII) -> Bool {
     return false
 }
 
-func isAsciiWhitespace(c: ASCII) -> Bool {
+func isAsciiWhitespace(_ c: ASCII) -> Bool {
     if c == ASCII_SPACE { return true }
     if c == ASCII_TAB { return true }
     if c == ASCII_CR { return true }

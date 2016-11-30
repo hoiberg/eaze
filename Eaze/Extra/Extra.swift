@@ -10,13 +10,8 @@
 import UIKit
 
 /// Delays the execution of the given closure by the given amount of seconds
-func delay(delay: Double, callback: ()->()) {
-    dispatch_after(
-        dispatch_time(
-            DISPATCH_TIME_NOW,
-            Int64(delay * Double(NSEC_PER_SEC))
-        ),
-        dispatch_get_main_queue(), callback)
+func delay(_ delay: Double, callback: @escaping ()->()) {
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + delay, execute: callback)
 }
 
 protocol Copyable {
@@ -33,13 +28,13 @@ protocol ConfigScreen {
     //func willSeizeToBePrimary()
 }
 
-class WeakSet<ObjectType>: SequenceType {
+class WeakSet<ObjectType>: Sequence {
     
     var count: Int {
         return weakStorage.count
     }
     
-    private let weakStorage = NSHashTable.weakObjectsHashTable()
+    fileprivate let weakStorage = NSHashTable<AnyObject>.weakObjects()
     
     init() {}
     
@@ -53,28 +48,25 @@ class WeakSet<ObjectType>: SequenceType {
         }
     }
     
-    func addObject(object: ObjectType) {
-        guard object is AnyObject else { fatalError("Object (\(object)) should be subclass of AnyObject") }
-        weakStorage.addObject(object as? AnyObject)
+    func addObject(_ object: ObjectType) {
+        weakStorage.add(object as AnyObject?)
     }
     
-    func removeObject(object: ObjectType) {
-        guard object is AnyObject else { fatalError("Object (\(object)) should be subclass of AnyObject") }
-        weakStorage.removeObject(object as? AnyObject)
+    func removeObject(_ object: ObjectType) {
+        weakStorage.remove(object as AnyObject?)
     }
     
     func removeAllObjects() {
         weakStorage.removeAllObjects()
     }
     
-    func containsObject(object: ObjectType) -> Bool {
-        guard object is AnyObject else { fatalError("Object (\(object)) should be subclass of AnyObject") }
-        return weakStorage.containsObject(object as? AnyObject)
+    func containsObject(_ object: ObjectType) -> Bool {
+        return weakStorage.contains(object as AnyObject?)
     }
     
-    func generate() -> AnyGenerator<ObjectType> {
+    func makeIterator() -> AnyIterator<ObjectType> {
         let enumerator = weakStorage.objectEnumerator()
-        return AnyGenerator {
+        return AnyIterator {
             return enumerator.nextObject() as! ObjectType?
         }
     }

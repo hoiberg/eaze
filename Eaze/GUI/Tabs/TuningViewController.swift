@@ -79,8 +79,8 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_PID, MSP_PID_CONTROLLER, MSP_RC_TUNING, MSP_STATUS]
-    private var PIDFields: [[AdjustableTextField?]]!,
+    fileprivate let mspCodes = [MSP_PID, MSP_PID_CONTROLLER, MSP_RC_TUNING, MSP_STATUS]
+    fileprivate var PIDFields: [[AdjustableTextField?]]!,
                 selectedPIDController = 0
     
     
@@ -97,12 +97,12 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
             [altP, altI, altD], [posP, posI, nil], [posRP, posRI, posRD],
             [navRP, navRI, navRD], [levelP, levelI, levelD], [magP, nil, nil], [velP, velI, velD]]
         
-        PIDControllerButton.setTitle("-", forState: .Normal)
+        PIDControllerButton.setTitle("-", for: UIControlState())
 
         // setup graphs
         for graph in [throttleGraph, rcGraph] {
-            graph.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
-            graph.layer.masksToBounds = true
+            graph?.backgroundColor = UIColor.black.withAlphaComponent(0.05)
+            graph?.layer.masksToBounds = true
         }
         
         // fields with max value of 255
@@ -157,7 +157,7 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         
         // some adjustments for different iPhone sizes
         if UIDevice.isPhone {
-            let screenHeight = UIScreen.mainScreen().bounds.height
+            let screenHeight = UIScreen.main.bounds.height
             if screenHeight < 568 {
                 // 3.5"
                 fieldHeightConstraint?.constant = 24
@@ -177,11 +177,11 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
             }
         }
         
-        notificationCenter.addObserver(self, selector: #selector(TuningViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(TuningViewController.serialClosed), name: SerialClosedNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         // note: because the adjustabletextfield delegate function is called before this
         // the graphs might show a wrong setting for a split second
@@ -193,8 +193,8 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         notificationCenter.removeObserver(self)
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .Default
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .default
     }
     
     func willBecomePrimaryView() {
@@ -222,12 +222,12 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         // add path
         let path = UIBezierPath(),
             layer = CAShapeLayer()
-        path.moveToPoint(CGPoint(x: 0, y: height))
-        path.addQuadCurveToPoint(CGPoint(x: width, y: height - ratey), controlPoint: CGPoint(x: width / 2.0, y: cony))
-        layer.path = path.CGPath
-        layer.strokeColor = UIColor.cleanflightGreen().CGColor // not using tincolor here - cuz that might return grey if called
+        path.move(to: CGPoint(x: 0, y: height))
+        path.addQuadCurve(to: CGPoint(x: width, y: height - ratey), controlPoint: CGPoint(x: width / 2.0, y: cony))
+        layer.path = path.cgPath
+        layer.strokeColor = UIColor.cleanflightGreen().cgColor // not using tincolor here - cuz that might return grey if called
         layer.lineWidth = 2.0 // during the modalViewController presentation.
-        layer.fillColor = UIColor.clearColor().CGColor
+        layer.fillColor = UIColor.clear.cgColor
         rcGraph.layer.addSublayer(layer)
     }
     
@@ -250,14 +250,14 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         // add path
         let path = UIBezierPath(),
             layer = CAShapeLayer()
-        path.moveToPoint(CGPoint(x: 0, y: height))
-        path.addQuadCurveToPoint(CGPoint(x: midx, y: midy), controlPoint: CGPoint(x: midxl, y: midyl))
-        path.moveToPoint(CGPoint(x: midx, y: midy))
-        path.addQuadCurveToPoint(CGPoint(x: width, y: 0), controlPoint: CGPoint(x: midxr, y: midyr))
-        layer.path = path.CGPath
-        layer.strokeColor = UIColor.cleanflightGreen().CGColor
+        path.move(to: CGPoint(x: 0, y: height))
+        path.addQuadCurve(to: CGPoint(x: midx, y: midy), controlPoint: CGPoint(x: midxl, y: midyl))
+        path.move(to: CGPoint(x: midx, y: midy))
+        path.addQuadCurve(to: CGPoint(x: width, y: 0), controlPoint: CGPoint(x: midxr, y: midyr))
+        layer.path = path.cgPath
+        layer.strokeColor = UIColor.cleanflightGreen().cgColor
         layer.lineWidth = 2.0
-        layer.fillColor = UIColor.clearColor().CGColor
+        layer.fillColor = UIColor.clear.cgColor
         throttleGraph.layer.addSublayer(layer)
     }
 
@@ -272,11 +272,11 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         }
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
             
         case MSP_PID:
-            for (index, item) in PIDFields.enumerate() {
+            for (index, item) in PIDFields.enumerated() {
                 item[0]?.doubleValue = dataStorage.PIDs[index][0]
                 item[1]?.doubleValue = dataStorage.PIDs[index][1]
                 item[2]?.doubleValue = dataStorage.PIDs[index][2]
@@ -292,7 +292,7 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
 
         case MSP_PID_CONTROLLER:
             selectedPIDController = dataStorage.PIDController
-            PIDControllerButton.setTitle(dataStorage.PIDControllerNames[safe: selectedPIDController] ?? "?", forState: .Normal)
+            PIDControllerButton.setTitle(dataStorage.PIDControllerNames[safe: selectedPIDController] ?? "?", for: UIControlState())
             
         case MSP_RC_TUNING:
             rcRate.doubleValue = dataStorage.rcRate
@@ -304,18 +304,18 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
             if dataStorage.apiVersion < "1.7.0" {
                 rollRate.doubleValue = dataStorage.rollPitchRate
                 pitchRate.doubleValue = dataStorage.rollPitchRate
-                tpaBreakPoint.hidden = true
+                tpaBreakPoint.isHidden = true
             } else {
                 rollRate.doubleValue = dataStorage.rollRate
                 pitchRate.doubleValue = dataStorage.pitchRate
                 tpaBreakPoint.intValue = dataStorage.dynamicThrottleBreakpoint
-                tpaBreakPoint.hidden = false
+                tpaBreakPoint.isHidden = false
             }
             if dataStorage.apiVersion >= "1.10.0" {
                 yawExpo.doubleValue = dataStorage.yawExpo
-                yawExpo.hidden = false
+                yawExpo.isHidden = false
             } else {
-                yawExpo.hidden = true
+                yawExpo.isHidden = true
             }
             
             reloadThrottleGraph()
@@ -324,7 +324,7 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         case MSP_STATUS:
             var str = "\(dataStorage.profile+1)"
             if UIDevice.isPhone { str = "Profile " + str + "  ▾" }
-            flightProfileButton.setTitle(str, forState: .Normal)
+            flightProfileButton.setTitle(str, for: UIControlState())
 
         default:
             log(.Warn, "TuningViewController received unimplemented MSP code: \(code)")
@@ -340,28 +340,28 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         }
         
         if UIDevice.isPhone {
-            (saveButton as! UIBarButtonItem).enabled = true
-            (reloadButton as! UIBarButtonItem).enabled = true
+            (saveButton as! UIBarButtonItem).isEnabled = true
+            (reloadButton as! UIBarButtonItem).isEnabled = true
         } else {
-            (saveButton as! UIButton).enabled = true
-            (reloadButton as! UIButton).enabled = true
+            (saveButton as! UIButton).isEnabled = true
+            (reloadButton as! UIButton).isEnabled = true
         }
     }
     
     func serialClosed() {
         if UIDevice.isPhone {
-            (saveButton as! UIBarButtonItem).enabled = false
-            (reloadButton as! UIBarButtonItem).enabled = false
+            (saveButton as! UIBarButtonItem).isEnabled = false
+            (reloadButton as! UIBarButtonItem).isEnabled = false
         } else {
-            (saveButton as! UIButton).enabled = false
-            (reloadButton as! UIButton).enabled = false
+            (saveButton as! UIButton).isEnabled = false
+            (reloadButton as! UIButton).isEnabled = false
         }
     }
 
     
     // MARK: - AdjustableTextField
     
-    func adjustableTextFieldChangedValue(field: AdjustableTextField) {
+    func adjustableTextFieldChangedValue(_ field: AdjustableTextField) {
         if field == thrMid || field == thrExp {
             reloadThrottleGraph()
         } else if field == rcRate || field == rcExp {
@@ -378,44 +378,44 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
     
     // MARK: - CCPopoverSelection
     
-    func popoverSelectedOption(option: Int, tag: Int) {
+    func popoverSelectedOption(_ option: Int, tag: Int) {
         if tag == 0 {
             // new PID Controller selected
-            PIDControllerButton.setTitle(dataStorage.PIDControllerNames[safe: option] ?? "-", forState: .Normal)
+            PIDControllerButton.setTitle(dataStorage.PIDControllerNames[safe: option] ?? "-", for: UIControlState())
             selectedPIDController = option
         } else {
             // new flight profile selected
             guard bluetoothSerial.isConnected else { return }
-            let alert = UIAlertController(title: "Change flight profile?", message: "Unsaved changes will be lost.", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Confirm", style: .Destructive) { _ in
+            let alert = UIAlertController(title: "Change flight profile?", message: "Unsaved changes will be lost.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Confirm", style: .destructive) { _ in
                     var str = "\(dataStorage.profile+1)"
                     if UIDevice.isPhone { str = "Profile " + str + "  ▾" }
-                    self.flightProfileButton.setTitle(str, forState: .Normal)
+                    self.flightProfileButton.setTitle(str, for: UIControlState())
                     dataStorage.profile = option
                     msp.crunchAndSendMSP(MSP_SELECT_SETTING) {
                         MessageView.show("Changed Flight Profile")
                         self.sendDataRequest()
                     }
                 })
-            presentViewController(alert, animated: true, completion: nil)
+            present(alert, animated: true, completion: nil)
         }
     }
     
     
     // MARK: - UIPopoverPresentationControllerDelegate
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
-        return .None
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
     }
 
     
     // MARK: - IBActions
     
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         // MSP_SET_PID
-        for (i, fields) in PIDFields.enumerate() {
-            for (j, field) in fields.enumerate() {
+        for (i, fields) in PIDFields.enumerated() {
+            for (j, field) in fields.enumerated() {
                 dataStorage.PIDs[i][j] = field?.doubleValue ?? 0.0
             }
         }
@@ -450,11 +450,11 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         }
     }
     
-    @IBAction func reload(sender: AnyObject) {
+    @IBAction func reload(_ sender: AnyObject) {
         sendDataRequest()
     }
     
-    @IBAction func selectPIDController(sender: UIButton) {
+    @IBAction func selectPIDController(_ sender: UIButton) {
         let rect = CGRect(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height, width: 1.0, height: 1.0)
         SelectionPopover.presentWithOptions( dataStorage.PIDControllerNames,
                                    delegate: self,
@@ -462,15 +462,15 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
                                  sourceRect: rect,
                                  sourceView: view,
                                        size: CGSize(width: 250, height: 200),
-                   permittedArrowDirections: [.Down, .Up])
+                   permittedArrowDirections: [.down, .up])
     }
     
-    @IBAction func selectFlightProfile(sender: UIButton) {
+    @IBAction func selectFlightProfile(_ sender: UIButton) {
         let rect: CGRect!
         
         if UIDevice.isPhone {
             let point = CGPoint(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height),
-                origin = sender.convertPoint(point, toView: view)
+                origin = sender.convert(point, to: view)
             rect = CGRect(origin: origin, size: CGSize(width: 1.0, height: 1.0))
         } else {
             rect = CGRect(x: sender.frame.origin.x + sender.frame.size.width/2.0, y: sender.frame.origin.y - 2.0 + sender.frame.size.height, width: 1.0, height: 1.0)
@@ -482,6 +482,6 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
                                  sourceRect: rect,
                                  sourceView: view,
                                        size: CGSize(width: 250, height: 200),
-                   permittedArrowDirections: [.Down, .Up])
+                   permittedArrowDirections: [.down, .up])
     }
 }

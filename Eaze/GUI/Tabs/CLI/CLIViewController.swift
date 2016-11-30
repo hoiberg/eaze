@@ -23,21 +23,21 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        notificationCenter.addObserver(self, selector: #selector(CLIViewController.serialClosed), name: SerialClosedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(CLIViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(CLIViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: .UIKeyboardWillShow, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: .UIKeyboardWillHide, object: nil)
 
         // to dismiss the keyboard if the user taps outside the textField while editing
-        let tap = UITapGestureRecognizer(target: self, action: #selector(CLIViewController.dismissKeyboard))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
         
         // style the bottom UIView
         bottomView.layer.masksToBounds = false
-        bottomView.layer.shadowOffset = CGSizeMake(0, -1)
+        bottomView.layer.shadowOffset = CGSize(width: 0, height: -1)
         bottomView.layer.shadowRadius = 0
         bottomView.layer.shadowOpacity = 0.5
-        bottomView.layer.shadowColor = UIColor.grayColor().CGColor
+        bottomView.layer.shadowColor = UIColor.gray.cgColor
         
         // remove any dummy text from IB
         mainTextView.text = ""
@@ -48,7 +48,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         log("Entering CLI mode")
@@ -60,7 +60,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         }
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         inputField.becomeFirstResponder()
     }
@@ -75,7 +75,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         notificationCenter.removeObserver(self)
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -87,8 +87,8 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     
     // MARK: - Serial Port stuff
     
-    func serialPortReceivedData(data: NSData) {
-        if let string = String(data: data, encoding: NSUTF8StringEncoding) {
+    func serialPortReceivedData(_ data: Data) {
+        if let string = String(data: data, encoding: String.Encoding.utf8) {
             mainTextView.text! += string
             scrollToBottom()
         }
@@ -97,20 +97,20 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     func serialClosed() {
         cliActive = false
         bluetoothSerial.delegate = msp
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     
     // MARK: - Keyboard handling
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         // animate the text field to stay above the keyboard
         var info = notification.userInfo!
         let value = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
-        let keyboardFrame = value.CGRectValue()
+        let keyboardFrame = value.cgRectValue
         
         self.view.layoutIfNeeded()
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: 1, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             self.bottomConstraint.constant = keyboardFrame.size.height
             self.view.layoutIfNeeded()
             }, completion: { Bool -> Void in
@@ -118,10 +118,10 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         })
     }
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         // bring the text field back down..
         self.view.layoutIfNeeded()
-        UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animate(withDuration: 1, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
             self.bottomConstraint.constant = 0
             self.view.layoutIfNeeded()
           }, completion: nil)
@@ -134,7 +134,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     
     // MARK: - UITextFieldDelegate
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if !bluetoothSerial.isConnected {
             return false
         } else {
@@ -147,14 +147,14 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     
     // MARK: - IBActions
     
-    @IBAction func displayActions(sender: UIButton) {
+    @IBAction func displayActions(_ sender: UIButton) {
         // display an actionsheet with the options 'exit' and 'help'
-        let helpAction = UIAlertAction(title: "Help!", style: .Default, handler: { _ in
+        let helpAction = UIAlertAction(title: "Help!", style: .default, handler: { _ in
             let browser = SwiftModalWebVC(urlString: "https://github.com/cleanflight/cleanflight/blob/master/docs/Cli.md")
-            self.presentViewController(browser, animated: true, completion: nil)
+            self.present(browser, animated: true, completion: nil)
         })
         
-        let exitAction = UIAlertAction(title: "Exit CLI", style: .Destructive, handler: { _ in
+        let exitAction = UIAlertAction(title: "Exit CLI", style: .destructive, handler: { _ in
             // send 'exit\r' wait 5 seconds for the flight controller to reboot
             log("Exiting CLI mode")
             bluetoothSerial.sendStringToDevice("exit\r")
@@ -162,26 +162,26 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
             delay(5) {
                 cliActive = false
                 bluetoothSerial.delegate = msp
-                self.dismissViewControllerAnimated(true, completion: {
+                self.dismiss(animated: true, completion: {
                     MessageView.hideProgressHUD()
                 })
             }
 
         })
         
-        let actionSheet = UIAlertController(title: nil, message: "Choosing 'Exit' will cause the flightcontroller to reboot. Unsaved changes will be lost", preferredStyle: .ActionSheet)
+        let actionSheet = UIAlertController(title: nil, message: "Choosing 'Exit' will cause the flightcontroller to reboot. Unsaved changes will be lost", preferredStyle: .actionSheet)
         actionSheet.addAction(exitAction)
         actionSheet.addAction(helpAction)
         
         if UIDevice.isPad {
-            actionSheet.modalPresentationStyle = .Popover
+            actionSheet.modalPresentationStyle = .popover
             actionSheet.popoverPresentationController?.sourceView = sender
             actionSheet.popoverPresentationController?.sourceRect = sender.bounds
         } else {
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+            let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
             actionSheet.addAction(cancelAction)
         }
         
-        presentViewController(actionSheet, animated: true, completion: nil)
+        present(actionSheet, animated: true, completion: nil)
     }    
 }

@@ -10,16 +10,16 @@ import UIKit
 
 class SerialPortConfig: Copyable {
     
-    private static let portIdentifierToNameMapping = [0: "UART1", 1: "UART2", 2: "UART3", 3: "UART4", 20: "USB VCP", 30: "SOFTSERIAL1", 31: "SOFTSERIAL2"]
+    fileprivate static let portIdentifierToNameMapping = [0: "UART1", 1: "UART2", 2: "UART3", 3: "UART4", 20: "USB VCP", 30: "SOFTSERIAL1", 31: "SOFTSERIAL2"]
     
     var identifier = 0
     var name: String { get { return SerialPortConfig.portIdentifierToNameMapping[identifier] ?? "Unavailable" }}
     var functions: [SerialPortFunction] = []
     
-    var MSP_baudrate = Baudrate.Auto
-    var GPS_baudrate = Baudrate.Auto
-    var TELEMETRY_baudrate = Baudrate.Auto
-    var BLACKBOX_baudrate = Baudrate.Auto
+    var MSP_baudrate = Baudrate.auto
+    var GPS_baudrate = Baudrate.auto
+    var TELEMETRY_baudrate = Baudrate.auto
+    var BLACKBOX_baudrate = Baudrate.auto
     
     init() {}
     
@@ -35,17 +35,17 @@ class SerialPortConfig: Copyable {
 
 
 enum SerialPortFunction: Int {
-    case MSP,
-         GPS,
-         TELEMETRY_FRSKY,
-         TELEMETRY_HOTT,
-         TELEMETRY_MSP_LTM, // MSP < 1.15.0, replaced by LTM >= 1.15.0, same ID
-         TELEMETRY_SMARTPORT,
-         RX_SERIAL, BLACKBOX,
-         TELEMETRY_MAVLINK // >= 1.18.0
+    case msp,
+         gps,
+         telemetry_FRSKY,
+         telemetry_HOTT,
+         telemetry_MSP_LTM, // MSP < 1.15.0, replaced by LTM >= 1.15.0, same ID
+         telemetry_SMARTPORT,
+         rx_SERIAL, blackbox,
+         telemetry_MAVLINK // >= 1.18.0
     
     static var all: [SerialPortFunction] {
-        return [MSP, GPS, TELEMETRY_FRSKY, TELEMETRY_HOTT, TELEMETRY_MSP_LTM, TELEMETRY_SMARTPORT, RX_SERIAL, BLACKBOX, TELEMETRY_MAVLINK]
+        return [self.msp, gps, telemetry_FRSKY, telemetry_HOTT, telemetry_MSP_LTM, telemetry_SMARTPORT, rx_SERIAL, blackbox, telemetry_MAVLINK]
     }
 }
 
@@ -53,7 +53,7 @@ enum SerialPortFunction: Int {
 
 
 enum Baudrate: Int {
-    case Auto, B9600, B19200, B38400, B57600, B115200, B230400, B250000
+    case auto, b9600, b19200, b38400, b57600, b115200, b230400, b250000
     
     var name: String {
         return ["AUTO", "9600", "19200", "38400", "57600", "115200", "230400", "250000"][rawValue]
@@ -64,6 +64,6 @@ enum Baudrate: Int {
     }
     
     static var all: [Baudrate] {
-        return [Auto, B9600, B19200, B38400, B57600, B115200, B230400, B250000]
+        return [auto, b9600, b19200, b38400, b57600, b115200, b230400, b250000]
     }
 }

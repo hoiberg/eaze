@@ -19,16 +19,16 @@ class AppLogViewController: UIViewController {
     
     // MARK: - Functions
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        view.backgroundColor = UIColor.groupTableViewBackgroundColor()
-        textView.backgroundColor = UIColor.groupTableViewBackgroundColor()
+        view.backgroundColor = UIColor.groupTableViewBackground
+        textView.backgroundColor = UIColor.groupTableViewBackground
         
         textView.text = console.loadLog()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if !textView.text.isEmpty {
@@ -39,10 +39,10 @@ class AppLogViewController: UIViewController {
     
     // MARK: - IBActions
 
-    @IBAction func action(sender: UIBarButtonItem) {
+    @IBAction func action(_ sender: UIBarButtonItem) {
         // display action screens
         let activityViewController = UIActivityViewController(activityItems: [console.fileURL], applicationActivities: nil)
         activityViewController.popoverPresentationController?.barButtonItem = sender
-        presentViewController(activityViewController, animated: true, completion: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
 }

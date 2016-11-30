@@ -13,7 +13,7 @@ final class GlassBox: UIView {
     
     // MARK: - Variables
     
-    private var label: UILabel!
+    fileprivate var label: UILabel!
     
     var firstUpperText = "",
         secondUpperText = "",
@@ -39,12 +39,12 @@ final class GlassBox: UIView {
     }
     
     func setup() {
-        backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.18)
+        backgroundColor = UIColor.black.withAlphaComponent(0.18)
 
         label = UILabel(frame: UIEdgeInsetsInsetRect(bounds, UIEdgeInsets(top: 2, left: 4, bottom: 0, right: 0)))
-        label.font = UIFont.systemFontOfSize(13)
-        label.textColor = UIColor.whiteColor()
-        label.textAlignment = .Left
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.textColor = UIColor.white
+        label.textAlignment = .left
         label.numberOfLines = 2
         addSubview(label)
         
@@ -52,13 +52,13 @@ final class GlassBox: UIView {
     }
     
     func reloadText() {
-        let firstAttr = [NSForegroundColorAttributeName: label.textColor, NSFontAttributeName: label.font],
-            secondAttr = [NSForegroundColorAttributeName: label.textColor.colorWithAlphaComponent(0.5), NSFontAttributeName: label.font]
+        let firstAttr: [String: Any] = [NSForegroundColorAttributeName: label.textColor, NSFontAttributeName: label.font],
+            secondAttr: [String: Any] = [NSForegroundColorAttributeName: label.textColor.withAlphaComponent(0.5), NSFontAttributeName: label.font]
         
         let attributedString = NSMutableAttributedString(string: firstUpperText + " ", attributes: firstAttr)
-        attributedString.appendAttributedString(NSAttributedString(string: secondUpperText + "\n", attributes: secondAttr))
-        attributedString.appendAttributedString(NSAttributedString(string: firstLowerText + " ", attributes: firstAttr))
-        attributedString.appendAttributedString(NSAttributedString(string: secondLowerText, attributes: secondAttr))
+        attributedString.append(NSAttributedString(string: secondUpperText + "\n", attributes: secondAttr))
+        attributedString.append(NSAttributedString(string: firstLowerText + " ", attributes: firstAttr))
+        attributedString.append(NSAttributedString(string: secondLowerText, attributes: secondAttr))
 
         label.attributedText = attributedString
     }

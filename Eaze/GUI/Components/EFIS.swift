@@ -14,8 +14,8 @@ import UIKit
 @IBDesignable
 final class EFIS: UIView {
     
-    private final class Horizon: UIView {
-        override func drawRect(rect: CGRect) {
+    fileprivate final class Horizon: UIView {
+        override func draw(_ rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
                 height = bounds.height,
@@ -24,19 +24,19 @@ final class EFIS: UIView {
                 proportion = Double(efis.bounds.height/height)
             
             // gradient helper function: location 0 = top 1 = bottom
-            func drawGradientInRect(rect: CGRect, color1: UIColor, color2: UIColor, loc1: Double, loc2: Double) {
+            func drawGradientInRect(_ rect: CGRect, color1: UIColor, color2: UIColor, loc1: Double, loc2: Double) {
                 let colorSpace = CGColorSpaceCreateDeviceRGB(),
                     locations = [CGFloat(loc1), CGFloat(loc2)],
-                    colors = [color1.CGColor, color2.CGColor],
+                    colors = [color1.cgColor, color2.cgColor],
                     point1 = CGPoint(x: rect.midX, y: rect.minY),
                     point2 = CGPoint(x: rect.midX, y: rect.maxY),
-                    gradient = CGGradientCreateWithColors(colorSpace, colors, locations)
+                    gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations)
                 
-                CGContextSaveGState(context)
-                CGContextAddRect(context, rect)
-                CGContextClip(context)
-                CGContextDrawLinearGradient(context, gradient, point1, point2, [])
-                CGContextRestoreGState(context)
+                context.saveGState()
+                context.addRect(rect)
+                context.clip()
+                context.drawLinearGradient(gradient!, start: point1, end: point2, options: [])
+                context.restoreGState()
             }
             
             // upper blue background
@@ -55,8 +55,8 @@ final class EFIS: UIView {
         }
     }
     
-    private final class HorizonLines: UIView {
-        override func drawRect(rect: CGRect) {
+    fileprivate final class HorizonLines: UIView {
+        override func draw(_ rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview!.superview as! EFIS,
                 height = bounds.height,
@@ -64,11 +64,11 @@ final class EFIS: UIView {
                 hMiddle = height/2
             
             // middle stroke
-            CGContextSetLineWidth(context, 3.0)
-            CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
-            CGContextMoveToPoint(context, 0, hMiddle)
-            CGContextAddLineToPoint(context, width, hMiddle)
-            CGContextStrokePath(context)
+            context.setLineWidth(3.0)
+            context.setStrokeColor(UIColor.white.cgColor)
+            context.move(to: CGPoint(x: 0, y: hMiddle))
+            context.addLine(to: CGPoint(x: width, y: hMiddle))
+            context.strokePath()
             
             // major lines
             let oneDegree = efis.bounds.height / 90, // space one degree takes vertically
@@ -78,26 +78,26 @@ final class EFIS: UIView {
                 positions: [CGFloat] = [10, 20, 30, 40, 50, 70, 90] // locations of major lines
             
             let fontAttributes = [
-                NSFontAttributeName: UIFont.boldSystemFontOfSize(20),
-                NSForegroundColorAttributeName: UIColor.whiteColor()
+                NSFontAttributeName: UIFont.boldSystemFont(ofSize: 20),
+                NSForegroundColorAttributeName: UIColor.white
             ]
             
-            CGContextSetLineWidth(context, 2.0)
+            context.setLineWidth(2.0)
             
-            func drawMajorLine(pos: CGFloat) {
+            func drawMajorLine(_ pos: CGFloat) {
                 let y = hMiddle + pos * oneDegree,
                     v = pos < 0 ? verticalPart : -verticalPart
                 
-                CGContextMoveToPoint(context, lineInset, y + v)
-                CGContextAddLineToPoint(context, lineInset, y)
-                CGContextAddLineToPoint(context, lineInset + lineLength, y)
-                CGContextAddLineToPoint(context, lineInset + lineLength, y + v)
-                CGContextStrokePath(context)
+                context.move(to: CGPoint(x: lineInset, y: y + v))
+                context.addLine(to: CGPoint(x: lineInset, y: y))
+                context.addLine(to: CGPoint(x: lineInset + lineLength, y: y))
+                context.addLine(to: CGPoint(x: lineInset + lineLength, y: y + v))
+                context.strokePath()
                 
                 if !efis.smallScreen {
                     let str = "\(Int(abs(pos)))" as NSString,
                         point = CGPoint(x: lineInset + lineLength + 10, y: y - 13)
-                    str.drawAtPoint(point, withAttributes: fontAttributes)
+                    str.draw(at: point, withAttributes: fontAttributes)
                 }
             }
             
@@ -111,14 +111,14 @@ final class EFIS: UIView {
                 sLineInset = (width - sLineLength) / 2,
                 sPositions: [CGFloat] = [5, 15, 25, 35, 45, 55]
             
-            CGContextSetLineWidth(context, 1.0)
+            context.setLineWidth(1.0)
             
-            func drawMinorLine(pos: CGFloat) {
+            func drawMinorLine(_ pos: CGFloat) {
                 let y = hMiddle + pos * oneDegree
                 
-                CGContextMoveToPoint(context, sLineInset, y)
-                CGContextAddLineToPoint(context, sLineInset + sLineLength, y)
-                CGContextStrokePath(context)
+                context.move(to: CGPoint(x: sLineInset, y: y))
+                context.addLine(to: CGPoint(x: sLineInset + sLineLength, y: y))
+                context.strokePath()
             }
             
             for pos in sPositions {
@@ -128,8 +128,8 @@ final class EFIS: UIView {
         }
     }
 
-    private final class Overlay: UIView {
-        override func drawRect(rect: CGRect) {
+    fileprivate final class Overlay: UIView {
+        override func draw(_ rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
                 height = bounds.height,
@@ -143,24 +143,24 @@ final class EFIS: UIView {
                 arrowHeight: CGFloat = efis.smallScreen ? 28 : 42 // height of the entire arrow
             
             // upper halve
-            CGContextMoveToPoint(context, wMiddle, hMiddle)
-            CGContextAddLineToPoint(context, wMiddle - arrowWidth, hMiddle + arrowHeight)
-            CGContextAddLineToPoint(context, wMiddle, hMiddle + arrowMiddleHeight/2 + 2)
-            CGContextAddLineToPoint(context, wMiddle + arrowWidth, hMiddle + arrowHeight)
-            CGContextClosePath(context)
+            context.move(to: CGPoint(x: wMiddle, y: hMiddle))
+            context.addLine(to: CGPoint(x: wMiddle - arrowWidth, y: hMiddle + arrowHeight))
+            context.addLine(to: CGPoint(x: wMiddle, y: hMiddle + arrowMiddleHeight/2 + 2))
+            context.addLine(to: CGPoint(x: wMiddle + arrowWidth, y: hMiddle + arrowHeight))
+            context.closePath()
             
-            CGContextSetFillColorWithColor(context, UIColor(hex: 0xEFE110).CGColor) // EFE110 0xF4D03F
-            CGContextFillPath(context)
+            context.setFillColor(UIColor(hex: 0xEFE110).cgColor) // EFE110 0xF4D03F
+            context.fillPath()
             
             // lower halve
-            CGContextMoveToPoint(context, wMiddle, hMiddle + arrowMiddleHeight/2)
-            CGContextAddLineToPoint(context, wMiddle - arrowWidth, hMiddle + arrowHeight)
-            CGContextAddLineToPoint(context, wMiddle, hMiddle + arrowMiddleHeight)
-            CGContextAddLineToPoint(context, wMiddle + arrowWidth, hMiddle + arrowHeight)
-            CGContextClosePath(context)
+            context.move(to: CGPoint(x: wMiddle, y: hMiddle + arrowMiddleHeight/2))
+            context.addLine(to: CGPoint(x: wMiddle - arrowWidth, y: hMiddle + arrowHeight))
+            context.addLine(to: CGPoint(x: wMiddle, y: hMiddle + arrowMiddleHeight))
+            context.addLine(to: CGPoint(x: wMiddle + arrowWidth, y: hMiddle + arrowHeight))
+            context.closePath()
             
-            CGContextSetFillColorWithColor(context, UIColor(hex: 0xA2A704).CGColor) // EFE110 FFA400
-            CGContextFillPath(context)
+            context.setFillColor(UIColor(hex: 0xA2A704).cgColor) // EFE110 FFA400
+            context.fillPath()
             
             // heading label background
             if !efis.smallScreen {
@@ -171,21 +171,21 @@ final class EFIS: UIView {
                     boxBottomMargin = boxArrowHeight * 0.5, // distance between circle and bottom pointy thingy
                     boxBottom = efis.horizonLinesMask.frame.minY
                 
-                CGContextMoveToPoint(context, wMiddle, boxBottom - boxBottomMargin)
-                CGContextAddLineToPoint(context, wMiddle - boxBottomWidth, boxBottom - boxBottomMargin - boxArrowHeight)
-                CGContextAddLineToPoint(context, wMiddle - boxWidth,       boxBottom - boxBottomMargin - boxArrowHeight - boxHeight)
-                CGContextAddLineToPoint(context, wMiddle + boxWidth,       boxBottom - boxBottomMargin - boxArrowHeight - boxHeight)
-                CGContextAddLineToPoint(context, wMiddle + boxBottomWidth, boxBottom - boxBottomMargin - boxArrowHeight)
-                CGContextClosePath(context)
+                context.move(to: CGPoint(x: wMiddle, y: boxBottom - boxBottomMargin))
+                context.addLine(to: CGPoint(x: wMiddle - boxBottomWidth, y: boxBottom - boxBottomMargin - boxArrowHeight))
+                context.addLine(to: CGPoint(x: wMiddle - boxWidth, y: boxBottom - boxBottomMargin - boxArrowHeight - boxHeight))
+                context.addLine(to: CGPoint(x: wMiddle + boxWidth, y: boxBottom - boxBottomMargin - boxArrowHeight - boxHeight))
+                context.addLine(to: CGPoint(x: wMiddle + boxBottomWidth, y: boxBottom - boxBottomMargin - boxArrowHeight))
+                context.closePath()
                 
-                CGContextSetFillColorWithColor(context, UIColor.whiteColor().colorWithAlphaComponent(0.08).CGColor) // White 0.1 alpha
-                CGContextFillPath(context)
+                context.setFillColor(UIColor.white.withAlphaComponent(0.08).cgColor) // White 0.1 alpha
+                context.fillPath()
             }
         }
     }
     
-    private final class Compass: UIView {
-        override func drawRect(rect: CGRect) {
+    fileprivate final class Compass: UIView {
+        override func draw(_ rect: CGRect) {
             let context = UIGraphicsGetCurrentContext()!,
                 efis = superview as! EFIS,
                 width = bounds.width,
@@ -197,24 +197,24 @@ final class EFIS: UIView {
                 arrowHeight: CGFloat = efis.smallScreen ? 20 : 30 // height of the entire arrow
             
             // upper halve
-            CGContextMoveToPoint(context, wMiddle, 0)
-            CGContextAddLineToPoint(context, wMiddle - arrowWidth, arrowHeight)
-            CGContextAddLineToPoint(context, wMiddle, arrowMiddleHeight/2 + 2)
-            CGContextAddLineToPoint(context, wMiddle + arrowWidth, arrowHeight)
-            CGContextClosePath(context)
+            context.move(to: CGPoint(x: wMiddle, y: 0))
+            context.addLine(to: CGPoint(x: wMiddle - arrowWidth, y: arrowHeight))
+            context.addLine(to: CGPoint(x: wMiddle, y: arrowMiddleHeight/2 + 2))
+            context.addLine(to: CGPoint(x: wMiddle + arrowWidth, y: arrowHeight))
+            context.closePath()
             
-            CGContextSetFillColorWithColor(context, UIColor(hex: 0xEFE110).CGColor) // EFE110 0xF4D03F
-            CGContextFillPath(context)
+            context.setFillColor(UIColor(hex: 0xEFE110).cgColor) // EFE110 0xF4D03F
+            context.fillPath()
             
             // lower halve
-            CGContextMoveToPoint(context, wMiddle, arrowMiddleHeight/2)
-            CGContextAddLineToPoint(context, wMiddle - arrowWidth, arrowHeight)
-            CGContextAddLineToPoint(context, wMiddle, arrowMiddleHeight)
-            CGContextAddLineToPoint(context, wMiddle + arrowWidth, arrowHeight)
-            CGContextClosePath(context)
+            context.move(to: CGPoint(x: wMiddle, y: arrowMiddleHeight/2))
+            context.addLine(to: CGPoint(x: wMiddle - arrowWidth, y: arrowHeight))
+            context.addLine(to: CGPoint(x: wMiddle, y: arrowMiddleHeight))
+            context.addLine(to: CGPoint(x: wMiddle + arrowWidth, y: arrowHeight))
+            context.closePath()
             
-            CGContextSetFillColorWithColor(context, UIColor(hex: 0xA2A704).CGColor) // EFE110 FFA400
-            CGContextFillPath(context)
+            context.setFillColor(UIColor(hex: 0xA2A704).cgColor) // EFE110 FFA400
+            context.fillPath()
         }
     }
     
@@ -227,8 +227,8 @@ final class EFIS: UIView {
     var roll = 0.0 {
         didSet {
             let rad = roll * M_PI / 180.0
-            horizon.transform = CGAffineTransformMakeRotation(CGFloat(rad))
-            horizonLines.transform = CGAffineTransformMakeRotation(CGFloat(rad))
+            horizon.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
+            horizonLines.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
         }
     }
     
@@ -243,12 +243,12 @@ final class EFIS: UIView {
     var heading = 0.0 {
         didSet {
             let rad = heading * M_PI / 180.0
-            compass.transform = CGAffineTransformMakeRotation(CGFloat(rad))
+            compass.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
             headingLabel?.text = "\(Int(heading))"
         }
     }
     
-    private var horizon: Horizon!, // the moving part of the horizon (colors)
+    fileprivate var horizon: Horizon!, // the moving part of the horizon (colors)
                 horizonLines: HorizonLines!, // the moving part of the horizon (lines)
                 horizonLinesMask: UIView!, // masks the previous view and therefore static
                 compass: Compass!, // the rotating part of the compass
@@ -284,7 +284,7 @@ final class EFIS: UIView {
         // calculate radius of circle in the middle
         var radius: CGFloat!
         if smallScreen {
-            if UIScreen.mainScreen().bounds.size.height < 568 {
+            if UIScreen.main.bounds.size.height < 568 {
                 // 3.5"
                 radius = width * 0.3
             } else {
@@ -306,32 +306,32 @@ final class EFIS: UIView {
         
         // horizon lines superview (used so maskview has effect)
         let linesSuperView = UIView(frame: bounds)
-        linesSuperView.opaque = false
-        linesSuperView.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.08)
+        linesSuperView.isOpaque = false
+        linesSuperView.backgroundColor = UIColor.white.withAlphaComponent(0.08)
         
         // horizon lines
         horizonLines = HorizonLines(frame: horizon.frame)
-        horizonLines.opaque = false
-        horizonLines.backgroundColor = UIColor.clearColor()
+        horizonLines.isOpaque = false
+        horizonLines.backgroundColor = UIColor.clear
         
         // horizon mask
         horizonLinesMask = UIView(frame: CGRect(x: width/2 - radius,
                                                 y: height*verticalMiddle - radius,
                                             width: radius*2,
                                            height: radius*2))
-        horizonLinesMask.backgroundColor = UIColor.whiteColor()
+        horizonLinesMask.backgroundColor = UIColor.white
         horizonLinesMask.layer.cornerRadius = radius
         
         // compass rotating part
         compass = Compass(frame: horizonLinesMask.frame)
-        compass.opaque = false
-        compass.backgroundColor = UIColor.clearColor()
+        compass.isOpaque = false
+        compass.backgroundColor = UIColor.clear
 
         
         // overlay (arrow etc)
         overlay = Overlay(frame: bounds)
-        overlay.opaque = false
-        overlay.backgroundColor = UIColor.clearColor()
+        overlay.isOpaque = false
+        overlay.backgroundColor = UIColor.clear
         
         // heading label
         if !smallScreen {
@@ -342,9 +342,9 @@ final class EFIS: UIView {
                                                  y: compass.frame.minY - labelHeight - labelBottomMargin,
                                              width: labelWidth,
                                             height: labelHeight))
-            headingLabel!.textAlignment = .Center
-            headingLabel!.textColor = UIColor.whiteColor()
-            headingLabel!.font = UIFont.boldSystemFontOfSize(smallScreen ? 30 : 35)
+            headingLabel!.textAlignment = .center
+            headingLabel!.textColor = UIColor.white
+            headingLabel!.font = UIFont.boldSystemFont(ofSize: smallScreen ? 30 : 35)
             headingLabel!.text = "0"
         }
         
@@ -355,7 +355,7 @@ final class EFIS: UIView {
         addSubview(overlay)
         if !smallScreen { addSubview(headingLabel!) }
         
-        linesSuperView.maskView = horizonLinesMask
+        linesSuperView.mask = horizonLinesMask
         linesSuperView.addSubview(horizonLines)
     }
 }

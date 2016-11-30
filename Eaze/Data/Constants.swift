@@ -8,7 +8,7 @@
 
 import Foundation
 
-let appVersion: Version = "0.1.0", // version of this app
+let appVersion: Version = "1.1.0", // version of this app
     apiMinVersion: Version = "1.2.1", // down to and including
     apiMaxVersion: Version = "2.0.0", // up to and not including
     pidControllerChangeMinApiVersion: Version = "1.5.0" // down to and including

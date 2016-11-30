@@ -63,7 +63,7 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
         
         msp.addSubscriber(self, forCodes: [MSP_RC])
         
-        bar.addObserver(self, forKeyPath: "bounds", options: .New, context: nil) // to reload constraints
+        bar.addObserver(self, forKeyPath: "bounds", options: .new, context: nil) // to reload constraints
         
         bar.layer.cornerRadius = 3
         bar.layer.masksToBounds = true
@@ -85,22 +85,21 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
         currentValue = dataStorage.channels[modeRange.auxChannelIndex+4]
         
         UIView.performWithoutAnimation {
-            self.button.setTitle("AUX \(self.modeRange.auxChannelIndex+1)", forState: .Normal)
+            self.button.setTitle("AUX \(self.modeRange.auxChannelIndex+1)", for: UIControlState())
             self.layoutIfNeeded()
         }
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if object! === bar && keyPath! == "bounds" {
-            if (superview!.superview! as! UITableView).editing == true { return }
-            reloadView() // as the constraints use constants, not ratios, we need to refresh them when the bar size changes
-        }
+    //TODO: Is this actually needed?
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if (superview!.superview! as! UITableView).isEditing == true { return }
+        reloadView() // as the constraints use constants, not ratios, we need to refresh them when the bar size changes
     }
     
     
     // MARK: - MSP Update
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         // MSP_RC
         currentValue = dataStorage.channels[modeRange.auxChannelIndex+4]
     }
@@ -108,11 +107,11 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
     
     // MARK: - Touch handlers
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard currentTouch == nil else { return } // only track one touch
         
         let touch = touches.first!,
-            loc = touch.locationInView(self),
+            loc = touch.location(in: self),
             m: CGFloat = 10.0 // margin for bigger touch area
         
         // determine what view is touched
@@ -124,20 +123,20 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
             currentTouch = touch
             touchedView = rightHandle
 
-        } else if convertRect(rangeBar.frame.insetBy(dx: 25, dy: -5), fromView: bar).contains(loc) {
+        } else if convert(rangeBar.frame.insetBy(dx: 25, dy: -5), from: bar).contains(loc) {
             currentTouch = touch
             touchedView = rangeBar
         }
         
         if let _ = touchedView {
-            (superview!.superview as! UITableView).scrollEnabled = false
+            (superview!.superview as! UITableView).isScrollEnabled = false
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == currentTouch {
-                let mov = touch.locationInView(self).x - touch.previousLocationInView(self).x,
+                let mov = touch.location(in: self).x - touch.previousLocation(in: self).x,
                     minDist: CGFloat = 40
                 
                 // actions according to touched view
@@ -183,20 +182,20 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
         }
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             if touch == currentTouch {
-                (superview!.superview as! UITableView).scrollEnabled = true
+                (superview!.superview as! UITableView).isScrollEnabled = true
                 currentTouch = nil
                 touchedView = nil
             }
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        for touch in touches ?? [] {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
             if touch == currentTouch {
-                (superview!.superview as! UITableView).scrollEnabled = true
+                (superview!.superview as! UITableView).isScrollEnabled = true
                 currentTouch = nil
                 touchedView = nil
             }
@@ -206,16 +205,16 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
     
     // MARK: - PopoverSelectionDelegate
     
-    func popoverSelectedOption(option: Int, tag: Int) {
+    func popoverSelectedOption(_ option: Int, tag: Int) {
         modeRange.auxChannelIndex = option
         currentValue = dataStorage.channels[option+4]
-        button.setTitle("AUX \(self.modeRange.auxChannelIndex+1)", forState: .Normal)
+        button.setTitle("AUX \(self.modeRange.auxChannelIndex+1)", for: UIControlState())
     }
     
     
     // MARK: - IBActions
     
-    @IBAction func buttonPressed(sender: UIButton) {
+    @IBAction func buttonPressed(_ sender: UIButton) {
         var arr: [String] = []
         for i in 1 ... dataStorage.activeChannels-4 {
             arr.append("AUX \(i)")
@@ -232,6 +231,6 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
                                  sourceRect: rect,
                                  sourceView: self,
                                        size: CGSize(width: 250, height: 200),
-                   permittedArrowDirections: [.Down, .Up, .Left, .Right])
+                   permittedArrowDirections: [.down, .up, .left, .right])
     }
 }

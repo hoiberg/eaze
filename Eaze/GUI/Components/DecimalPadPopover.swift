@@ -9,7 +9,7 @@
 import UIKit
 
 protocol DecimalPadPopoverDelegate {
-    func updateText(newText: String)
+    func updateText(_ newText: String)
     func decimalPadWillDismiss()
 }
 
@@ -23,36 +23,36 @@ final class DecimalPadPopover: UIViewController {
     
     // MARK: - Class Variables
     
-    private static var isLoading = false
+    fileprivate static var isLoading = false
     
     
     // MAKR: - Variables
     
     var delegate: DecimalPadPopoverDelegate?
-    private let chars = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "b"]
+    fileprivate let chars = ["1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "0", "b"]
     
     
     // MARK: - Class Functions
     
-    class func presentWithDelegate(delegate: DecimalPadPopoverDelegate, text: String, sourceRect: CGRect, sourceView: UIView, size: CGSize, permittedArrowDirections: UIPopoverArrowDirection) {
+    class func presentWithDelegate(_ delegate: DecimalPadPopoverDelegate, text: String, sourceRect: CGRect, sourceView: UIView, size: CGSize, permittedArrowDirections: UIPopoverArrowDirection) {
         guard !isLoading else { return }
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+        DispatchQueue(label: "nl.hangar42.eaze.createPopover").async {
             let popover = DecimalPadPopover()
             popover.delegate = delegate
             popover.view.frame.size = size
             popover.preferredContentSize = size
-            popover.modalPresentationStyle = .Popover
+            popover.modalPresentationStyle = .popover
             popover.popoverPresentationController!.sourceRect = sourceRect
             popover.popoverPresentationController!.sourceView = sourceView
             popover.popoverPresentationController!.permittedArrowDirections = permittedArrowDirections
             
-            var topVC = UIApplication.sharedApplication().keyWindow?.rootViewController
+            var topVC = UIApplication.shared.keyWindow?.rootViewController
             while((topVC!.presentedViewController) != nil){
                 topVC = topVC!.presentedViewController
             }
             
-            dispatch_async(dispatch_get_main_queue()) {
-                topVC!.presentViewController(popover, animated: true, completion: nil)
+            DispatchQueue.main.async {
+                topVC!.present(popover, animated: true, completion: nil)
                 popover.textField.text = text
                 isLoading = false
             }
@@ -68,7 +68,7 @@ final class DecimalPadPopover: UIViewController {
         textField.becomeFirstResponder()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         delegate?.decimalPadWillDismiss()
     }
@@ -76,7 +76,7 @@ final class DecimalPadPopover: UIViewController {
     
     // MARK: - IBActions
 
-    @IBAction func buttonAction(sender: UIButton) {
+    @IBAction func buttonAction(_ sender: UIButton) {
         if sender.tag == 11 {
             textField.deleteBackward()
         } else {

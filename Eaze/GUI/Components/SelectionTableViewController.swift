@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SelectionTableViewControllerDelegate {
-    func selectionTableWithTag(tag: Int, didSelectItem item: Int)
+    func selectionTableWithTag(_ tag: Int, didSelectItem item: Int)
 }
 
 final class SelectionTableViewController: GroupedTableViewController {
@@ -23,31 +23,31 @@ final class SelectionTableViewController: GroupedTableViewController {
     // MARK: - Functions
     
     override func viewDidLoad() {
-        tableView!.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        if UIDevice.isPad { tableView.separatorStyle = .None }
+        tableView!.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        if UIDevice.isPad { tableView.separatorStyle = .none }
     }
 
     
     // MARK: - TableViewDataSource
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return items.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell?
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell?
         if cell == nil {
-            cell = UITableViewCell(style: .Default, reuseIdentifier: "cell")
+            cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         }
         cell!.textLabel!.text = items[indexPath.row]
         
         if let i = selectedItem {
             if indexPath.row == i {
-                cell!.accessoryType = .Checkmark
+                cell!.accessoryType = .checkmark
             }
         }
 
@@ -57,8 +57,8 @@ final class SelectionTableViewController: GroupedTableViewController {
     
     // MARK: - TableViewDelegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.selectionTableWithTag(tag, didSelectItem: indexPath.row)
-        navigationController?.popViewControllerAnimated(true)
+        let _ = navigationController?.popViewController(animated: true)
     }
 }

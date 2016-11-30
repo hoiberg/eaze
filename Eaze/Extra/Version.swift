@@ -45,13 +45,13 @@ final class Version: Comparable {
         catch { log(.Error, "Version: Failed to init with string '\(string)'") }
     }
     
-    private func interpretString(str: String) throws {
-        let regex = try NSRegularExpression(pattern: "([0-9]+).([0-9]+).([0-9]+)", options: .CaseInsensitive)
+    fileprivate func interpretString(_ str: String) throws {
+        let regex = try NSRegularExpression(pattern: "([0-9]+).([0-9]+).([0-9]+)", options: .caseInsensitive)
         let range = NSMakeRange(0, str.characters.count)
     
-        major = regex.stringByReplacingMatchesInString(str, options: NSMatchingOptions(), range: range, withTemplate: "$1").intValue
-        minor = regex.stringByReplacingMatchesInString(str, options: NSMatchingOptions(), range: range, withTemplate: "$2").intValue
-        patch = regex.stringByReplacingMatchesInString(str, options: NSMatchingOptions(), range: range, withTemplate: "$3").intValue
+        major = regex.stringByReplacingMatches(in: str, options: NSRegularExpression.MatchingOptions(), range: range, withTemplate: "$1").intValue
+        minor = regex.stringByReplacingMatches(in: str, options: NSRegularExpression.MatchingOptions(), range: range, withTemplate: "$2").intValue
+        patch = regex.stringByReplacingMatches(in: str, options: NSRegularExpression.MatchingOptions(), range: range, withTemplate: "$3").intValue
     }
 }
 
@@ -78,7 +78,7 @@ func == (lhs: Version, rhs: Version) -> Bool {
 
 // MARK: - StringLiteralConvertible
 
-extension Version: StringLiteralConvertible {
+extension Version: ExpressibleByStringLiteral {
     typealias UnicodeScalarLiteralType = StringLiteralType
     typealias ExtendedGraphemeClusterLiteralType = StringLiteralType
     

@@ -8,9 +8,33 @@
 
 import UIKit
 import QuartzCore
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol StaticAdjustableTextFieldDelegate {
-    func staticAdjustableTextFieldChangedValue(field: StaticAdjustableTextField)
+    func staticAdjustableTextFieldChangedValue(_ field: StaticAdjustableTextField)
 }
 
 final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPopoverDelegate {
@@ -44,9 +68,9 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     var enabled: Bool = true {
         didSet {
-            textField.enabled = enabled
-            plusButton.enabled = enabled
-            minusButton.enabled = enabled
+            textField.isEnabled = enabled
+            plusButton.isEnabled = enabled
+            minusButton.isEnabled = enabled
         }
     }
     
@@ -71,9 +95,9 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         set { doubleValue = Double(newValue) }
     }
     
-    private var startPressTime: NSDate?,
+    fileprivate var startPressTime: Date?,
                 adjustedIncrement: Double = 0.0,
-                repeatTimer: NSTimer?,
+                repeatTimer: Timer?,
                 disableDelegateUpdate = false,
                 tapOutsideRecognizer: UITapGestureRecognizer!
 
@@ -90,24 +114,24 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         setup()
     }
     
-    private func setup() {
+    fileprivate func setup() {
         // load our view from nib and add it with correct autoresizingmasks
-        let bundle = NSBundle(forClass: self.dynamicType),
+        let bundle = Bundle(for: type(of: self)),
             nib = UINib(nibName: "StaticAdjustableTextField", bundle: bundle)
-        view = nib.instantiateWithOwner(self, options: nil).first as! UIView
+        view = nib.instantiate(withOwner: self, options: nil).first as! UIView
         view.frame = bounds
-        view.autoresizingMask = [UIViewAutoresizing.FlexibleWidth, UIViewAutoresizing.FlexibleHeight]
+        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
         
-        view.backgroundColor = UIColor.clearColor()
-        backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
+        backgroundColor = UIColor.clear
         
         // style the textfield
         textField.delegate = self
-        textField.textColor = UIColor.blackColor()
-        textField.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.05)
-        textField.textAlignment = NSTextAlignment.Center
-        textField.borderStyle = UITextBorderStyle.None
+        textField.textColor = UIColor.black
+        textField.backgroundColor = UIColor.black.withAlphaComponent(0.05)
+        textField.textAlignment = NSTextAlignment.center
+        textField.borderStyle = UITextBorderStyle.none
         textField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
         
         reloadText()
@@ -134,7 +158,7 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         doubleValue += adjustedIncrement
     }
     
-    private func reloadText() {
+    fileprivate func reloadText() {
         textField.text = doubleValue.stringWithDecimals(decimal)
         
         if let suf = suffix {
@@ -155,12 +179,12 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     // MARK: - UITextFieldDelegate
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
     
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         // show either keyboard or decimal pad
         if UIDevice.isPhone {
             tapOutsideRecognizer = UITapGestureRecognizer(target: self, action: #selector(StaticAdjustableTextField.tapOutside))
@@ -173,17 +197,17 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
                                        sourceRect: textField.frame,
                                        sourceView: self,
                                              size: CGSize(width: 210, height: 280),
-                         permittedArrowDirections: UIPopoverArrowDirection.Any)
+                         permittedArrowDirections: UIPopoverArrowDirection.any)
             return false
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         doubleValue = Double(textField.text!.floatValue)
         tapOutsideRecognizer = nil
     }
     
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         (delegate as! StaticAdjustableTextFieldDelegate?)?.staticAdjustableTextFieldChangedValue(self)
         
@@ -191,12 +215,12 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         if string.isEmpty { return true }
         
         // only allow 0123456789. and , to be put in the textfield
-        if string.rangeOfCharacterFromSet(NSCharacterSet(charactersInString: "0123456789.,").invertedSet) != nil { return false }
+        if string.rangeOfCharacter(from: CharacterSet(charactersIn: "0123456789.,").inverted) != nil { return false }
         
         // replace ,'s with .'s
-        if string.containsString(",") {
-            let newString = string.stringByReplacingOccurrencesOfString(",", withString: ".")
-            textField.text = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString: newString)
+        if string.contains(",") {
+            let newString = string.replacingOccurrences(of: ",", with: ".")
+            textField.text = (textField.text! as NSString).replacingCharacters(in: range, with: newString)
             return false
         }
         
@@ -210,7 +234,7 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     // MARK: - DecimalPadPopoverDelegate
     
-    func updateText(newText: String) {
+    func updateText(_ newText: String) {
         textField.text = newText
     }
     
@@ -221,7 +245,7 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
     
     // MARK: - IBActions
     
-    @IBAction func buttonTouchDown(sender: UIButton) {
+    @IBAction func buttonTouchDown(_ sender: UIButton) {
         guard enabled else { return }
         
         if sender == plusButton {
@@ -230,15 +254,15 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
             adjustedIncrement = -increment
         }
         
-        startPressTime = NSDate()
-        repeatTimer = NSTimer.scheduledTimerWithTimeInterval( 0.3,
+        startPressTime = Date()
+        repeatTimer = Timer.scheduledTimer( timeInterval: 0.3,
                                                       target: self,
                                                     selector: #selector(StaticAdjustableTextField.repeatUpdate),
                                                     userInfo: nil,
                                                      repeats: true)
     }
     
-    @IBAction func buttonTouchUp(sender: UIButton) {
+    @IBAction func buttonTouchUp(_ sender: UIButton) {
         guard enabled else { return }
         
         if startPressTime?.timeIntervalSinceNow > -0.05 {

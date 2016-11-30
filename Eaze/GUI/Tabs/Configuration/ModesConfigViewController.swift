@@ -21,7 +21,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         sampleModeNames = ["ARM", "ANGLE", "HORIZON", "BARO", "MAG", "HEADFREE", "BEEPER", "AIRMODE"],
         sampleModeIDs = [0, 1, 2, 3, 5, 6, 13, 28]
     var modeRanges: [ModeRange] = [], // our local deep copy of dataStorage's array
-        updateTimer: NSTimer?
+        updateTimer: Timer?
     
     
     // MARK: - Functions
@@ -38,22 +38,22 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             serialClosed()
         }
         
-        notificationCenter.addObserver(self, selector: #selector(ModesConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ModesConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ModesConfigViewController.didBecomeActive), name: AppDidBecomeActiveNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(ModesConfigViewController.willResignActive), name: AppWillResignActiveNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(didBecomeActive), name: Notification.Name.App.didBecomeActive, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(willResignActive), name: Notification.Name.App.willResignActive, object: nil)
         
-        tableView.registerNib(UINib(nibName: "ModeRangeTableViewCell", bundle: nil), forCellReuseIdentifier: "ModeRangeCell")
+        tableView.register(UINib(nibName: "ModeRangeTableViewCell", bundle: nil), forCellReuseIdentifier: "ModeRangeCell")
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if bluetoothSerial.isConnected {
             scheduleUpdateTimer()
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         updateTimer?.invalidate()
     }
@@ -72,22 +72,22 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         updateTimer?.invalidate()
     }
     
-    private func scheduleUpdateTimer() {
+    fileprivate func scheduleUpdateTimer() {
         updateTimer?.invalidate() // always invalidate before (re-)scheduling, to prevent multiple timers running at the same time.
-        updateTimer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
     }
     
-    func addButtonPressed(sender: UIButton) {
-        let point = sender.convertPoint(CGPointZero, toView: tableView),
-            section = tableView.indexPathForRowAtPoint(point)!.section,
+    func addButtonPressed(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tableView),
+            section = tableView.indexPathForRow(at: point)!.section,
             identifier = bluetoothSerial.isConnected ? dataStorage.auxConfigIDs[section] : sampleModeIDs[section]
         modeRanges.append(ModeRange(id: identifier))
         
         if UIDevice.isPad {
             tableView.reloadData()
         } else {
-            let path = NSIndexPath(forRow: tableView.numberOfRowsInSection(section), inSection: section)
-            tableView.insertRowsAtIndexPaths([path], withRowAnimation: .Fade)
+            let path = IndexPath(row: tableView.numberOfRows(inSection: section), section: section)
+            tableView.insertRows(at: [path], with: .fade)
         }
     }
     
@@ -102,13 +102,13 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         msp.sendMSP(MSP_RC)
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_MODE_RANGE:
             modeRanges = dataStorage.modeRanges.deepCopy()
-            for i in (0 ..< modeRanges.count).reverse() {
+            for i in (0 ..< modeRanges.count).reversed() {
                 if modeRanges[i].range.start >= modeRanges[i].range.end {
-                    modeRanges.removeAtIndex(i) // invalid
+                    modeRanges.remove(at: i) // invalid
                 }
             }
             tableView.reloadData()
@@ -127,35 +127,35 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             scheduleUpdateTimer()
         }
         
-        saveButton.enabled = true
+        saveButton.isEnabled = true
     }
     
     func serialClosed() {
         updateTimer?.invalidate()
-        saveButton.enabled = false
+        saveButton.isEnabled = false
     }
     
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return (bluetoothSerial.isConnected ? dataStorage.auxConfigNames : sampleModeNames).count
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let identifier = bluetoothSerial.isConnected ? dataStorage.auxConfigIDs[section] : sampleModeIDs[section],
             relevantRanges = modeRanges.filter({ $0.identifier == identifier })
         return 1 + relevantRanges.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCellWithIdentifier("HeaderCell", forIndexPath: indexPath),
+            let cell = tableView.dequeueReusableCell(withIdentifier: "HeaderCell", for: indexPath),
                 label = cell.viewWithTag(1) as! UILabel,
                 button = cell.viewWithTag(2) as! UIButton
             
             label.text = (bluetoothSerial.isConnected ? dataStorage.auxConfigNames : sampleModeNames)[indexPath.section]
-            button.addTarget(self, action: #selector(ModesConfigViewController.addButtonPressed(_:)), forControlEvents: .TouchUpInside)
+            button.addTarget(self, action: #selector(ModesConfigViewController.addButtonPressed(_:)), for: .touchUpInside)
             
             if UIDevice.isPhone {
                 cell.separatorInset = UIEdgeInsets(top: 0, left: cell.bounds.size.width, bottom: 0, right: 0)
@@ -164,12 +164,12 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
             return cell
             
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier("ModeRangeCell", forIndexPath: indexPath) as! ModeRangeTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ModeRangeCell", for: indexPath) as! ModeRangeTableViewCell
             
             let range = modeRanges.filter({ $0.identifier == (bluetoothSerial.isConnected ? dataStorage.auxConfigIDs : sampleModeIDs)[indexPath.section]})[indexPath.row - 1]
             cell.modeRange = range
             
-            let index = modeRanges.indexOf{$0 === range}!
+            let index = modeRanges.index{$0 === range}!
             while rangeCells.count-1 < index { rangeCells.append(nil) }
             rangeCells[index] = cell // same order as modeRanges
             
@@ -177,36 +177,36 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         }
     }
     
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return indexPath.row == 0 || !tableView.editing ? false : true
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return indexPath.row == 0 || !tableView.isEditing ? false : true
     }
     
-    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
-        return tableView.editing ? .Delete : .None
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return tableView.isEditing ? .delete : .none
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as! ModeRangeTableViewCell
-        rangeCells.removeAtIndex(rangeCells.indexOf{$0===cell}!)
-        modeRanges.removeAtIndex(modeRanges.indexOf{$0===cell.modeRange}!)
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! ModeRangeTableViewCell
+        rangeCells.remove(at: rangeCells.index{$0===cell}!)
+        modeRanges.remove(at: modeRanges.index{$0===cell.modeRange}!)
         
         if UIDevice.isPad {
             tableView.reloadData()
         } else {
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Right)
+            tableView.deleteRows(at: [indexPath], with: .right)
         }
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.row == 0 ? 31 : 55
     }
     
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return indexPath.row == 0 ? 31 : 55
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        super.tableView(tableView, willDisplayCell: cell, forRowAtIndexPath: indexPath)
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        super.tableView(tableView, willDisplay: cell, forRowAt: indexPath)
         if let rangeCell = cell as? ModeRangeTableViewCell {
             rangeCell.updateConstraints()
             rangeCell.reloadView()
@@ -217,13 +217,13 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     // MARK: - IBActions
     
-    @IBAction func edit(sender: UIBarButtonItem) {
-        tableView.setEditing(!tableView.editing, animated: UIDevice.isPad ? false : true) // animated is glitchy on iPads/GroupedTableViewC, because of the constant constraints that are updated upon resize
-        sender.title = tableView.editing ? "Done" : "Edit"
-        sender.style = tableView.editing ? UIBarButtonItemStyle.Done : UIBarButtonItemStyle.Plain
+    @IBAction func edit(_ sender: UIBarButtonItem) {
+        tableView.setEditing(!tableView.isEditing, animated: UIDevice.isPad ? false : true) // animated is glitchy on iPads/GroupedTableViewC, because of the constant constraints that are updated upon resize
+        sender.title = tableView.isEditing ? "Done" : "Edit"
+        sender.style = tableView.isEditing ? UIBarButtonItemStyle.done : UIBarButtonItemStyle.plain
     }
     
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         let required = dataStorage.modeRanges.count
         dataStorage.modeRanges = modeRanges.deepCopy()
         

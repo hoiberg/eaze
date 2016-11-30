@@ -74,7 +74,7 @@ final class DataStorage {
     
     // 105 MSP_RC
     var activeChannels = 7
-    var channels = [Int](count: 32, repeatedValue: 0)
+    var channels = [Int](repeating: 0, count: 32)
     
     // 108 MSP_ATTITUDE
     var attitude = [0.0, 0.0, 0.0] // x -180<>180 y -90<>90 z 0<>360
@@ -149,7 +149,7 @@ final class DataStorage {
                     arr.append(auxConfigNames[i])
                 }
             }
-            arr.sortInPlace() { $0 < $1 }
+            arr.sort() { $0 < $1 }
             return arr
         }
     }

@@ -28,8 +28,8 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: - Variables
     
-    private let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS]
-    private var selectedMixerConfiguration = 2
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS]
+    fileprivate var selectedMixerConfiguration = 2
     
     
     // MARK: - Functions
@@ -47,22 +47,22 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             serialClosed()
         }
         
-        notificationCenter.addObserver(self, selector: #selector(GeneralConfigViewController.serialOpened), name: SerialOpenedNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(GeneralConfigViewController.serialClosed), name: SerialClosedNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialOpened), name: Notification.Name.Serial.opened, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(serialClosed), name: Notification.Name.Serial.closed, object: nil)
         
         for field in [rollAdjustment, pitchAdjustment, yawAdjustment] {
-            field.maxValue = 360
-            field.minValue = -180
-            field.decimal = 0
-            field.increment = 1
-            field.suffix = "º"
+            field?.maxValue = 360
+            field?.minValue = -180
+            field?.decimal = 0
+            field?.increment = 1
+            field?.suffix = "º"
         }
         
         for field in [rollAccTrim, pitchAccTrim] {
-            field.maxValue = 300
-            field.minValue = -300
-            field.decimal = 0
-            field.increment = 1
+            field?.maxValue = 300
+            field?.minValue = -300
+            field?.decimal = 0
+            field?.increment = 1
         }
         
         loopTime.intValue = 3500
@@ -88,7 +88,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         }
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_BF_CONFIG:
             selectedMixerConfiguration = dataStorage.mixerConfiguration
@@ -106,7 +106,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             
         case MSP_STATUS:
             if dataStorage.activeSensors.bitCheck(2) {
-                calibrateMagLabel.enabled = true
+                calibrateMagLabel.isEnabled = true
             }
             
         default:
@@ -122,10 +122,10 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             sendDataRequest()
         }
         
-        saveButton.enabled = true
-        calibrateAccLabel.enabled = true
-        calibrateMagLabel.enabled = false
-        resetLabel.enabled = true
+        saveButton.isEnabled = true
+        calibrateAccLabel.isEnabled = true
+        calibrateMagLabel.isEnabled = false
+        resetLabel.isEnabled = true
         
         if dataStorage.apiVersion >= "1.8.0" {
             loopTime.enabled = true
@@ -135,16 +135,16 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     }
     
     func serialClosed() {
-        saveButton.enabled = false
-        calibrateAccLabel.enabled = false
-        calibrateMagLabel.enabled = false
-        resetLabel.enabled = false
+        saveButton.isEnabled = false
+        calibrateAccLabel.isEnabled = false
+        calibrateMagLabel.isEnabled = false
+        resetLabel.isEnabled = false
     }
     
     
     // MARK: AdjustableTextFieldDelegate
     
-    func staticAdjustableTextFieldChangedValue(field: StaticAdjustableTextField) {
+    func staticAdjustableTextFieldChangedValue(_ field: StaticAdjustableTextField) {
         if field == loopTime {
             // update hertz label
             if field.intValue <= 0 {
@@ -158,17 +158,17 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: TableView delegate
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 0 {
             if indexPath.row == 0 {
                 // calibrate acc
                 let alert = UIAlertController(title: "Accelerometer Calibration",
                                             message: "Place board or frame on leveled surface, then tap 'Proceed'. Ensure platform is not moving during calibration",
-                                     preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Proceed", style: .Default) { _ in
+                                     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Proceed", style: .default) { _ in
                     log("Initiating ACC calibration")
                     MessageView.showProgressHUD()
                     var success = false
@@ -187,7 +187,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                         }
                     }})
                 
-                presentViewController(alert, animated: true, completion: nil)
+                present(alert, animated: true, completion: nil)
                 
             } else if indexPath.row == 1 {
                 // calibrate mag
@@ -195,9 +195,9 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                 
                 let alert = UIAlertController(title: "Compass Calibration",
                                             message: "Move multirotor at least 360º on all axis of rotation, within 30 seconds",
-                                     preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Proceed", style: .Default) { _ in
+                                     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Proceed", style: .default) { _ in
                     log("Initiating MAG calibration")
                     MessageView.showProgressHUD()
                     var success = false
@@ -216,15 +216,15 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                         }
                     }})
                 
-                presentViewController(alert, animated: true, completion: nil)
+                present(alert, animated: true, completion: nil)
                 
             } else {
                 // reset
                 let alert = UIAlertController(title: "Restore settings to defaults",
                                             message: "All current configuration settings will be lost. Continue?",
-                                     preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
-                alert.addAction(UIAlertAction(title: "Proceed", style: .Destructive) { _ in
+                                     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: "Proceed", style: .destructive) { _ in
                     log("Initiating reset to defaults")
                     msp.sendMSP(MSP_RESET_CONF) {
                         MessageView.show("Reset Successful")
@@ -238,10 +238,10 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
                         }
                     }})
                 
-                presentViewController(alert, animated: true, completion: nil)
+                present(alert, animated: true, completion: nil)
             }
         } else if indexPath.section == 1 {
-            let vc = SelectionTableViewController(style: .Grouped)
+            let vc = SelectionTableViewController(style: .grouped)
             var names: [String] = []
             for mixer in mixerList { names.append(mixer.name) }
             vc.title = "Mixers"
@@ -255,7 +255,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: SelectionTableViewControllerDelegate
     
-    func selectionTableWithTag(tag: Int, didSelectItem item: Int) {
+    func selectionTableWithTag(_ tag: Int, didSelectItem item: Int) {
         selectedMixerConfiguration = item
         mixerTypeLabel.text = mixerList[item].name
     }
@@ -263,7 +263,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: IBActions
     
-    @IBAction func save(sender: AnyObject) {
+    @IBAction func save(_ sender: AnyObject) {
         var codes = [Int]()
         
         dataStorage.mixerConfiguration = selectedMixerConfiguration

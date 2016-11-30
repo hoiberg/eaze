@@ -1,11 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Home-->
@@ -22,14 +26,14 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rjg-7M-yZQ" customClass="EFIS" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="boolean" keyPath="smallScreen" value="NO"/>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A9z-1U-Iue" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="966" y="93" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="2"/>
@@ -39,7 +43,7 @@
                             </view>
                             <view tag="4" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Od5-tj-xOh" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="966" y="67" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="1Ti-9q-DoW"/>
                                     <constraint firstAttribute="height" constant="20" id="mLx-hu-AAe"/>
@@ -53,7 +57,7 @@
                             </view>
                             <view tag="3" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTI-0r-son" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="906" y="67" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="0"/>
@@ -63,7 +67,7 @@
                             </view>
                             <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="avn-gG-3ri" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="848" y="67" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="0"/>
@@ -73,7 +77,7 @@
                             </view>
                             <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69U-LW-rcz" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="789" y="67" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="0"/>
@@ -83,7 +87,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v2z-uX-csh" customClass="GlassLabel" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="731" y="67" width="50" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="backgroundOption">
                                         <integer key="value" value="0"/>
@@ -93,7 +97,7 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L2G-gY-fbg" customClass="GlassBox" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="731" y="22" width="285" height="39"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="39" id="eiu-YJ-aHC"/>
                                     <constraint firstAttribute="width" constant="285" id="wtV-jT-dML"/>
@@ -104,14 +108,14 @@
                             </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YEA-7i-lJ6">
                                 <rect key="frame" x="432" y="22" width="159" height="39"/>
-                                <color key="backgroundColor" red="0.031372549019607843" green="0.0" blue="0.0" alpha="0.17999999999999999" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.031372549019607843" green="0.0" blue="0.0" alpha="0.17999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="159" id="IZD-rV-Gyi"/>
                                     <constraint firstAttribute="height" constant="39" id="a8K-0d-NQn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                 <state key="normal" title="Disconnect">
-                                    <color key="titleColor" red="1" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" red="1" green="0.5490196078431373" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
                                     <action selector="connect:" destination="PL3-rV-wk6" eventType="touchUpInside" id="gda-nd-Rjn"/>
@@ -119,7 +123,7 @@
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Coe-oV-EZZ" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="89" y="203" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="Coe-oV-EZZ" secondAttribute="height" multiplier="1:1" id="8mk-5C-L3w"/>
                                     <constraint firstAttribute="width" constant="130" id="Yjp-kC-4d0"/>
@@ -128,45 +132,45 @@
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0.0V"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="Battery"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="1" green="0.18431372549019609" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="0.18431372549019609" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4nR-Z4-wAM" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="89" y="434" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0A"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="Current"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzH-Dh-Ouw" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="805" y="203" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0%"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="RSSI"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="1" green="0.0" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="1" green="0.0" blue="0.8901960784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YlC-C5-gn4" customClass="GlassIndicator" customModule="Eaze" customModuleProvider="target">
                                 <rect key="frame" x="805" y="434" width="130" height="130"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="string" keyPath="text" value="0"/>
                                     <userDefinedRuntimeAttribute type="string" keyPath="detailText" value="BT RSSI"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" red="0.0" green="1" blue="0.35686274509803922" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="value" red="0.0" green="1" blue="0.35686274509803922" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="69U-LW-rcz" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="47" id="11B-p6-RaC"/>
                             <constraint firstItem="L2G-gY-fbg" firstAttribute="top" secondItem="U1T-p9-IcF" secondAttribute="bottom" constant="2" id="2ae-bG-9Xu"/>
@@ -219,8 +223,6 @@
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="BluetoothRSSIIndicator" destination="YlC-C5-gn4" id="vYM-EI-ljy"/>
                         <outlet property="RSSIIndicator" destination="vzH-Dh-Ouw" id="ElZ-b3-8m5"/>
@@ -261,7 +263,7 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KWG-Eh-6EU">
                                         <rect key="frame" x="17" y="23" width="229" height="121"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="121" id="488-z6-sid"/>
                                             <constraint firstAttribute="width" constant="229" id="fTK-yC-upa"/>
@@ -269,7 +271,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="69u-fE-IBi">
                                         <rect key="frame" x="18" y="161" width="229" height="121"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="121" id="Av1-gd-eUh"/>
                                             <constraint firstAttribute="width" constant="229" id="kOl-Db-jwn"/>
@@ -277,7 +279,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ERR-hZ-wy5" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="333" y="23" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="5yg-vk-ySy"/>
                                             <constraint firstAttribute="width" constant="134" id="wY4-7c-tD1"/>
@@ -288,7 +290,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ozc-9q-rqU" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="334" y="61" width="133" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="delegate" destination="f2F-4V-rUR" id="bFS-EY-XTC"/>
                                         </connections>
@@ -304,7 +306,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="akr-UV-VSw" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="333" y="161" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="5j7-ez-KJk"/>
                                             <constraint firstAttribute="width" constant="134" id="S0B-jd-B5M"/>
@@ -333,7 +335,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wFO-vz-lDH" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="354" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="134" id="O7V-Fs-3gz"/>
                                             <constraint firstAttribute="height" constant="34" id="eDE-JD-yuo"/>
@@ -349,7 +351,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZaQ-j3-T6c" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="334" y="199" width="133" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="doubleValue">
                                                 <real key="value" value="0.0"/>
@@ -370,7 +372,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yWl-Mm-C5G" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="392" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="aMb-wI-OLJ"/>
                                             <constraint firstAttribute="width" constant="134" id="tWg-iO-Z1Z"/>
@@ -387,7 +389,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrg-FQ-uCR" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="213" y="430" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="134" id="af4-lb-ulU"/>
                                             <constraint firstAttribute="height" constant="34" id="e2M-wZ-gpL"/>
@@ -404,7 +406,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="my4-n5-JdU" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="214" y="468" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="8i7-Cj-nXq"/>
                                             <constraint firstAttribute="width" constant="134" id="ttg-q6-Tyo"/>
@@ -421,7 +423,7 @@
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aed-AJ-8gz" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="214" y="506" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="AiA-yt-iNx"/>
                                             <constraint firstAttribute="width" constant="134" id="zzr-tW-H0I"/>
@@ -429,7 +431,7 @@
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2NY-YH-0IS" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                         <rect key="frame" x="212" y="316" width="134" height="34"/>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="c2A-1D-hSd"/>
                                             <constraint firstAttribute="width" constant="134" id="jji-7j-PfW"/>
@@ -453,7 +455,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="EEI-7u-MQy" firstAttribute="leading" secondItem="Qa2-wF-t4y" secondAttribute="leading" constant="18" id="1ho-ma-cH3"/>
                                     <constraint firstItem="2NY-YH-0IS" firstAttribute="leading" secondItem="t35-Cc-ApV" secondAttribute="trailing" constant="26" id="4m9-XK-aRx"/>
@@ -526,7 +528,7 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JEt-Ms-Dmj">
                                                 <rect key="frame" x="8" y="0.0" width="45" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="P" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Yu-sM-4jl">
@@ -545,7 +547,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="4Yu-sM-4jl" firstAttribute="leading" secondItem="JEt-Ms-Dmj" secondAttribute="trailing" constant="6" id="7ga-x6-GfA"/>
                                             <constraint firstItem="3ba-v1-vr0" firstAttribute="height" secondItem="4Yu-sM-4jl" secondAttribute="height" id="AwS-Mf-Lpb"/>
@@ -572,24 +574,24 @@
                                         <rect key="frame" x="8" y="42" width="471" height="34"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wR5-VF-tvN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qdi-La-5Au" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfm-e8-nRI" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Roll" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pQ6-Wh-1Ze">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="centerY" secondItem="Qdi-La-5Au" secondAttribute="centerY" id="1NK-d9-S0b"/>
                                             <constraint firstAttribute="centerY" secondItem="Nfm-e8-nRI" secondAttribute="centerY" id="5ut-Tj-Qee"/>
@@ -614,25 +616,25 @@
                                         <rect key="frame" x="8" y="80" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pitch" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="VPD-qY-WNL">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tvQ-jG-rBE" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ce-8I-1Hn" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HMv-5E-w8b" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" secondItem="HMv-5E-w8b" secondAttribute="height" id="4uf-s7-Qou"/>
                                             <constraint firstAttribute="height" constant="34" id="5iz-dB-wTO"/>
@@ -657,25 +659,25 @@
                                         <rect key="frame" x="8" y="118" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yaw" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OjW-h9-Xed">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QAg-zx-9ua" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6tS-7O-4el" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BXt-OQ-NOT" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" secondItem="BXt-OQ-NOT" secondAttribute="height" id="AKn-ou-U1I"/>
                                             <constraint firstItem="QAg-zx-9ua" firstAttribute="width" secondItem="BXt-OQ-NOT" secondAttribute="width" constant="-1" id="EBy-qv-0cc"/>
@@ -700,25 +702,25 @@
                                         <rect key="frame" x="8" y="172" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alt" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cIO-mQ-AU4">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u94-qS-9YY" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="95j-yt-aFo" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xri-Cz-v2c" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="centerY" secondItem="cIO-mQ-AU4" secondAttribute="centerY" id="21S-HN-nem"/>
                                             <constraint firstAttribute="height" secondItem="95j-yt-aFo" secondAttribute="height" id="AfN-nx-0so"/>
@@ -743,25 +745,25 @@
                                         <rect key="frame" x="8" y="210" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Vel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JT3-s6-Kzu">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JUw-kG-QzT" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G10-om-SyQ" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BP8-HS-A2T" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="JUw-kG-QzT" firstAttribute="height" secondItem="QwW-jg-Hge" secondAttribute="height" id="63t-jP-WSe"/>
                                             <constraint firstItem="JUw-kG-QzT" firstAttribute="leading" secondItem="JT3-s6-Kzu" secondAttribute="trailing" constant="4" id="HWO-Td-j34"/>
@@ -786,25 +788,25 @@
                                         <rect key="frame" x="8" y="248" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pos" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4vY-Wd-2yn">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0J-9C-NZN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DJx-7a-9wy" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dtz-WW-DAj" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="k0J-9C-NZN" firstAttribute="width" secondItem="4vY-Wd-2yn" secondAttribute="width" multiplier="3" id="0V0-Z8-K2i"/>
                                             <constraint firstItem="4vY-Wd-2yn" firstAttribute="height" secondItem="XKP-9u-QBo" secondAttribute="height" id="2Ic-ZE-ZQQ"/>
@@ -829,25 +831,25 @@
                                         <rect key="frame" x="8" y="302" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PosR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aPP-Ok-Ybe">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WRo-KR-cWn" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBq-ax-dSq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mhQ-UJ-O94" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="WRo-KR-cWn" firstAttribute="leading" secondItem="aPP-Ok-Ybe" secondAttribute="trailing" constant="4" id="11t-TJ-tlr"/>
                                             <constraint firstAttribute="trailing" secondItem="mhQ-UJ-O94" secondAttribute="trailing" constant="2" id="5lP-6s-Dde"/>
@@ -872,25 +874,25 @@
                                         <rect key="frame" x="8" y="340" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NavR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="foo-43-t9U">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WHt-2x-Ja7" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bUm-W4-p9y" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z69-Li-blq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="34" id="4LW-0q-f4b"/>
                                             <constraint firstAttribute="height" secondItem="bUm-W4-p9y" secondAttribute="height" id="6pA-Yt-UM8"/>
@@ -915,25 +917,25 @@
                                         <rect key="frame" x="8" y="378" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Level" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="H1X-Uo-7lp">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqP-HA-evZ" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYt-DW-TpN" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tYt-rI-OV7" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="aYt-DW-TpN" firstAttribute="leading" secondItem="tYt-rI-OV7" secondAttribute="trailing" constant="4" id="0y2-uB-dUP"/>
                                             <constraint firstAttribute="centerY" secondItem="qqP-HA-evZ" secondAttribute="centerY" id="3ut-Pw-LFQ"/>
@@ -958,25 +960,25 @@
                                         <rect key="frame" x="8" y="416" width="471" height="34"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bB2-h3-2pc">
-                                                <rect key="frame" x="8" y="0.0" width="45" height="34"/>
+                                                <rect key="frame" x="8" y="0.0" width="44.5" height="34"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="s2u-vb-2Kq" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
-                                                <rect key="frame" x="57" y="0.0" width="134" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <rect key="frame" x="56.5" y="0.0" width="134.5" height="34"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zIS-uu-8mD" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="334" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qEh-75-SNM" customClass="AdjustableTextField" customModule="Eaze" customModuleProvider="target">
                                                 <rect key="frame" x="195" y="0.0" width="135" height="34"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstItem="s2u-vb-2Kq" firstAttribute="leading" secondItem="bB2-h3-2pc" secondAttribute="trailing" constant="4" id="1A8-c1-GH7"/>
                                             <constraint firstAttribute="height" secondItem="qEh-75-SNM" secondAttribute="height" id="6oL-Ut-AdA"/>
@@ -999,10 +1001,10 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSN-Ch-asM">
                                         <rect key="frame" x="139" y="454" width="338" height="34"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="0 - Multiwii (Old)">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="selectPIDController:" destination="f2F-4V-rUR" eventType="touchUpInside" id="it8-A0-EdP"/>
@@ -1015,15 +1017,15 @@
                                             <constraint firstAttribute="width" constant="120" id="tBJ-WP-cPn"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1cM-UE-gUL">
                                         <rect key="frame" x="139" y="492" width="338" height="34"/>
-                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.050000000000000003" colorSpace="custom" customColorSpace="sRGB"/>
                                         <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" title="1">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="selectFlightProfile:" destination="f2F-4V-rUR" eventType="touchUpInside" id="jnH-kQ-dB3"/>
@@ -1035,7 +1037,7 @@
                                             <constraint firstAttribute="height" constant="34" id="N3N-N7-BQM"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -1090,7 +1092,7 @@
                             </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T3V-hJ-PXN">
                                 <rect key="frame" x="511" y="50" width="1" height="650"/>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="1" id="57c-xH-CPX"/>
                                 </constraints>
@@ -1138,14 +1140,14 @@
                                     </button>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pI2-WM-ayN">
                                         <rect key="frame" x="329" y="3" width="1" height="46"/>
-                                        <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b6b-YH-omC">
                                         <rect key="frame" x="142" y="3" width="1" height="46"/>
-                                        <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="b6b-YH-omC" firstAttribute="bottom" secondItem="pI2-WM-ayN" secondAttribute="bottom" id="0cC-yI-hbZ"/>
                                     <constraint firstItem="wPC-se-H7z" firstAttribute="width" secondItem="k4C-DO-MhS" secondAttribute="width" id="5kr-bx-IYx"/>
@@ -1168,7 +1170,7 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="PWI-ZL-YDS" firstAttribute="leading" secondItem="W8J-XF-gDd" secondAttribute="leadingMargin" constant="-4" id="3GG-Fj-JzF"/>
                             <constraint firstItem="Qa2-wF-t4y" firstAttribute="top" secondItem="YrW-Mo-oTD" secondAttribute="bottom" constant="8" id="4SR-gd-pqj"/>
@@ -1195,8 +1197,6 @@
                     </view>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
                     <connections>
                         <outlet property="PIDControllerButton" destination="aSN-Ch-asM" id="Umd-yU-2uX"/>
                         <outlet property="altD" destination="95j-yt-aFo" id="q6d-B3-BRn"/>
@@ -1255,7 +1255,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lmb-lU-65v" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="893" y="-775"/>
+            <point key="canvasLocation" x="893" y="-535"/>
         </scene>
         <!--TuningSnapshotsNavigationController-->
         <scene sceneID="JiM-wk-2Fq">
@@ -1263,7 +1263,7 @@
                 <viewControllerPlaceholder storyboardName="Uni" referencedIdentifier="TuningSnapshotsNavigationController" id="gEs-Py-T5f" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cbD-A9-iST" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1658" y="-775"/>
+            <point key="canvasLocation" x="1469" y="-536"/>
         </scene>
     </scenes>
     <resources>

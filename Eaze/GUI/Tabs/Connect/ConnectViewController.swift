@@ -22,27 +22,27 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
         
         notificationCenter.addObserver( tableView,
                               selector: #selector(UITableView.reloadData),
-                                  name: BluetoothSerialDidDiscoverNewPeripheralNotification,
+                                  name: Notification.Name.Serial.didDiscoverNewPeripheral,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(ConnectViewController.serialDidConnect),
-                                  name: BluetoothSerialDidConnectNotification,
+                              selector: #selector(serialDidConnect),
+                                  name: Notification.Name.Serial.didConnect,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(ConnectViewController.serialWillAutoConnect),
-                                  name: BluetoothSerialWillAutoConnectNotification,
+                              selector: #selector(serialWillAutoConnect),
+                                  name: Notification.Name.Serial.willAutoConnect,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(ConnectViewController.serialDidFailToConnect),
-                                  name: BluetoothSerialDidFailToConnectNotification,
+                              selector: #selector(serialDidFailToConnect),
+                                  name: Notification.Name.Serial.didFailToConnect,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(ConnectViewController.serialStateChanged),
-                                  name: BluetoothSerialDidUpdateStateNotification,
+                              selector: #selector(serialStateChanged),
+                                  name: Notification.Name.Serial.didUpdateState,
                                 object: nil)
     }
     
@@ -54,7 +54,7 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
     // MARK: - Bluetooth Serial events
     
     func serialDidConnect() {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
     
     func serialWillAutoConnect() {
@@ -68,27 +68,27 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func serialStateChanged() {
-        if bluetoothSerial.state != .PoweredOn {
-            dismissViewControllerAnimated(true, completion: nil)
+        if bluetoothSerial.state != .poweredOn {
+            dismiss(animated: true, completion: nil)
         }
     }
     
     
     // MARK: - UITableView
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bluetoothSerial.discoveredPeripherals.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("PeripheralCell")!,
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PeripheralCell")!,
             label = cell.viewWithTag(2) as! UILabel,
             peripheral = bluetoothSerial.discoveredPeripherals[indexPath.row].peripheral
-        label.text = peripheral.name ?? "Unidentified"
+        label.text = peripheral?.name ?? "Unidentified"
         
         if peripheral == bluetoothSerial.pendingPeripheral {
             let activityIndicator = cell.viewWithTag(1) as! UIActivityIndicatorView
@@ -98,16 +98,16 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         tableView.allowsSelection = false
         
         bluetoothSerial.stopScan()
         
         let peripheral = bluetoothSerial.discoveredPeripherals[indexPath.row].peripheral
-        bluetoothSerial.connectToPeripheral(peripheral)
+        bluetoothSerial.connectToPeripheral(peripheral!)
         
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!,
+        let cell = tableView.cellForRow(at: indexPath)!,
             activityIndicator = cell.viewWithTag(1) as! UIActivityIndicatorView
         activityIndicator.startAnimating()
     }
@@ -115,9 +115,9 @@ class ConnectViewController: UIViewController, UITableViewDelegate, UITableViewD
 
     // MARK: - IBActions
     
-    @IBAction func cancel(sender: UIButton) {
+    @IBAction func cancel(_ sender: UIButton) {
         bluetoothSerial.stopScan()
         bluetoothSerial.disconnect()
-        dismissViewControllerAnimated(true, completion: nil )
+        dismiss(animated: true, completion: nil )
     }
 }

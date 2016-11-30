@@ -31,12 +31,12 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     // MARK: - Variables
     
-    private var fastUpdateTimer: NSTimer?,
-                slowUpdateTimer: NSTimer?,
+    fileprivate var fastUpdateTimer: Timer?,
+                slowUpdateTimer: Timer?,
                 currentModes: [String] = [],
                 modeLabels: [GlassLabel] = []
     
-    private let mspCodes = [MSP_BOARD_INFO, MSP_FC_VARIANT, MSP_FC_VERSION, MSP_BUILD_INFO],
+    fileprivate let mspCodes = [MSP_BOARD_INFO, MSP_FC_VARIANT, MSP_FC_VERSION, MSP_BUILD_INFO],
                 fastMSPCodes = [MSP_ATTITUDE],
                 slowMSPCodes = [MSP_STATUS, MSP_ANALOG]
     
@@ -48,61 +48,61 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         
         msp.addSubscriber(self, forCodes: mspCodes + fastMSPCodes + slowMSPCodes)
         
-        referenceModeLabel.hidden = true
+        referenceModeLabel.isHidden = true
         
-        connectButton.backgroundColor = UIColor.clearColor()
-        connectButton.setBackgroundColor(UIColor.blackColor().colorWithAlphaComponent(0.18), forState: .Normal)
-        connectButton.setBackgroundColor(UIColor.blackColor().colorWithAlphaComponent(0.08), forState: .Highlighted)
+        connectButton.backgroundColor = UIColor.clear
+        connectButton.setBackgroundColor(UIColor.black.withAlphaComponent(0.18), forState: UIControlState())
+        connectButton.setBackgroundColor(UIColor.black.withAlphaComponent(0.08), forState: .highlighted)
         
-        if UIDevice.isPhone && UIScreen.mainScreen().bounds.size.height < 568 {
+        if UIDevice.isPhone && UIScreen.main.bounds.size.height < 568 {
             // 3.5" - use this constraint to place the bottom indicators a little lower
             bottomMarginConstraint?.constant = 6
         }
 
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialOpened),
-                                  name: BluetoothSerialDidConnectNotification,
+                              selector: #selector(serialOpened),
+                                  name: Notification.Name.Serial.opened,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialClosed),
-                                  name: BluetoothSerialDidDisconnectNotification,
+                              selector: #selector(serialClosed),
+                                  name: Notification.Name.Serial.closed,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialWillAutoConnect),
-                                  name: BluetoothSerialWillAutoConnectNotification,
+                              selector: #selector(serialWillAutoConnect),
+                                  name: Notification.Name.Serial.willAutoConnect,
                                 object: nil)
     
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialDidFailToConnect),
-                                  name: BluetoothSerialDidFailToConnectNotification,
+                              selector: #selector(serialDidFailToConnect),
+                                  name: Notification.Name.Serial.didFailToConnect,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialDidDiscoverPeripheral),
-                                  name: BluetoothSerialDidDiscoverNewPeripheralNotification,
+                              selector: #selector(serialDidDiscoverPeripheral),
+                                  name: Notification.Name.Serial.didDiscoverNewPeripheral,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialDidStopScanning),
-                                  name: BluetoothSerialDidStopScanningNotification,
+                              selector: #selector(serialDidStopScanning),
+                                  name: Notification.Name.Serial.didStopScanning,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.serialDidUpdateState),
-                                  name: BluetoothSerialDidUpdateStateNotification,
+                              selector: #selector(serialDidUpdateState),
+                                  name: Notification.Name.Serial.didUpdateState,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.willResignActive),
-                                  name: AppWillResignActiveNotification,
+                              selector: #selector(willResignActive),
+                                  name: Notification.Name.App.willResignActive,
                                 object: nil)
         
         notificationCenter.addObserver( self,
-                              selector: #selector(HomeViewController.didBecomeActive),
-                                  name: AppDidBecomeActiveNotification,
+                              selector: #selector(didBecomeActive),
+                                  name: Notification.Name.App.didBecomeActive,
                                 object: nil)
     }
     
@@ -110,7 +110,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         notificationCenter.removeObserver(self)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if bluetoothSerial.isConnected {
             serialOpened() // send request & schedule timer
@@ -119,7 +119,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if bluetoothSerial.isConnected {
             fastUpdateTimer?.invalidate()
@@ -148,16 +148,16 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         }
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle : UIStatusBarStyle {
+        return .lightContent
     }
 
     
-    private func reloadModeLabels() {
+    fileprivate func reloadModeLabels() {
         var x = referenceModeLabel.frame.maxX
         for mode in currentModes {
             let newLabel = GlassLabel(frame: referenceModeLabel.frame)
-            newLabel.background = .Green
+            newLabel.background = .green
             newLabel.text = mode
             newLabel.adjustToTextSize()
             newLabel.frame.origin.x = x - newLabel.frame.width
@@ -180,12 +180,12 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         bluetoothSerial.readRSSI(rssiUpdated)
     }
     
-    func rssiUpdated(RSSI: NSNumber) {
-        BluetoothRSSIIndicator.text = "\(RSSI.integerValue)"
+    func rssiUpdated(_ RSSI: NSNumber) {
+        BluetoothRSSIIndicator.text = "\(RSSI.intValue)"
         BluetoothRSSIIndicator.setIndication((RSSI.doubleValue+100.0)/60.0)
     }
     
-    func mspUpdated(code: Int) {
+    func mspUpdated(_ code: Int) {
         switch code {
         case MSP_ATTITUDE:
             efis.roll = dataStorage.attitude[0]
@@ -207,7 +207,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             
         case MSP_STATUS:
             for label in sensorLabels {
-                label.background = dataStorage.activeSensors.bitCheck(label.tag)  ? .Dark : .Red
+                label.background = dataStorage.activeSensors.bitCheck(label.tag)  ? .dark : .red
             }
             
             if dataStorage.activeFlightModes != currentModes {
@@ -222,7 +222,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                 
                 for mode in currentModes {
                     let label = GlassLabel(frame: CGRect(x: 0, y: y, width: 0, height: height))
-                    label.background = .Green
+                    label.background = .green
                     label.text = mode
                     label.adjustToTextSize()
                     label.frame.origin.x = x - label.frame.width
@@ -252,20 +252,20 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     // MARK: - Serial events
     
     func serialOpened() {
-        connectButton.setTitle("Disconnect", forState: .Normal)
-        connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), forState: .Normal)
+        connectButton.setTitle("Disconnect", for: UIControlState())
+        connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), for: UIControlState())
         activityIndicator.stopAnimating()
         
         slowUpdateTimer?.invalidate()
         fastUpdateTimer?.invalidate()
         
-        slowUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.6,
+        slowUpdateTimer = Timer.scheduledTimer( timeInterval: 0.6,
                                                                   target: self,
                                                                   selector: #selector(HomeViewController.sendSlowDataRequest),
                                                                   userInfo: nil,
                                                                   repeats: true)
         
-        fastUpdateTimer = NSTimer.scheduledTimerWithTimeInterval( 0.15,
+        fastUpdateTimer = Timer.scheduledTimer( timeInterval: 0.15,
                                                                   target: self,
                                                                   selector: #selector(HomeViewController.sendFastDataRequest),
                                                                   userInfo: nil,
@@ -273,8 +273,8 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     }
     
     func serialClosed() {
-        connectButton.setTitle("Connect", forState: .Normal)
-        connectButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        connectButton.setTitle("Connect", for: UIControlState())
+        connectButton.setTitleColor(UIColor.white, for: UIControlState())
         activityIndicator.stopAnimating()
         
         efis.roll = 0
@@ -298,7 +298,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         BluetoothRSSIIndicator.setIndication(1.0)
         
         for label in sensorLabels {
-            label.background = .Dark
+            label.background = .dark
         }
         
         fastUpdateTimer?.invalidate()
@@ -306,33 +306,33 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     }
     
     func serialWillAutoConnect() {
-        connectButton.setTitle("Connecting", forState: .Normal)
+        connectButton.setTitle("Connecting", for: UIControlState())
         activityIndicator.startAnimating()
     }
     
     func serialDidFailToConnect() {
-        connectButton.setTitle("Connect", forState: .Normal)
+        connectButton.setTitle("Connect", for: UIControlState())
         activityIndicator.stopAnimating()
     }
     
-    func serialDidDiscoverPeripheral(notification: NSNotification) {
+    func serialDidDiscoverPeripheral(_ notification: Notification) {
         guard presentedViewController == nil && notification.userInfo!["WillAutoConnect"] as! Bool == false else { return }
         
-        let bundle = NSBundle.mainBundle(),
+        let bundle = Bundle.main,
             storyboard = UIStoryboard(name: "Uni", bundle: bundle),
-            connectViewController = storyboard.instantiateViewControllerWithIdentifier("ConnectViewController")
+            connectViewController = storyboard.instantiateViewController(withIdentifier: "ConnectViewController")
         
-        presentViewController(connectViewController, animated: true, completion: nil)
+        present(connectViewController, animated: true, completion: nil)
     }
     
     func serialDidStopScanning() {
-        connectButton.setTitle("Connnect", forState: .Normal)
+        connectButton.setTitle("Connnect", for: UIControlState())
         activityIndicator.stopAnimating()
     }
     
     func serialDidUpdateState() {
-        if bluetoothSerial.state != .PoweredOn {
-            connectButton.setTitle("Connnect", forState: .Normal)
+        if bluetoothSerial.state != .poweredOn {
+            connectButton.setTitle("Connnect", for: UIControlState())
             activityIndicator.stopAnimating()
         }
     }
@@ -340,12 +340,12 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     // MARK: - IBActions
     
-    @IBAction func connect(sender: AnyObject) {
+    @IBAction func connect(_ sender: AnyObject) {
         if bluetoothSerial.isConnected || bluetoothSerial.isReconnecting {
             bluetoothSerial.disconnect()
 
         } else if bluetoothSerial.isConnecting {
-            connectButton.setTitle("Connect", forState: .Normal) // we have to do this here because
+            connectButton.setTitle("Connect", for: UIControlState()) // we have to do this here because
             activityIndicator.stopAnimating() // serialClosed may not be called while connecting
             bluetoothSerial.disconnect()
             
@@ -353,16 +353,16 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
             bluetoothSerial.stopScan()
                     
         } else {
-            if bluetoothSerial.state != .PoweredOn {
-                let alert = UIAlertController(title: "Bluetooth is turned off",
+            if bluetoothSerial.state != .poweredOn {
+                let alert = UIAlertController(title: "Bluetooth is disabled",
                                             message: nil,
-                                     preferredStyle: .Alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .Default, handler: nil))
-                presentViewController(alert, animated: true, completion: nil)
+                                     preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .default, handler: nil))
+                present(alert, animated: true, completion: nil)
                 return
             }
             
-            connectButton.setTitle("Scanning", forState: .Normal)
+            connectButton.setTitle("Scanning", for: UIControlState())
             activityIndicator.startAnimating()
             bluetoothSerial.startScan()
         }

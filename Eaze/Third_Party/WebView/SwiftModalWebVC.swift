@@ -8,54 +8,58 @@
 
 import UIKit
 
-class SwiftModalWebVC: UINavigationController {
+public class SwiftModalWebVC: UINavigationController {
+    
+    public enum SwiftModalWebVCTheme {
+        case lightBlue, lightBlack, dark
+    }
     
     weak var webViewDelegate: UIWebViewDelegate? = nil
     var webViewController: SwiftWebVC!
     
-    convenience init(urlString: String) {
-        self.init(pageURL: NSURL(string: urlString)!, theme: "Light-Blue")
+    public convenience init(urlString: String) {
+        self.init(pageURL: URL(string: urlString)!)
     }
     
-    convenience init(urlString: String, theme: String) {
-        self.init(pageURL: NSURL(string: urlString)!, theme: theme)
+    public convenience init(urlString: String, theme: SwiftModalWebVCTheme) {
+        self.init(pageURL: URL(string: urlString)!, theme: theme)
     }
     
-    convenience init(pageURL: NSURL) {
-        self.init(request: NSURLRequest(URL: pageURL), theme: "Light-Blue")
+    public convenience init(pageURL: URL) {
+        self.init(request: URLRequest(url: pageURL))
     }
     
-    convenience init(pageURL: NSURL, theme: String) {
-        self.init(request: NSURLRequest(URL: pageURL), theme: theme)
+    public convenience init(pageURL: URL, theme: SwiftModalWebVCTheme) {
+        self.init(request: URLRequest(url: pageURL), theme: theme)
     }
     
-    init(request: NSURLRequest, theme: String) {
+    public init(request: URLRequest, theme: SwiftModalWebVCTheme = .lightBlue) {
         webViewController = SwiftWebVC(aRequest: request)
         webViewController.storedStatusColor = UINavigationBar.appearance().barStyle
         let doneButton = UIBarButtonItem(image: UIImage(named: "SwiftWebVC.bundle/SwiftWebVCDismiss"),
-                                         style: UIBarButtonItemStyle.Plain,
+                                         style: UIBarButtonItemStyle.plain,
                                          target: webViewController,
                                          action: #selector(SwiftWebVC.doneButtonTapped(_:)))
         
         switch theme {
-        case "Light-Black":
-            doneButton.tintColor = UIColor.darkGrayColor()
-            webViewController.buttonColor = UIColor.darkGrayColor()
-            webViewController.titleColor = UIColor.blackColor()
-            UINavigationBar.appearance().barStyle = UIBarStyle.Default
-        case "Dark":
-            doneButton.tintColor = UIColor.whiteColor()
-            webViewController.buttonColor = UIColor.whiteColor()
-            webViewController.titleColor = UIColor.groupTableViewBackgroundColor()
-            UINavigationBar.appearance().barStyle = UIBarStyle.Black
-        default:
+        case .lightBlue:
             doneButton.tintColor = nil
             webViewController.buttonColor = nil
-            webViewController.titleColor = UIColor.blackColor()
-            UINavigationBar.appearance().barStyle = UIBarStyle.Default
+            webViewController.titleColor = UIColor.black
+            UINavigationBar.appearance().barStyle = UIBarStyle.default
+        case .lightBlack:
+            doneButton.tintColor = UIColor.darkGray
+            webViewController.buttonColor = UIColor.darkGray
+            webViewController.titleColor = UIColor.black
+            UINavigationBar.appearance().barStyle = UIBarStyle.default
+        case .dark:
+            doneButton.tintColor = UIColor.white
+            webViewController.buttonColor = UIColor.white
+            webViewController.titleColor = UIColor.groupTableViewBackground
+            UINavigationBar.appearance().barStyle = UIBarStyle.black
         }
         
-        if (UIDevice.currentDevice().userInterfaceIdiom == UIUserInterfaceIdiom.Pad) {
+        if (UIDevice.current.userInterfaceIdiom == UIUserInterfaceIdiom.pad) {
             webViewController.navigationItem.leftBarButtonItem = doneButton
         }
         else {
@@ -64,16 +68,16 @@ class SwiftModalWebVC: UINavigationController {
         super.init(rootViewController: webViewController)
     }
     
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
- 
-    required init(coder aDecoder: NSCoder) {
+    
+    required public init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-   
-    override func viewWillAppear(animated: Bool) {
+    
+    override public func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(false)
     }
-
+    
 }

@@ -8,19 +8,19 @@
 
 import Foundation
 
-postfix public func ++(inout x: Int) -> Int {
+postfix public func ++(x: inout Int) -> Int {
     x += 1
     return x - 1
 }
 
-prefix public func --(inout x: Int) -> Int {
+prefix public func --(x: inout Int) -> Int {
     x -= 1
     return x
 }
 
 /// Returns an UNSINED Integer composed of two UInt8's out of the given array at the given offset.
 /// Assumes big endian notation.
-func getUInt16(arr: [UInt8], offset: Int) -> UInt16 {
+func getUInt16(_ arr: [UInt8], offset: Int) -> UInt16 {
     var newInt: UInt16 = 0
     newInt |= UInt16(arr[offset+1]) << 8
     newInt |= UInt16(arr[offset])
@@ -29,7 +29,7 @@ func getUInt16(arr: [UInt8], offset: Int) -> UInt16 {
 
 /// Returns an UNSIGNED Integer composed of four UInt8's out of the given array at the given offset.
 /// Assumes big endian notation
-func getUInt32(arr: [UInt8], offset: Int) -> UInt32 {
+func getUInt32(_ arr: [UInt8], offset: Int) -> UInt32 {
     var newInt: UInt32 = 0
     newInt |= UInt32(arr[offset+3]) << 24
     newInt |= UInt32(arr[offset+2]) << 16
@@ -40,13 +40,13 @@ func getUInt32(arr: [UInt8], offset: Int) -> UInt32 {
 
 /// Returns an SIGNED Integer composed of one Int8's out of the given array at the given offset.
 /// Assumes big endian notation
-func getInt8(arr: [UInt8], offset: Int) -> Int8 {
+func getInt8(_ arr: [UInt8], offset: Int) -> Int8 {
     return Int8(bitPattern: arr[offset])
 }
 
 /// Returns an SIGNED Integer composed of two UInt8's out of the given array at the given offset.
 /// Assumes big endian notation
-func getInt16(arr: [UInt8], offset: Int) -> Int16 {
+func getInt16(_ arr: [UInt8], offset: Int) -> Int16 {
     var newInt: Int16 = 0
     newInt |= Int16(bitPattern: UInt16(arr[offset+1])) << 8
     newInt |= Int16(bitPattern: UInt16(arr[offset]))
@@ -55,7 +55,7 @@ func getInt16(arr: [UInt8], offset: Int) -> Int16 {
 
 /// Returns an SIGNED Integer composed of four UInt8's out of the given array at the given offset.
 /// Assumes big endian notation
-func getInt32(arr: [UInt8], offset: Int) -> Int32 {
+func getInt32(_ arr: [UInt8], offset: Int) -> Int32 {
     var newInt: Int32 = 0
     newInt |= Int32(bitPattern: UInt32(arr[offset+3])) << 24
     newInt |= Int32(bitPattern: UInt32(arr[offset+2])) << 16
@@ -65,26 +65,26 @@ func getInt32(arr: [UInt8], offset: Int) -> Int32 {
 }
 
 extension Float {
-    func stringWithDecimals(a: Int) -> String {
+    func stringWithDecimals(_ a: Int) -> String {
         let astring = ".\(a)"
-        return String(NSString(format: "%\(astring)f", self))
+        return String(NSString(format: "%\(astring)f" as NSString, self))
     }
     
-    func roundWithDecimals(decimals: Int) -> Float {
+    func roundWithDecimals(_ decimals: Int) -> Float {
         let factor = powf(Float(10), Float(decimals))
-        return round(self * factor) / factor
+        return (self * factor).rounded() / factor
     }
 }
 
 extension Double {
-    func stringWithDecimals(a: Int) -> String {
+    func stringWithDecimals(_ a: Int) -> String {
         let astring = ".\(a)"
-        return String(NSString(format: "%\(astring)f", self))
+        return String(NSString(format: "%\(astring)f" as NSString, self))
     }
     
-    func roundWithDecimals(decimals: Int) -> Double {
+    func roundWithDecimals(_ decimals: Int) -> Double {
         let factor = pow(10.0, Double(decimals))
-        return round(self * factor) / factor
+        return (self * factor).rounded() / factor
     }
 }
 
@@ -98,15 +98,15 @@ extension Int {
     }
     
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    func specificByte(byte: Int) -> UInt8 {
+    func specificByte(_ byte: Int) -> UInt8 {
         return UInt8((self >> (8 * byte)) & 0xFF)
     }
     
-    public func bitCheck(bit: Int) -> Bool {
-        return Bool(self & (0b1 << bit))
+    public func bitCheck(_ bit: Int) -> Bool {
+        return (self & (0b1 << bit)) == 0
     }
     
-    public mutating func setBit(bit: Int, value: Int) {
+    public mutating func setBit(_ bit: Int, value: Int) {
         self ^= (-value ^ self) & (0b1 << bit)
     }
 }
@@ -121,7 +121,7 @@ extension Int16 {
     }
     
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    func specificByte(byte: Int) -> UInt8 {
+    func specificByte(_ byte: Int) -> UInt8 {
         return UInt8((UInt16(bitPattern: self) >> UInt16(8 * byte)) & 0xFF)
     }
     
@@ -138,21 +138,21 @@ extension UInt16 {
     }
     
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    func specificByte(byte: Int) -> UInt8 {
+    func specificByte(_ byte: Int) -> UInt8 {
         return UInt8((self >> UInt16(8 * byte)) & 0xFF)
     }
 }
 
 extension Int32 {
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    func specificByte(byte: Int) -> UInt8 {
+    func specificByte(_ byte: Int) -> UInt8 {
         return UInt8((UInt32(bitPattern: self) >> UInt32(8 * byte)) & 0xFF)
     }
 }
 
 extension UInt32 {
     /// Returns the Nth byte of this integer (0 = least significant byte)
-    func specificByte(byte: Int) -> UInt8 {
+    func specificByte(_ byte: Int) -> UInt8 {
         return UInt8((self >> UInt32(8 * byte)) & 0xFF)
     }
 }
