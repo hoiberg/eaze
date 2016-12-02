@@ -31,7 +31,6 @@ final class DataStorage {
     var modeRanges: [ModeRange] = []
     
     // 44 MSP_RX_CONFIG
-    // serialRxProvider = serialRXType
     var stickMax    = 0 // min 1.25.0 - unused
     var stickCenter = 0 // min 1.25.0 - unused
     var stickMin    = 0 // min 1.25.0 - unused
@@ -56,15 +55,15 @@ final class DataStorage {
     // 64 MSP_RC_MAP
     var RC_MAP: [Int] = []
     
-    // 66 MSP_BF_CONFIG
-    var mixerConfiguration  = 0
-    var BFFeatures          = 0 // not the same for all API versions
-    var serialRXType        = 0
-    var boardAlignRoll      = 0
-    var boardAlignPitch     = 0
-    var boardAlignYaw       = 0
-    var currentScale        = 0
-    var currentOffset       = 0
+    // 66 MSP_BF_CONFIG depreciated in api 1.25.0 in clfl
+    var mixerConfiguration  = 0 // ^ use MSP_MIXER
+    var BFFeatures          = 0 // ^ use MSP_FEATURE not the same for all API versions
+    var serialRXType        = 0 // ^ use MSP_RX_CONFIG
+    var boardAlignRoll      = 0 // ^ use MSP_BOARD_ALIGNMENT
+    var boardAlignPitch     = 0 // ^ "
+    var boardAlignYaw       = 0 // ^ "
+    var currentScale        = 0 // ^ use MSP_AMPERAGE_METER_CONFIG (not implemented)
+    var currentOffset       = 0 // ^ "
     
     // 73 MSP_LOOP_TIME
     var loopTime = 0

@@ -25,7 +25,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     
     // MARK: - Variables
     
-    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG]
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG, MSP_FEATURE]
     
     
     // MARK: - Functions
@@ -72,12 +72,19 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     // MARK: Data request / update
     
     func sendDataRequest() {
-        msp.sendMSP(mspCodes)
-        if dataStorage.apiVersion >= "1.8.0" {
-            msp.sendMSP(mspCodes)
-        } else {
-            msp.sendMSP(mspCodes.arrayByRemovingObject(MSP_ARMING_CONFIG))
+        var codes = mspCodes
+
+        if dataStorage.apiVersion < "1.8.0" {
+            codes.removeObject(MSP_ARMING_CONFIG)
         }
+
+        if _bf_config_depreciated {
+            codes.removeObject(MSP_BF_CONFIG)
+        } else {
+            codes.removeObject(MSP_FEATURE)
+        }
+        
+        msp.sendMSP(codes)
     }
     
     func mspUpdated(_ code: Int) {
@@ -96,6 +103,9 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
             alwaysDisarmSwitch.isOn = dataStorage.disarmKillsSwitch
             disarmDelayField.intValue = dataStorage.autoDisarmDelay
             
+        case MSP_FEATURE:
+            motorStopSwitch.isOn = dataStorage.BFFeatures.bitCheck(4)
+            oneShotSwitch.isOn = dataStorage.BFFeatures.bitCheck(18)
             
         default:
             log(.Warn, "MotorConfigViewController received MSP code not subscribed to: \(code)")
@@ -126,7 +136,11 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         var codes = [Int]()
         dataStorage.BFFeatures.setBit(4, value: motorStopSwitch.isOn ? 1 : 0)
         dataStorage.BFFeatures.setBit(18, value: oneShotSwitch.isOn ? 1 : 0)
-        codes.append(MSP_SET_BF_CONFIG)
+        if _bf_config_depreciated {
+            codes.append(MSP_SET_FEATURE)
+        } else {
+            codes.append(MSP_SET_BF_CONFIG)
+        }
         
         dataStorage.minThrottle = minThrottleField.intValue
         dataStorage.midRc = midThrottleField.intValue

@@ -244,7 +244,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             log("MSP_SET_BOARD_ALIGNMENT received")
             
         case MSP_MIXER: // 42
-            dataStorage.mixerConfiguration = Int(data[0])
+            dataStorage.mixerConfiguration = Int(data[0]) - 1
             
         case MSP_SET_MIXER: // 43
             log("MSP_SET_MIXER received")
@@ -304,7 +304,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             if dataStorage.apiVersion >= "1.8.0" {
                 guard check(2) else { return }
                 dataStorage.autoDisarmDelay = Int(data[0])
-                dataStorage.disarmKillsSwitch = data[1] == 0
+                dataStorage.disarmKillsSwitch = data[1] != 0
             }
             
         case MSP_SET_ARMING_CONFIG: // 62
@@ -457,7 +457,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             }
             
         case MSP_MISC: // 114
-            guard check(22) else { return }
+            guard check(18) else { return } // 22 pre 1.22.0
             var offset = 0
             dataStorage.midRc = Int(getInt16(data, offset: offset))
             offset += 2
@@ -481,10 +481,12 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 dataStorage.magDeclination = Double(getInt16(data, offset: offset)) / 100 // -18000-18000
             }
             offset += 2
-            dataStorage.vBatScale = Int(data[offset++]) // 10-200
-            dataStorage.vBatMinCellVoltage = Int(data[offset++]) / 10 // 10-50
-            dataStorage.vBatMaxCellVoltage = Int(data[offset++]) / 10 // 10-50
-            dataStorage.vBatWarningCellVoltage = Int(data[offset++]) / 10 // 10-50
+            if dataStorage.apiVersion < "1.22.0" {
+                dataStorage.vBatScale = Int(data[offset++]) // 10-200
+                dataStorage.vBatMinCellVoltage = Int(data[offset++]) / 10 // 10-50
+                dataStorage.vBatMaxCellVoltage = Int(data[offset++]) / 10 // 10-50
+                dataStorage.vBatWarningCellVoltage = Int(data[offset++]) / 10 // 10-50
+            }
             
         case MSP_BOXNAMES: // 116
             dataStorage.auxConfigNames = [] // empty array
@@ -591,7 +593,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
             buffer.append(Int16(dataStorage.boardAlignYaw).specificByte(1))
             
         case MSP_SET_MIXER: // 43
-            buffer.append(UInt8(dataStorage.mixerConfiguration))
+            buffer.append(UInt8(dataStorage.mixerConfiguration) + 1)
             
         case MSP_SET_RX_CONFIG: // 45
             buffer.append(UInt8(dataStorage.serialRXType))
@@ -729,10 +731,12 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 buffer.append(Int16(round(dataStorage.magDeclination * 100)).lowByte)
                 buffer.append(Int16(round(dataStorage.magDeclination * 100)).highByte)
             }
-            buffer.append(UInt8(dataStorage.vBatScale))
-            buffer.append(UInt8(dataStorage.vBatMinCellVoltage * 10))
-            buffer.append(UInt8(dataStorage.vBatMaxCellVoltage * 10))
-            buffer.append(UInt8(dataStorage.vBatWarningCellVoltage * 10))
+            if dataStorage.apiVersion < "1.22.0" {
+                buffer.append(UInt8(dataStorage.vBatScale))
+                buffer.append(UInt8(dataStorage.vBatMinCellVoltage * 10))
+                buffer.append(UInt8(dataStorage.vBatMaxCellVoltage * 10))
+                buffer.append(UInt8(dataStorage.vBatWarningCellVoltage * 10))
+            }
             
         case MSP_SELECT_SETTING: // 210
             buffer.append(UInt8(dataStorage.profile))

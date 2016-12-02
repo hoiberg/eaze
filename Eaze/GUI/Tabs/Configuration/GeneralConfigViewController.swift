@@ -28,7 +28,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: - Variables
     
-    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS]
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS, MSP_BOARD_ALIGNMENT, MSP_MIXER]
     fileprivate var selectedMixerConfiguration = 2
     
     
@@ -81,11 +81,18 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     // MARK: Data request / update
     
     func sendDataRequest() {
-        if dataStorage.apiVersion >= "1.8.0" {
-            msp.sendMSP(mspCodes)
-        } else {
-            msp.sendMSP(mspCodes.arrayByRemovingObject(MSP_LOOP_TIME))
+        var codes = mspCodes
+        if dataStorage.apiVersion < "1.8.0" {
+            codes.removeObject(MSP_LOOP_TIME)
         }
+        
+        if _bf_config_depreciated {
+            codes.removeObject(MSP_BF_CONFIG)
+        } else {
+            codes.removeObjects([MSP_MIXER, MSP_BOARD_ALIGNMENT])
+        }
+        
+        msp.sendMSP(codes)
     }
     
     func mspUpdated(_ code: Int) {
@@ -108,6 +115,15 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
             if dataStorage.activeSensors.bitCheck(2) {
                 calibrateMagLabel.isEnabled = true
             }
+            
+        case MSP_BOARD_ALIGNMENT:
+            rollAdjustment.intValue = dataStorage.boardAlignRoll
+            pitchAdjustment.intValue = dataStorage.boardAlignPitch
+            yawAdjustment.intValue = dataStorage.boardAlignYaw
+
+        case MSP_MIXER:
+            selectedMixerConfiguration = dataStorage.mixerConfiguration
+            mixerTypeLabel.text = mixerList[dataStorage.mixerConfiguration].name
             
         default:
             log(.Warn, "GeneralConfigViewController received MSP code not subscribed to: \(code)")
@@ -270,8 +286,12 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         dataStorage.boardAlignRoll = rollAdjustment.intValue
         dataStorage.boardAlignPitch = pitchAdjustment.intValue
         dataStorage.boardAlignYaw = yawAdjustment.intValue
-        codes.append(MSP_SET_BF_CONFIG)
-        
+        if _bf_config_depreciated {
+            codes += [MSP_SET_BOARD_ALIGNMENT, MSP_SET_MIXER]
+        } else {
+            codes.append(MSP_SET_BF_CONFIG)
+        }
+
         dataStorage.accTrimRoll = rollAccTrim.intValue
         dataStorage.accTrimPitch = pitchAccTrim.intValue
         codes.append(MSP_SET_ACC_TRIM)

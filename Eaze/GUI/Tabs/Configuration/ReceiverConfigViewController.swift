@@ -24,12 +24,12 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: - Variables
     
-    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC],
-                receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
+    fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_RC, MSP_RX_MAP, MSP_MISC, MSP_RX_CONFIG, MSP_FEATURE],
+                    receiverModes = ["PPM", "Serial", "Parallel PWM", "MSP"]
     
     fileprivate var serialReceiverModes = ["SPEKTRUM1024", "SPEKTRUM2048", "SBUS", "SUMD", "SUMH", "XBUS_MODE_B", "XBUS_MODE_B_RJ01", "IBUS"],
-                RSSIInputChannels = ["Disabled"],
-                lastValid_RC_MAP = "AETR1234"
+                    RSSIInputChannels = ["Disabled"],
+                    lastValid_RC_MAP = "AETR1234"
     
     fileprivate var selectedSerialReceiverMode = 0  {
         didSet {
@@ -81,7 +81,15 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     // MARK: Data request / update
     
     func sendDataRequest() {
-        msp.sendMSP(mspCodes)
+        var codes = mspCodes
+        
+        if _bf_config_depreciated {
+            codes.removeObject(MSP_BF_CONFIG)
+        } else {
+            codes.removeObjects([MSP_RX_CONFIG, MSP_FEATURE])
+        }
+        
+        msp.sendMSP(codes)
     }
     
     func mspUpdated(_ code: Int) {
@@ -121,6 +129,23 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
             }
             channelMapField.text = str
             lastValid_RC_MAP = str
+            
+        case MSP_RX_CONFIG:
+            selectedSerialReceiverMode = dataStorage.serialRXType
+
+        case MSP_FEATURE:
+            if dataStorage.BFFeatures.bitCheck(0) {
+                selectedReceiverMode = 0
+            } else if dataStorage.BFFeatures.bitCheck(13) {
+                selectedReceiverMode = 2
+            } else if dataStorage.BFFeatures.bitCheck(14) {
+                selectedReceiverMode = 3
+            } else {
+                selectedReceiverMode = 1 // pwm (default I guess)
+            }
+            failsafeSwitch.isOn = dataStorage.BFFeatures.bitCheck(8)
+            analogRSSISwitch.isOn = dataStorage.BFFeatures.bitCheck(15)
+
             
         default:
             log(.Warn, "ReceiverConfigViewController received MSP code not subscribed to: \(code)")
@@ -244,7 +269,8 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     // MARK: IBActions
     
     @IBAction func save(_ sender: AnyObject) {
-        // MSP_SET_BF_CONFIG
+        var codes = [Int]()
+
         if selectedReceiverMode == 0 {
             dataStorage.BFFeatures.setBit(0, value: 1)
             dataStorage.BFFeatures.setBit(3, value: 0)
@@ -270,20 +296,26 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         dataStorage.BFFeatures.setBit(8, value: failsafeSwitch.isOn ? 1 : 0)
         dataStorage.BFFeatures.setBit(15, value: analogRSSISwitch.isOn ? 1 : 0)
         dataStorage.serialRXType = selectedSerialReceiverMode
-
-        // MSP_SET_MISC
+        
+        if _bf_config_depreciated {
+            codes += [MSP_SET_RX_CONFIG, MSP_SET_FEATURE]
+        } else {
+            codes.append(MSP_SET_BF_CONFIG)
+        }
+        
         dataStorage.rssiChannel = selectedRSSIInputChannel
         dataStorage.failsafeThrottle = failsafeThrottleField.intValue
+        codes.append(MSP_SET_MISC)
         
-        // MSP_SET_RX_MAP
         let letters = "AERT1234"
         var map: [Int] = []
         for c in letters.characters {
             map.append(channelMapField.text!.indexOfCharacter(c)!)
         }
         dataStorage.RC_MAP = map
+        codes.append(MSP_SET_RX_MAP)
         
-        msp.crunchAndSendMSP([MSP_SET_BF_CONFIG, MSP_SET_MISC, MSP_SET_RX_MAP]) {
+        msp.crunchAndSendMSP(codes) {
             msp.sendMSP(MSP_EEPROM_WRITE, callback: self.sendDataRequest) // save & reload
         }
     }

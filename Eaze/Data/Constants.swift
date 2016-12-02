@@ -13,6 +13,12 @@ let appVersion: Version = "1.1.0", // version of this app
     apiMaxVersion: Version = "2.0.0", // up to and not including
     pidControllerChangeMinApiVersion: Version = "1.5.0" // down to and including
 
+var _bf_config_depreciated: Bool {
+    get {
+        return dataStorage.flightControllerIdentifier == "CLFL" && dataStorage.apiVersion >= "1.24.0"
+    }
+}
+
 let mixerList = [
     (name: "Tricopter",       model: "tricopter"),
     (name: "Quad +",          model: "quad_x"),
@@ -60,7 +66,8 @@ let boards = [
     (identifier: "SRF3", name: "Seriously Pro F3"),
     (identifier: "SDF3", name: "STM32F3 Discovery"),
     (identifier: "SRFM", name: "Seriously Pro Mini"),
-    (identifier: "SPEV", name: "Seriously Pro EVO")
+    (identifier: "SPEV", name: "Seriously Pro EVO"),
+    (identifier: "IFF3", name: "ImmersionRC Fusion F3")
 ]
 
 let flightControllerVariants = [

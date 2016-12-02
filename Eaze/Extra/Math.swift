@@ -103,7 +103,7 @@ extension Int {
     }
     
     public func bitCheck(_ bit: Int) -> Bool {
-        return (self & (0b1 << bit)) == 0
+        return (self & (1 << bit)) != 0
     }
     
     public mutating func setBit(_ bit: Int, value: Int) {
