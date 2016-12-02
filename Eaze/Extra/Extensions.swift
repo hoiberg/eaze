@@ -104,19 +104,6 @@ extension Array where Element: Copyable {
 }
 
 
-// MARK: - NSDate
-//TODO: Remove
-/*public func ==(lhs: Date, rhs: Date) -> Bool {
-    return lhs.compare(rhs) == .orderedSame //TODO: Not tested
-}
-
-public func <(lhs: Date, rhs: Date) -> Bool {
-    return lhs.compare(rhs) == .orderedAscending
-}
-
-extension Date: Comparable { }*/
-
-
 // MARK: - NSData
 
 extension Data {

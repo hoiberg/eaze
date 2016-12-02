@@ -49,12 +49,6 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
         }
     }
     
-    override var bounds: CGRect {
-        didSet {
-            reloadView()
-        }
-    }
-    
 
     // MARK: - Functions
     
@@ -90,7 +84,6 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
         }
     }
     
-    //TODO: Is this actually needed?
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if (superview!.superview! as! UITableView).isEditing == true { return }
         reloadView() // as the constraints use constants, not ratios, we need to refresh them when the bar size changes
