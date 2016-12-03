@@ -1,11 +1,11 @@
-![Main](https://www.github.com/hoiberg/eaze/development/img/main.png)
+![Main](https://github.com/hoiberg/eaze/blob/development/img/main.png)
 # Eaze - iOS Cleanflight Configurator
 
 Completely written in Swift. Available for free on the App Store. <br>
 Tutorial: www.hangar42.nl/eaze-tutorial <br>
 More info and links: www.hangar42.nl/eaze <br>
 
-[![Appstore](https://www.github.com/hoiberg/eaze/development/img/appstore.png)](https://itunes.apple.com/us/app/eaze-cleanflight-configurator/id1130855585?ls=1&mt=8")
+[![Appstore](https://github.com/hoiberg/eaze/blob/development/img/appstore.png)](https://itunes.apple.com/us/app/eaze-cleanflight-configurator/id1130855585?ls=1&mt=8")
 
 
 ## Description
