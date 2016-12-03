@@ -1,11 +1,11 @@
-![Main](http://i2.wp.com/www.hangar42.nl/wp-content/uploads/2016/07/Eaze-TwoPhones-big.jpg?resize=788%2C610)
+![Main](https://www.github.com/hoiberg/eaze/development/img/main.png)
 # Eaze - iOS Cleanflight Configurator
 
 Completely written in Swift. Available for free on the App Store. <br>
 Tutorial: www.hangar42.nl/eaze-tutorial <br>
 More info and links: www.hangar42.nl/eaze <br>
 
-<center><a href="https://itunes.apple.com/us/app/eaze-cleanflight-configurator/id1130855585?ls=1&mt=8"><img src="http://i2.wp.com/www.hangar42.nl/wp-content/uploads/2016/07/Download_on_the_App_Store_Badge.png?resize=300%2C89" width="200"></a></center>
+[![Appstore](https://www.github.com/hoiberg/eaze/development/img/appstore.png)](https://itunes.apple.com/us/app/eaze-cleanflight-configurator/id1130855585?ls=1&mt=8")
 
 
 ## Description
