@@ -133,7 +133,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     
     // MARK: Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if isBeingShown {
             sendDataRequest()
         }
@@ -150,7 +150,7 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         saveButton.isEnabled = false
         calibrateAccLabel.isEnabled = false
         calibrateMagLabel.isEnabled = false

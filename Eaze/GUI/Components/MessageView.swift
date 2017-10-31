@@ -122,7 +122,7 @@ final class MessageView: UIView {
         timer = Timer.scheduledTimer(timeInterval: MessageView.showTime, target: self, selector: #selector(MessageView.hide), userInfo: nil, repeats: false)
     }
     
-    func hide() {
+    @objc func hide() {
         DispatchQueue.main.async {
             UIView.animate(withDuration: 0.2, animations: {
                     self.frame.origin.y = -70

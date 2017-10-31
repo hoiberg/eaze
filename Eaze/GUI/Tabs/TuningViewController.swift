@@ -334,7 +334,7 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
     
     // MARK: - Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if isBeingShown {
             sendDataRequest()
         }
@@ -348,7 +348,7 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         if UIDevice.isPhone {
             (saveButton as! UIBarButtonItem).isEnabled = false
             (reloadButton as! UIBarButtonItem).isEnabled = false

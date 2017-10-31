@@ -31,8 +31,9 @@ extension String {
         return String(self[i] as Character)
     }
     
-    subscript (r: Range<Int>) -> String {
-        return substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
+    subscript (r: Range<Int>) -> String { // TODO: To be tested!!
+        return self[r.lowerBound ..< r.upperBound]
+        // substring(with: characters.index(startIndex, offsetBy: r.lowerBound) ..< characters.index(startIndex, offsetBy: r.upperBound))
     }
     
     public func indexOfCharacter(_ char: Character) -> Int? {
@@ -76,12 +77,9 @@ extension Collection {
     func find(_ predicate: (Self.Iterator.Element) throws -> Bool) rethrows -> Self.Iterator.Element? {
         return try index(where: predicate).map({self[$0]})
     }
-}
 
-extension Collection where Indices.Iterator.Element == Index {
-    
-    /// Returns the element at the specified index iff it is within bounds, otherwise nil.
-    subscript (safe index: Index) -> Generator.Element? {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (safe index: Index) -> Iterator.Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }

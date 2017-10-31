@@ -137,7 +137,7 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         reloadText()
     }
     
-    func repeatUpdate() {
+    @objc func repeatUpdate() {
         if let max = maxValue {
             if doubleValue + adjustedIncrement > max {
                 doubleValue = max
@@ -227,7 +227,7 @@ final class StaticAdjustableTextField: UIView, UITextFieldDelegate, DecimalPadPo
         return true
     }
     
-    func tapOutside() {
+    @objc func tapOutside() {
         textField.resignFirstResponder()
     }
     

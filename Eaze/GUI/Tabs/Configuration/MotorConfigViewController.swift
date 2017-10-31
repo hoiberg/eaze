@@ -115,7 +115,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     
     // MARK: Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if isBeingShown {
             sendDataRequest()
         }
@@ -125,7 +125,7 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
         disarmDelayField.enabled = dataStorage.apiVersion >= "1.8.0" ? true : false
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         saveButton.isEnabled = false
     }
     

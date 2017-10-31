@@ -112,7 +112,7 @@ let MSP_EEPROM_WRITE    = 250
 final class MSPInterpreter: BluetoothSerialDelegate {
     
     var subscribers = [Int: WeakSet<MSPUpdateSubscriber>]()
-    var callbacks: [(code: Int, callback: (Void) -> Void)] = []
+    var callbacks: [(code: Int, callback: () -> Void)] = []
     
     var state = 0
     var messageDirection: UInt8 = 0
@@ -754,7 +754,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         return buffer
     }
     
-    func sendModeRanges(callback endCallback: ((Void) -> Void)?) {
+    func sendModeRanges(callback endCallback: (() -> Void)?) {
         var index = 0
 
         func sendNextModeRange() {
@@ -777,7 +777,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
     }
     
-    func sendMSP(_ code: Int, bytes: [UInt8]?, callback: ((Void) -> Void)?) {
+    func sendMSP(_ code: Int, bytes: [UInt8]?, callback: (() -> Void)?) {
         // only send msp codes if we'll get the reply
         guard bluetoothSerial.delegate as AnyObject? === self && !cliActive else { return }
         
@@ -808,7 +808,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         sendMSP(code, bytes: nil, callback: nil)
     }
     
-    func sendMSP(_ code: Int, callback: @escaping ((Void) -> Void)) {
+    func sendMSP(_ code: Int, callback: @escaping (() -> Void)) {
         sendMSP(code, bytes: nil, callback: callback)
     }
     
@@ -820,7 +820,7 @@ final class MSPInterpreter: BluetoothSerialDelegate {
     }
     
     /// Codes are sent sequentially
-    func sendMSP(_ codes: [Int], callback: @escaping ((Void) -> Void)) {
+    func sendMSP(_ codes: [Int], callback: @escaping (() -> Void)) {
         var i = 0
         func sendNext() {
             if i == codes.endIndex {
@@ -837,12 +837,12 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         sendMSP(code, bytes: crunch(code), callback: nil)
     }
     
-    func crunchAndSendMSP(_ code: Int, callback: @escaping ((Void) -> Void)) {
+    func crunchAndSendMSP(_ code: Int, callback: @escaping (() -> Void)) {
         sendMSP(code, bytes: crunch(code), callback: callback)
     }
     
     /// Codes are sent sequentially
-    func crunchAndSendMSP(_ codes: [Int], callback: @escaping ((Void) -> Void)) {
+    func crunchAndSendMSP(_ codes: [Int], callback: @escaping (() -> Void)) {
         var i = 0
         func sendNext() {
             if i == codes.endIndex {

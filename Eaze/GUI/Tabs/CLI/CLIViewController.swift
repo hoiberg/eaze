@@ -94,7 +94,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         cliActive = false
         bluetoothSerial.delegate = msp
         dismiss(animated: true, completion: nil)
@@ -103,7 +103,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     
     // MARK: - Keyboard handling
     
-    func keyboardWillShow(_ notification: Notification) {
+    @objc func keyboardWillShow(_ notification: Notification) {
         // animate the text field to stay above the keyboard
         var info = notification.userInfo!
         let value = info[UIKeyboardFrameEndUserInfoKey] as! NSValue
@@ -118,7 +118,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
         })
     }
     
-    func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         // bring the text field back down..
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 1, delay: 0, options: UIViewAnimationOptions(), animations: { () -> Void in
@@ -127,7 +127,7 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
           }, completion: nil)
     }
     
-    func dismissKeyboard() {
+    @objc func dismissKeyboard() {
         inputField.resignFirstResponder()
     }
     

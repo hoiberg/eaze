@@ -72,13 +72,13 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     }
     
     
-    func didBecomeActive() {
+    @objc func didBecomeActive() {
         if isBeingShown && bluetoothSerial.isConnected {
             scheduleUpdateTimer()
         }
     }
     
-    func willResignActive() {
+    @objc func willResignActive() {
         updateTimer?.invalidate()
     }
     
@@ -94,7 +94,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         msp.sendMSP(mspCodes)
     }
     
-    func updateRC() {
+    @objc func updateRC() {
         msp.sendMSP(MSP_RC)
     }
     
@@ -125,7 +125,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
     
     // MARK: Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         isFirstTimeMSP_RC = true
         
         // start timer if the view is being shown
@@ -135,7 +135,7 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         updateTimer?.invalidate()
     }
     

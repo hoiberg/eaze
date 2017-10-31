@@ -64,7 +64,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     // MARK: - Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if dataStorage.apiVersion >= "1.6.0" {
             if isBeingShown {
                 sendDataRequest()
@@ -78,7 +78,7 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         saveButton.isEnabled = false
     }
     

@@ -62,13 +62,13 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         notificationCenter.removeObserver(self)
     }
     
-    func didBecomeActive() {
+    @objc func didBecomeActive() {
         if isBeingShown && bluetoothSerial.isConnected {
             scheduleUpdateTimer()
         }
     }
     
-    func willResignActive() {
+    @objc func willResignActive() {
         updateTimer?.invalidate()
     }
     
@@ -77,7 +77,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
     }
     
-    func addButtonPressed(_ sender: UIButton) {
+    @objc func addButtonPressed(_ sender: UIButton) {
         let point = sender.convert(CGPoint.zero, to: tableView),
             section = tableView.indexPathForRow(at: point)!.section,
             identifier = bluetoothSerial.isConnected ? dataStorage.auxConfigIDs[section] : sampleModeIDs[section]
@@ -121,7 +121,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     // MARK: Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if isBeingShown {
             sendDataRequest()
             scheduleUpdateTimer()
@@ -130,7 +130,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         saveButton.isEnabled = true
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         updateTimer?.invalidate()
         saveButton.isEnabled = false
     }

@@ -163,7 +163,6 @@ public func | (lhs: VJson?, rhs: Int?) -> VJson? {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Int?) {
     guard let lhs = lhs else { return }
     lhs.intValue = rhs
@@ -171,7 +170,6 @@ public func &= (lhs: VJson?, rhs: Int?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: UInt?) {
     guard let lhs = lhs else { return }
     lhs.uintValue = rhs
@@ -179,7 +177,6 @@ public func &= (lhs: VJson?, rhs: UInt?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Int8?) {
     guard let lhs = lhs else { return }
     lhs.int8Value = rhs
@@ -187,7 +184,6 @@ public func &= (lhs: VJson?, rhs: Int8?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: UInt8?) {
     guard let lhs = lhs else { return }
     lhs.uint8Value = rhs
@@ -195,7 +191,6 @@ public func &= (lhs: VJson?, rhs: UInt8?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Int16?) {
     guard let lhs = lhs else { return }
     lhs.int16Value = rhs
@@ -203,7 +198,6 @@ public func &= (lhs: VJson?, rhs: Int16?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: UInt16?) {
     guard let lhs = lhs else { return }
     lhs.uint16Value = rhs
@@ -211,7 +205,6 @@ public func &= (lhs: VJson?, rhs: UInt16?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Int32?) {
     guard let lhs = lhs else { return }
     lhs.int32Value = rhs
@@ -219,7 +212,6 @@ public func &= (lhs: VJson?, rhs: Int32?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: UInt32?) {
     guard let lhs = lhs else { return }
     lhs.uint32Value = rhs
@@ -227,7 +219,6 @@ public func &= (lhs: VJson?, rhs: UInt32?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Int64?) {
     guard let lhs = lhs else { return }
     lhs.int64Value = rhs
@@ -235,7 +226,6 @@ public func &= (lhs: VJson?, rhs: Int64?) {
 
 
 /// Assign a given integer value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: UInt64?)  {
     guard let lhs = lhs else { return }
     lhs.uint64Value = rhs
@@ -243,7 +233,6 @@ public func &= (lhs: VJson?, rhs: UInt64?)  {
 
 
 /// Assign a given double value to the JSON item. Change the JSON item into a NUMBER if possible. If the optional is nil, the JSON item becomes a NULL.
-@discardableResult
 public func &= (lhs: VJson?, rhs: Float?) {
     guard let lhs = lhs else { return }
     lhs.doubleValue = rhs == nil ? nil : Double(rhs!)

@@ -78,8 +78,8 @@ final class EFIS: UIView {
                 positions: [CGFloat] = [10, 20, 30, 40, 50, 70, 90] // locations of major lines
             
             let fontAttributes = [
-                NSFontAttributeName: UIFont.boldSystemFont(ofSize: 20),
-                NSForegroundColorAttributeName: UIColor.white
+                NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 20),
+                NSAttributedStringKey.foregroundColor: UIColor.white
             ]
             
             context.setLineWidth(2.0)
@@ -226,7 +226,7 @@ final class EFIS: UIView {
     
     var roll = 0.0 {
         didSet {
-            let rad = roll * M_PI / 180.0
+            let rad = roll * .pi / 180.0
             horizon.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
             horizonLines.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
         }
@@ -242,7 +242,7 @@ final class EFIS: UIView {
     
     var heading = 0.0 {
         didSet {
-            let rad = heading * M_PI / 180.0
+            let rad = heading * .pi / 180.0
             compass.transform = CGAffineTransform(rotationAngle: CGFloat(rad))
             headingLabel?.text = "\(Int(heading))"
         }

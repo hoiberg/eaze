@@ -131,14 +131,14 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         }
     }
     
-    func didBecomeActive() {
+    @objc func didBecomeActive() {
         guard isBeingShown else { return }
         if bluetoothSerial.isConnected {
             serialOpened()
         }
     }
     
-    func willResignActive() {
+    @objc func willResignActive() {
         guard isBeingShown else { return }
         if bluetoothSerial.isConnected {
             fastUpdateTimer?.invalidate()
@@ -171,11 +171,11 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     // MARK: - Data request / update
     
-    func sendFastDataRequest() {
+    @objc func sendFastDataRequest() {
         msp.sendMSP(fastMSPCodes)
     }
     
-    func sendSlowDataRequest() {
+    @objc func sendSlowDataRequest() {
         msp.sendMSP(slowMSPCodes)
         bluetoothSerial.readRSSI(rssiUpdated)
     }
@@ -251,7 +251,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
     
     // MARK: - Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         connectButton.setTitle("Disconnect", for: UIControlState())
         connectButton.setTitleColor(UIColor(hex: 0xFF8C8C), for: UIControlState())
         activityIndicator.stopAnimating()
@@ -272,7 +272,7 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                                                                   repeats: true)
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         connectButton.setTitle("Connect", for: UIControlState())
         connectButton.setTitleColor(UIColor.white, for: UIControlState())
         activityIndicator.stopAnimating()
@@ -305,17 +305,17 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         slowUpdateTimer?.invalidate()
     }
     
-    func serialWillAutoConnect() {
+    @objc func serialWillAutoConnect() {
         connectButton.setTitle("Connecting", for: UIControlState())
         activityIndicator.startAnimating()
     }
     
-    func serialDidFailToConnect() {
+    @objc func serialDidFailToConnect() {
         connectButton.setTitle("Connect", for: UIControlState())
         activityIndicator.stopAnimating()
     }
     
-    func serialDidDiscoverPeripheral(_ notification: Notification) {
+    @objc func serialDidDiscoverPeripheral(_ notification: Notification) {
         guard presentedViewController == nil && notification.userInfo!["WillAutoConnect"] as! Bool == false else { return }
         
         let bundle = Bundle.main,
@@ -325,12 +325,12 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
         present(connectViewController, animated: true, completion: nil)
     }
     
-    func serialDidStopScanning() {
+    @objc func serialDidStopScanning() {
         connectButton.setTitle("Connnect", for: UIControlState())
         activityIndicator.stopAnimating()
     }
     
-    func serialDidUpdateState() {
+    @objc func serialDidUpdateState() {
         if bluetoothSerial.state != .poweredOn {
             connectButton.setTitle("Connnect", for: UIControlState())
             activityIndicator.stopAnimating()

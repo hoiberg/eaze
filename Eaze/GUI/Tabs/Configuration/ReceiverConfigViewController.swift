@@ -155,7 +155,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
     
     // MARK: Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         if isBeingShown {
             sendDataRequest()
         }
@@ -172,7 +172,7 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         }
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         saveButton.isEnabled = false
     }
     

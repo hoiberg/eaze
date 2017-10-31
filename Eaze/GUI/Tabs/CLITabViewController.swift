@@ -41,11 +41,11 @@ final class CLITabViewController: UIViewController {
     
     // MARK: - Serial events
     
-    func serialOpened() {
+    @objc func serialOpened() {
         enterCLIButton.isEnabled = true
     }
     
-    func serialClosed() {
+    @objc func serialClosed() {
         enterCLIButton.isEnabled = false
     }
     

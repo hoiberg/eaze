@@ -52,8 +52,8 @@ final class GlassBox: UIView {
     }
     
     func reloadText() {
-        let firstAttr: [String: Any] = [NSForegroundColorAttributeName: label.textColor, NSFontAttributeName: label.font],
-            secondAttr: [String: Any] = [NSForegroundColorAttributeName: label.textColor.withAlphaComponent(0.5), NSFontAttributeName: label.font]
+        let firstAttr: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: label.textColor, NSAttributedStringKey.font: label.font],
+            secondAttr: [NSAttributedStringKey: Any] = [NSAttributedStringKey.foregroundColor: label.textColor.withAlphaComponent(0.5), NSAttributedStringKey.font: label.font]
         
         let attributedString = NSMutableAttributedString(string: firstUpperText + " ", attributes: firstAttr)
         attributedString.append(NSAttributedString(string: secondUpperText + "\n", attributes: secondAttr))
