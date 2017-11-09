@@ -18,7 +18,11 @@ class TuningSnapshotTableViewController: UITableViewController {
     // MARK: - Variables
     
     var snapshots: [TuningSnapshot] = []
-
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
     

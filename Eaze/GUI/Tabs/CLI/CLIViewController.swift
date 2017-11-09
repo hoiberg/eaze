@@ -18,6 +18,13 @@ class CLIViewController: UIViewController, BluetoothSerialDelegate, UITextFieldD
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     
     
+    // MARK: - Variables
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
+    
     // MARK: - Functions
     
     override func viewDidLoad() {

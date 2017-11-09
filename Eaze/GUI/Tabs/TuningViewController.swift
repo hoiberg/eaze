@@ -83,6 +83,9 @@ final class TuningViewController: UIViewController, ConfigScreen, MSPUpdateSubsc
     fileprivate var PIDFields: [[AdjustableTextField?]]!,
                 selectedPIDController = 0
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
     
     // MARK: - Functions
     

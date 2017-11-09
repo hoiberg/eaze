@@ -49,6 +49,10 @@ final class ReceiverConfigViewController: GroupedTableViewController, SelectionT
         }
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
     

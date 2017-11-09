@@ -17,6 +17,13 @@ class AppLogViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     
     
+    // MARK: - Variables
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
+    
     // MARK: - Functions
     
     override func viewWillAppear(_ animated: Bool) {

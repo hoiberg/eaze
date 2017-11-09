@@ -31,6 +31,10 @@ class GeneralConfigViewController: GroupedTableViewController, SelectionTableVie
     fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_ACC_TRIM, MSP_LOOP_TIME, MSP_STATUS, MSP_BOARD_ALIGNMENT, MSP_MIXER]
     fileprivate var selectedMixerConfiguration = 2
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
     

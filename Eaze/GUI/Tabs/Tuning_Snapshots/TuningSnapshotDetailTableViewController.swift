@@ -27,6 +27,10 @@ class TuningSnapshotDetailTableViewController: GroupedTableViewController {
     /// Used to store uitableviewcells, to prevent reusing
     fileprivate var cells: [[UITableViewCell?]] = [[nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil], [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]]
 
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions 
     

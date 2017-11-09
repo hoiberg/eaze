@@ -26,6 +26,10 @@ final class ReceiverInputViewController: GroupedTableViewController, MSPUpdateSu
         updateTimer: Timer?,
         isFirstTimeMSP_RC = true
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
 

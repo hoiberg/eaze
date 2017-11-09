@@ -20,6 +20,10 @@ final class ConfigTableViewController: UITableViewController {
     
     fileprivate var isLoading = false
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
     

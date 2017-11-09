@@ -40,6 +40,10 @@ final class HomeViewController: UIViewController, MSPUpdateSubscriber {
                 fastMSPCodes = [MSP_ATTITUDE],
                 slowMSPCodes = [MSP_STATUS, MSP_ANALOG]
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
+    }
+    
     
     // MARK: - Functions
     
