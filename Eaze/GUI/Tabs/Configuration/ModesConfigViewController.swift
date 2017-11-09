@@ -79,7 +79,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     
     fileprivate func scheduleUpdateTimer() {
         updateTimer?.invalidate() // always invalidate before (re-)scheduling, to prevent multiple timers running at the same time.
-        updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ReceiverInputViewController.updateRC), userInfo: nil, repeats: true)
+        updateTimer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(ModesConfigViewController.updateRC), userInfo: nil, repeats: true)
     }
     
     @objc func addButtonPressed(_ sender: UIButton) {
@@ -103,7 +103,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         msp.sendMSP(mspCodes)
     }
     
-    func updateRC() {
+    @objc func updateRC() {
         msp.sendMSP(MSP_RC)
     }
     
