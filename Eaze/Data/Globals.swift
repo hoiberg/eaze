@@ -14,6 +14,7 @@ var bluetoothSerial = BluetoothSerial()
 var msp = MSPInterpreter()
 var console = AppLog()
 var cliActive = false
+var landscapeMode = false
 
 // shortcuts
 let notificationCenter = NotificationCenter.default,
@@ -22,3 +23,4 @@ let notificationCenter = NotificationCenter.default,
 // NSUserDefaults keys
 let DefaultsAutoConnectNewKey = "AutoConnectNew",
     DefaultsAutoConnectOldKey = "AutoConnectOld"
+
