@@ -27,10 +27,6 @@ final class MotorConfigViewController: GroupedTableViewController, MSPUpdateSubs
     
     fileprivate let mspCodes = [MSP_BF_CONFIG, MSP_MISC, MSP_ARMING_CONFIG, MSP_FEATURE]
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
-    }
-    
     
     // MARK: - Functions
     

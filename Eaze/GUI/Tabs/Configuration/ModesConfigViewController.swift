@@ -23,11 +23,7 @@ class ModesConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
         sampleModeIDs = [0, 1, 2, 3, 5, 6, 13, 28]
     var modeRanges: [ModeRange] = [], // our local deep copy of dataStorage's array
         updateTimer: Timer?
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
-    }
-    
+
     
     // MARK: - Functions
     

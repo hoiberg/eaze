@@ -20,9 +20,6 @@ class PortsConfigViewController: GroupedTableViewController, MSPUpdateSubscriber
     fileprivate let mspCodes = [MSP_CF_SERIAL_CONFIG]
     fileprivate var ports = [SerialPortConfig()] // Working copy of dataStorage's serialPorts, first contains sample port to satisfy the Apple App Review team
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
-    }
 
     // MARK: - Functions
     

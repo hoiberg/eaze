@@ -15,11 +15,7 @@ class AppConfigViewController: GroupedTableViewController {
     fileprivate var autoConnectNew, autoConnectOld: UISwitch?
     fileprivate var devices: [BluetoothDevice] { return BluetoothDevice.devices }
     
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
-    }
 
-    
     // MARK: - Functions
     
     override func viewDidLoad() {
