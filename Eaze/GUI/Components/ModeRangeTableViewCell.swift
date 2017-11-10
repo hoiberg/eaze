@@ -85,7 +85,17 @@ class ModeRangeTableViewCell: UITableViewCell, MSPUpdateSubscriber, SelectionPop
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if (superview!.superview! as! UITableView).isEditing == true { return }
+        // find tableview we're in
+        var s = superview
+        while s != nil {
+            if let t = s as? UITableView {
+                if t.isEditing { return }
+                else { break }
+            }
+            
+            s = s!.superview
+        }
+
         reloadView() // as the constraints use constants, not ratios, we need to refresh them when the bar size changes
     }
     
