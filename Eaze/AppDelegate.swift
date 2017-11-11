@@ -84,14 +84,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerD
         notificationCenter.post(name: Notification.Name.App.didBecomeActive, object: nil)
     }
     
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if UIDevice.isPad || landscapeMode {
-            return [.landscapeLeft, .landscapeRight]
-        }
-
-        return .portrait
-    }
-
     
     // MARK: - UITabBarDelegate
     

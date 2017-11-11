@@ -14,7 +14,6 @@ var bluetoothSerial = BluetoothSerial()
 var msp = MSPInterpreter()
 var console = AppLog()
 var cliActive = false
-var landscapeMode = false
 
 // shortcuts
 let notificationCenter = NotificationCenter.default,
