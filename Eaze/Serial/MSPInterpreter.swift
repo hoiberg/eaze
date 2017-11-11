@@ -97,6 +97,7 @@ let MSP_MISC            = 114
 let MSP_BOXNAMES        = 116
 let MSP_PIDNAMES        = 117
 let MSP_BOXIDS          = 119
+let MSP_SET_RAW_RC      = 200
 let MSP_SET_PID         = 202
 let MSP_SET_RC_TUNING   = 204 // not the same for all API versions
 let MSP_ACC_CALIBRATION = 205
@@ -520,6 +521,9 @@ final class MSPInterpreter: BluetoothSerialDelegate {
                 dataStorage.auxConfigIDs.append(Int(boxID))
             }
             
+        case MSP_SET_RAW_RC: // 200
+            break
+            
         case MSP_SET_PID: // 202
             log("MSP_SET_PID received")
             
@@ -775,6 +779,18 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         } else {
             sendNextModeRange()
         }
+    }
+    
+    /// Send raw RX channels over MSP. Values must be 1000-2000 as usual.
+    /// Channel order is same as MSP_RX_MAP. Maximum is 8 channels.
+    func sendRawRC(_ channels: [Int]) {
+        var buffer: [UInt8] = []
+        for chan in channels {
+            buffer.append(chan.lowByte)
+            buffer.append(chan.highByte)
+        }
+        
+        sendMSP(MSP_SET_RAW_RC, bytes: buffer)
     }
     
     func sendMSP(_ code: Int, bytes: [UInt8]?, callback: (() -> Void)?) {

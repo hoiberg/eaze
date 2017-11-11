@@ -29,7 +29,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate, UITabBarControllerD
         // userdefaults
         userDefaults.register(
             defaults: [DefaultsAutoConnectNewKey: true,
-             DefaultsAutoConnectOldKey: true]
+             DefaultsAutoConnectOldKey: true,
+             DefaultsControllerModeKey: 2]
         )
         
         // it's much cleaner to load all initial viewcontrollers programmatically .. first load the storyboards

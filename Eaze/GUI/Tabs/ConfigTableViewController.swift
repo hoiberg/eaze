@@ -13,17 +13,13 @@ final class ConfigTableViewController: UITableViewController {
     // MARK: - Variables
     
     fileprivate let cellTitles  = [["General", "Receiver", "ESC/Motors", "Serial Ports", "Modes", "Receiver Input"],
-                               ["App Preferences", "Developer Console", "About This App"]],
+                               ["App Preferences", "Touch Controller", "Developer Console", "About This App"]],
                 sectionTitles = ["Cleanflight", "App"],
                 identifiers = [["General", "Receiver", "Motors", "Serial", "Modes", "ReceiverInput"],
-                               ["AppPrefs", "AppLog", "AboutApp"]]
+                               ["AppPrefs", "ControllerInfo", "AppLog", "AboutApp"]]
     
     fileprivate var isLoading = false
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return UIDevice.isPhone ? .portrait : [.landscapeLeft, .landscapeRight]
-    }
-    
+
     
     // MARK: - Functions
     

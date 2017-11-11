@@ -91,6 +91,9 @@
 		FA2FDACE1D114BAB0003327A /* DataStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA7F1D114BAB0003327A /* DataStorage.swift */; };
 		FA2FDACF1D114BAB0003327A /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA801D114BAB0003327A /* Globals.swift */; };
 		FA2FDAD01D114BAB0003327A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA811D114BAB0003327A /* AppDelegate.swift */; };
+		FA36F7181FB4A3EF00CDAF71 /* Controller.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FA36F7171FB4A3EF00CDAF71 /* Controller.storyboard */; };
+		FA60C0A81FA8C6EF00EFAF12 /* ControllerInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA60C0A71FA8C6EF00EFAF12 /* ControllerInfoViewController.swift */; };
+		FA705A791FA9CC940042CB94 /* ControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA705A781FA9CC940042CB94 /* ControllerViewController.swift */; };
 		FAF5277C1D59CEE200147D20 /* ModeRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF5277B1D59CEE200147D20 /* ModeRange.swift */; };
 		FAF5277F1D59DB2900147D20 /* ModeRangeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAF5277D1D59DB2900147D20 /* ModeRangeTableViewCell.swift */; };
 		FAF527801D59DB2900147D20 /* ModeRangeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FAF5277E1D59DB2900147D20 /* ModeRangeTableViewCell.xib */; };
@@ -198,6 +201,9 @@
 		FA2FDA7F1D114BAB0003327A /* DataStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStorage.swift; sourceTree = "<group>"; };
 		FA2FDA801D114BAB0003327A /* Globals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		FA2FDA811D114BAB0003327A /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		FA36F7171FB4A3EF00CDAF71 /* Controller.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Controller.storyboard; sourceTree = "<group>"; };
+		FA60C0A71FA8C6EF00EFAF12 /* ControllerInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerInfoViewController.swift; sourceTree = "<group>"; };
+		FA705A781FA9CC940042CB94 /* ControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControllerViewController.swift; sourceTree = "<group>"; };
 		FAF5277B1D59CEE200147D20 /* ModeRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeRange.swift; sourceTree = "<group>"; };
 		FAF5277D1D59DB2900147D20 /* ModeRangeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModeRangeTableViewCell.swift; sourceTree = "<group>"; };
 		FAF5277E1D59DB2900147D20 /* ModeRangeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ModeRangeTableViewCell.xib; sourceTree = "<group>"; };
@@ -397,6 +403,7 @@
 				FA2FDA161D114BAB0003327A /* iPad.storyboard */,
 				FA2FDA1A1D114BAB0003327A /* Uni.storyboard */,
 				FA2FDA191D114BAB0003327A /* Preferences.storyboard */,
+				FA36F7171FB4A3EF00CDAF71 /* Controller.storyboard */,
 				FA2FDA181D114BAB0003327A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
@@ -411,6 +418,7 @@
 				FA2FDA1E1D114BAB0003327A /* CLITabViewController.swift */,
 				FA2FDA281D114BAB0003327A /* Connect */,
 				FA2FDA2B1D114BAB0003327A /* Tuning Snapshots */,
+				FA705A771FA9CC550042CB94 /* Controller */,
 				FA2FDA201D114BAB0003327A /* Configuration */,
 				FA2FDA1C1D114BAB0003327A /* CLI */,
 			);
@@ -434,6 +442,7 @@
 				FA2FDA251D114BAB0003327A /* PortsConfigViewController.swift */,
 				FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */,
 				FA2FDA271D114BAB0003327A /* ReceiverInputViewController.swift */,
+				FA60C0A71FA8C6EF00EFAF12 /* ControllerInfoViewController.swift */,
 				FA2FDA211D114BAB0003327A /* AppConfigViewController.swift */,
 				FA2FDA221D114BAB0003327A /* AppLogViewController.swift */,
 			);
@@ -607,6 +616,14 @@
 			path = Supporting_Files;
 			sourceTree = "<group>";
 		};
+		FA705A771FA9CC550042CB94 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				FA705A781FA9CC940042CB94 /* ControllerViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -681,6 +698,7 @@
 				FA2FDA901D114BAB0003327A /* iPad.storyboard in Resources */,
 				FA2FDAA11D114BAB0003327A /* DateFieldCell.xib in Resources */,
 				FA0045EB1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
+				FA36F7181FB4A3EF00CDAF71 /* Controller.storyboard in Resources */,
 				FA2FDA941D114BAB0003327A /* Uni.storyboard in Resources */,
 				FA2FDA8F1D114BAB0003327A /* StaticAdjustableTextField.xib in Resources */,
 				FA0045F31DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
@@ -732,6 +750,7 @@
 				FA2FDA971D114BAB0003327A /* ConfigTableViewController.swift in Sources */,
 				FA2FDA8E1D114BAB0003327A /* StaticAdjustableTextField.swift in Sources */,
 				FA2FDACF1D114BAB0003327A /* Globals.swift in Sources */,
+				FA60C0A81FA8C6EF00EFAF12 /* ControllerInfoViewController.swift in Sources */,
 				FA0045F01DEDD1B900AD93BB /* SwiftWebVCActivitySafari.swift in Sources */,
 				FA2FDAAE1D114BAB0003327A /* MRIconView.m in Sources */,
 				FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */,
@@ -739,6 +758,7 @@
 				FA2FDACD1D114BAB0003327A /* Constants.swift in Sources */,
 				FA2FDAC31D114BAB0003327A /* AppLog.swift in Sources */,
 				FA2FDA871D114BAB0003327A /* GlassBox.swift in Sources */,
+				FA705A791FA9CC940042CB94 /* ControllerViewController.swift in Sources */,
 				FA2FDACE1D114BAB0003327A /* DataStorage.swift in Sources */,
 				FA2FDAA81D114BAB0003327A /* ASCII.swift in Sources */,
 				FA2FDA9C1D114BAB0003327A /* PortsConfigViewController.swift in Sources */,
