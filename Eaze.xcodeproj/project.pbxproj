@@ -24,6 +24,7 @@
 		FA0045F21DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045DC1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
 		FA0045F31DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045DF1DEDD1B900AD93BB /* SwiftWebVC.strings */; };
 		FA0045F41DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */ = {isa = PBXBuildFile; fileRef = FA0045E21DEDD1B900AD93BB /* SwiftWebVC.strings */; };
+		FA0F90101FB74D7E0087C3CD /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = FA0F900F1FB74D7D0087C3CD /* README.md */; };
 		FA108B2A1D589AA9007F92AA /* ModesConfigViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */; };
 		FA2FD9EE1D1149870003327A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FA2FD9ED1D1149870003327A /* Assets.xcassets */; };
 		FA2FDA821D114BAB0003327A /* AdjustableTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2FDA071D114BAB0003327A /* AdjustableTextField.swift */; };
@@ -114,6 +115,7 @@
 		FA0045DD1DEDD1B900AD93BB /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = SwiftWebVC.strings; sourceTree = "<group>"; };
 		FA0045E01DEDD1B900AD93BB /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = SwiftWebVC.strings; sourceTree = "<group>"; };
 		FA0045E31DEDD1B900AD93BB /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = SwiftWebVC.strings; sourceTree = "<group>"; };
+		FA0F900F1FB74D7D0087C3CD /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FA108B291D589AA9007F92AA /* ModesConfigViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModesConfigViewController.swift; sourceTree = "<group>"; };
 		FA2FD9E31D1149870003327A /* Eaze.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Eaze.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA2FD9ED1D1149870003327A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 		FA2FD9DA1D1149870003327A = {
 			isa = PBXGroup;
 			children = (
+				FA0F900F1FB74D7D0087C3CD /* README.md */,
 				FA2FD9E51D1149870003327A /* Eaze */,
 				FA2FD9E41D1149870003327A /* Products */,
 			);
@@ -681,6 +684,7 @@
 				FA2FDA901D114BAB0003327A /* iPad.storyboard in Resources */,
 				FA2FDAA11D114BAB0003327A /* DateFieldCell.xib in Resources */,
 				FA0045EB1DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
+				FA0F90101FB74D7E0087C3CD /* README.md in Resources */,
 				FA2FDA941D114BAB0003327A /* Uni.storyboard in Resources */,
 				FA2FDA8F1D114BAB0003327A /* StaticAdjustableTextField.xib in Resources */,
 				FA0045F31DEDD1B900AD93BB /* SwiftWebVC.strings in Resources */,
