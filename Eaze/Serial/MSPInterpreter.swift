@@ -781,18 +781,6 @@ final class MSPInterpreter: BluetoothSerialDelegate {
         }
     }
     
-    /// Send raw RX channels over MSP. Values must be 1000-2000 as usual.
-    /// Channel order is same as MSP_RX_MAP. Maximum is 8 channels.
-    func sendRawRC(_ channels: [Int]) {
-        var buffer: [UInt8] = []
-        for chan in channels {
-            buffer.append(chan.lowByte)
-            buffer.append(chan.highByte)
-        }
-        
-        sendMSP(MSP_SET_RAW_RC, bytes: buffer)
-    }
-    
     func sendMSP(_ code: Int, bytes: [UInt8]?, callback: (() -> Void)?) {
         // only send msp codes if we'll get the reply
         guard bluetoothSerial.delegate as AnyObject? === self && !cliActive else { return }

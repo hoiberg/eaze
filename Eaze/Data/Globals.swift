@@ -22,5 +22,5 @@ let notificationCenter = NotificationCenter.default,
 
 // NSUserDefaults keys
 let DefaultsAutoConnectNewKey = "AutoConnectNew",
-    DefaultsAutoConnectOldKey = "AutoConnectOld",
-    DefaultsControllerModeKey = "ControllerMode"
+    DefaultsAutoConnectOldKey = "AutoConnectOld"
+

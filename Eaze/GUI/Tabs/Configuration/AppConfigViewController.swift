@@ -27,24 +27,11 @@ class AppConfigViewController: GroupedTableViewController {
     // MARK: - TableView
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return devices.count > 0 ? 3 : 2
+        return devices.count > 0 ? 2 : 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if devices.count > 0 {
-            switch section {
-            case 0: return devices.count
-            case 1: return 2
-            case 2: return 1
-            default: return 0
-            }
-        } else {
-            switch section {
-            case 0: return 2
-            case 1: return 1
-            default: return 0
-            }
-        }
+        return devices.count > 0 && section == 0 ? devices.count : 2
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,7 +40,7 @@ class AppConfigViewController: GroupedTableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: "BluetoothDeviceCell", for: indexPath)
             cell.textLabel?.text = devices[indexPath.row].name
             return cell
-        } else if (devices.count > 0 && indexPath.section == 1) || (devices.isEmpty && indexPath.section == 0) {
+        } else {
             if indexPath.row == 0 {
                 // auto connect new modules cell
                 return tableView.dequeueReusableCell(withIdentifier: "AutoConnectNewCell", for: indexPath)
@@ -61,17 +48,11 @@ class AppConfigViewController: GroupedTableViewController {
                 // auto connect old modules cell
                 return tableView.dequeueReusableCell(withIdentifier: "AutoConnectOldCell", for: indexPath)
             }
-        } else {
-            return tableView.dequeueReusableCell(withIdentifier: "ControllerModeCell", for: indexPath)
         }
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if devices.count > 0 {
-            return ["Bluetooth modules", "Auto Connect", "Miscellaneous"][section]
-        } else {
-            return ["Auto Connect", "Miscellaneous"][section]
-        }
+        return devices.count > 0 && section == 0 ? "Bluetooth modules" : "Auto Connect"
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -82,8 +63,6 @@ class AppConfigViewController: GroupedTableViewController {
         } else if let slider = cell.viewWithTag(2) {
             // auto connect old modules
             (slider as! UISwitch).isOn = userDefaults.bool(forKey: DefaultsAutoConnectOldKey)
-        } else if let segments = cell.viewWithTag(3) {
-            (segments as! UISegmentedControl).selectedSegmentIndex = userDefaults.integer(forKey: DefaultsControllerModeKey) == 1 ? 1 : 0
         }
     }
     
@@ -114,15 +93,5 @@ class AppConfigViewController: GroupedTableViewController {
     @IBAction func autoConnectOldChanged(_ sender: UISwitch) {
         userDefaults.set(sender.isOn, forKey: DefaultsAutoConnectOldKey)
         userDefaults.synchronize()
-    }
-    
-    @IBAction func controllerModeChanged(_ sender: UISegmentedControl) {
-        if sender.selectedSegmentIndex == 0 {
-            userDefaults.set(2, forKey: DefaultsControllerModeKey)
-            userDefaults.synchronize()
-        } else {
-            userDefaults.set(1, forKey: DefaultsControllerModeKey)
-            userDefaults.synchronize()
-        }
     }
 }

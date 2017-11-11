@@ -1350,7 +1350,7 @@ Note: Do not disable MSP on the first serial port unless unless you know what yo
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f1V-JA-fN9">
-                                <rect key="frame" x="9.5" y="104" width="356" height="514"/>
+                                <rect key="frame" x="9.5" y="64" width="356" height="554"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <attributedString key="attributedText">
                                     <fragment>
@@ -1703,97 +1703,6 @@ With icons by icons8.com</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zq7-Rk-xd6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3895" y="2013"/>
-        </scene>
-        <!--Touch Controller-->
-        <scene sceneID="UMH-rt-nsh">
-            <objects>
-                <viewController storyboardIdentifier="ControllerInfo" automaticallyAdjustsScrollViewInsets="NO" id="ftO-Jn-fCm" customClass="ControllerInfoViewController" customModule="Eaze" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fE3-QJ-J6r"/>
-                        <viewControllerLayoutGuide type="bottom" id="Sea-Mb-MWr"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="4OI-lw-ViB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v6b-jH-uKI">
-                                <rect key="frame" x="9.5" y="64" width="356" height="554"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">Touch Controller is an experimental feature that emulates a R/C transmitter. It allows you to control your aircraft from this device.
-
-Set "Receiver Mode" to "MSP" first. 
-Also, due to the high data rate (20Hz) this only works at 115200bps. 
-
-Calls and alarms may interrupt the transmission. 
-Arm the aircraft with AUX channel or stick command.
-
-And finally:
-</string>
-                                        <attributes>
-                                            <font key="NSFont" size="15" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                    <fragment>
-                                        <string key="content">Only use with harmless micros!
-Try without propellers first!</string>
-                                        <attributes>
-                                            <color key="NSColor" red="1" green="0.12765955919999999" blue="0.12765955919999999" alpha="1" colorSpace="calibratedRGB"/>
-                                            <font key="NSFont" size="15" name="HelveticaNeue"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                            </textView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QF1-b6-UkA">
-                                <rect key="frame" x="62" y="528" width="250" height="35"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="250" id="GQr-Fj-po5"/>
-                                    <constraint firstAttribute="height" constant="35" id="mZo-xG-AHc"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
-                                <state key="normal" title="Enter Touch Controller"/>
-                                <connections>
-                                    <action selector="enterController:" destination="ftO-Jn-fCm" eventType="touchUpInside" id="4bs-8S-Zy3"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="v6b-jH-uKI" firstAttribute="centerX" secondItem="4OI-lw-ViB" secondAttribute="centerX" id="D6G-Mb-WOH"/>
-                            <constraint firstItem="v6b-jH-uKI" firstAttribute="top" secondItem="fE3-QJ-J6r" secondAttribute="bottom" id="PSW-hY-cEF"/>
-                            <constraint firstItem="Sea-Mb-MWr" firstAttribute="top" secondItem="v6b-jH-uKI" secondAttribute="bottom" id="UlW-aM-geO"/>
-                            <constraint firstItem="QF1-b6-UkA" firstAttribute="centerY" secondItem="v6b-jH-uKI" secondAttribute="centerY" multiplier="1.6" id="Z2E-WZ-ee3"/>
-                            <constraint firstItem="v6b-jH-uKI" firstAttribute="width" secondItem="4OI-lw-ViB" secondAttribute="width" multiplier="0.7" id="g3K-Qm-edp"/>
-                            <constraint firstItem="QF1-b6-UkA" firstAttribute="centerX" secondItem="v6b-jH-uKI" secondAttribute="centerX" id="ksI-ys-Y1j"/>
-                            <constraint firstItem="v6b-jH-uKI" firstAttribute="width" secondItem="4OI-lw-ViB" secondAttribute="width" multiplier="0.95" id="twX-gv-CAk"/>
-                        </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="twX-gv-CAk"/>
-                            </mask>
-                        </variation>
-                        <variation key="widthClass=compact">
-                            <mask key="constraints">
-                                <exclude reference="g3K-Qm-edp"/>
-                                <include reference="twX-gv-CAk"/>
-                            </mask>
-                        </variation>
-                    </view>
-                    <navigationItem key="navigationItem" title="Touch Controller" id="hmL-YJ-Hwt"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="enterControllerButton" destination="QF1-b6-UkA" id="JJz-aD-32c"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Fb6-NP-re4" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4575" y="2013"/>
         </scene>
     </scenes>
     <resources>
