@@ -22,7 +22,7 @@ Eaze is a 100% free and open source Cleanflight Configurator, it features:
 
 All in a minimalist layout.
 
-Eaze requires a HM10 Bluetooth module to work, which is available for a low price on various e-commerce websites. Head over to hangar42.nl for an in-depth tutorial on the setup procedure.
+Eaze requires a HM10 Bluetooth module to work, which is available for $2 on eBay. Head over to hangar42.nl for an in-depth tutorial on the setup procedure.
 
 
 ## Some notes
@@ -32,10 +32,12 @@ Eaze requires a HM10 Bluetooth module to work, which is available for a low pric
 - If you need some code only to be included in the debug builds and not in release versions, use `#if DEBUG` (declared in `Build Settings -> Swift Compiler Misc Flags`)
 - SwiftWebVC.swift has one edit: `prefersStatusBarHidden()` has been added (returns `true`)
 
+I have finished a Touch R/C Controller feature (uses MSP_SET_RAW_RC) but I decided not to incorporate it in the main version for various reasons described [here](https://github.com/cleanflight/cleanflight/issues/2964). If you want to try to get it to work (it has not been tested yet, be careful!) you can download the project [here](https://www.dropbox.com/s/vcy0cwklkwnxsp5/Eaze-1.0.0-with-TouchController.zip?dl=0).
+
 
 ## License
 
-©2016 Hangar42.nl
+©2017 Hangar42.nl
 
 But feel free to fork this project and reuse code. Apple does not accept GPL software to the App Store, which is why I simply use ©.
 
